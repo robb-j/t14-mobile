@@ -1,12 +1,12 @@
-package uk.ac.ncl.csc2022.t14.bankingapp;
+package uk.ac.ncl.csc2022.t14.bankingapp.frags;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import uk.ac.ncl.csc2022.t14.bankingapp.R;
 
 /**
  * A Fragment to show the user their accounts
