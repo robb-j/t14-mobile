@@ -1,7 +1,6 @@
-package uk.ac.ncl.csc2022.t14.bankingapp.server;
+package uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces;
 
 import java.util.Date;
-import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 
@@ -9,6 +8,9 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
  * Created by Sam on 17/02/2015.
  */
 public interface ServerInterface {
+
+    enum Month {Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec};
+
 
     /**
      * @param password The characters the user has entered.
@@ -20,7 +22,7 @@ public interface ServerInterface {
      * @param month Month of transactions to load.
      * @param token Token required to authenticate session.
      */
-    void loadTransactions(Account account, Date month, String token, TransactionDelegate delegate);
+    void loadTransactions(Account account, Month month, String token, TransactionDelegate delegate);
 
     /**
      * @param accFrom Account transferring from.

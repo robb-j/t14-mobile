@@ -11,9 +11,9 @@ public class Transaction extends ModelObject {
 
     private double amount;
     private Account account;
-    private User payee;
+    private String payee;
 
-    public Transaction(int id, double amount, Account account, User payee) {
+    public Transaction(int id, double amount, Account account, String payee) {
         super(id);
         this.amount = amount;
         this.account = account;
@@ -36,11 +36,11 @@ public class Transaction extends ModelObject {
         this.account = account;
     }
 
-    public User getPayee() {
+    public String getPayee() {
         return payee;
     }
 
-    public void setPayee(User payee) {
+    public void setPayee(String payee) {
         this.payee = payee;
     }
 }

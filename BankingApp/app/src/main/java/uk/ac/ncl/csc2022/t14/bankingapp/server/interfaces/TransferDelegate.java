@@ -1,4 +1,4 @@
-package uk.ac.ncl.csc2022.t14.bankingapp.server;
+package uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 
@@ -7,7 +7,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
  */
 public interface TransferDelegate {
 
-    void transferPassed(Account accFrom, Account accTo);
+    void transferPassed(Account accFrom, Account accTo, double amount);
 
     void transferFailed(String errMessage);
 }

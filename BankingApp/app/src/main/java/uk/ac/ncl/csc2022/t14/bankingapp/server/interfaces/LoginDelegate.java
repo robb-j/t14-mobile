@@ -1,4 +1,4 @@
-package uk.ac.ncl.csc2022.t14.bankingapp.server;
+package uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces;
 
 import java.util.List;
 
