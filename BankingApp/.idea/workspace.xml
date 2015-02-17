@@ -17,21 +17,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: uk.ac.ncl.csc2022.t14.bankingapp" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2b723fa-dfa9-4925-a3c4-d06302f88015" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/server/DummyServerConnecter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BankingApp.iml" afterPath="$PROJECT_DIR$/BankingApp.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/models/Transaction.java" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/models/Transaction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\Uni\Stage 2\CSC2022\Implementation\Mobile\BankingApp\app\src\main\java\uk\ac\ncl\csc2022\t14\bankingapp\server\LoginDelegate.java" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/server/interfaces/LoginDelegate.java" />
-      <change type="MOVED" beforePath="D:\Uni\Stage 2\CSC2022\Implementation\Mobile\BankingApp\app\src\main\java\uk\ac\ncl\csc2022\t14\bankingapp\server\ServerInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/server/interfaces/ServerInterface.java" />
-      <change type="MOVED" beforePath="D:\Uni\Stage 2\CSC2022\Implementation\Mobile\BankingApp\app\src\main\java\uk\ac\ncl\csc2022\t14\bankingapp\server\TransactionDelegate.java" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/server/interfaces/TransactionDelegate.java" />
-      <change type="MOVED" beforePath="D:\Uni\Stage 2\CSC2022\Implementation\Mobile\BankingApp\app\src\main\java\uk\ac\ncl\csc2022\t14\bankingapp\server\TransferDelegate.java" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/server/interfaces/TransferDelegate.java" />
-    </list>
+    <list default="true" id="b2b723fa-dfa9-4925-a3c4-d06302f88015" name="Default" comment="" />
     <ignored path="Banking App.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -1263,7 +1249,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32875144" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32875144" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32875144" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11818182" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
