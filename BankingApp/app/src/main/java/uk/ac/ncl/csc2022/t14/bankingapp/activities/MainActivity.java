@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
-import uk.ac.ncl.csc2022.t14.bankingapp.frags.banking.BankingFragment;
+import uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking.BankingFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 
 

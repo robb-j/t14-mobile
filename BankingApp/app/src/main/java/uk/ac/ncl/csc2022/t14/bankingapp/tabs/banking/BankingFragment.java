@@ -1,18 +1,22 @@
-package uk.ac.ncl.csc2022.t14.bankingapp.frags.banking;
+package uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 
 /**
  * A Fragment to show the user their accounts
  */
 public class BankingFragment extends Fragment {
+
+
 
     private User mUser;
     private static final String USER_KEY = "currentUser";
@@ -51,4 +55,14 @@ public class BankingFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+        for (Account account : mUser.getAccounts()) {
+
+        }
+
+    }
 }

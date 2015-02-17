@@ -17,7 +17,13 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: uk.ac.ncl.csc2022.t14.bankingapp" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2b723fa-dfa9-4925-a3c4-d06302f88015" name="Default" comment="" />
+    <list default="true" id="b2b723fa-dfa9-4925-a3c4-d06302f88015" name="Default" comment="">
+      <change type="DELETED" beforePath="D:\Uni\Stage 2\CSC2022\Implementation\Mobile\BankingApp\app\src\main\java\uk\ac\ncl\csc2022\t14\bankingapp\frags\banking\AccountsFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="D:\Uni\Stage 2\CSC2022\Implementation\Mobile\BankingApp\app\src\main\res\layout\fragment_accounts.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/activities/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/activities/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\Uni\Stage 2\CSC2022\Implementation\Mobile\BankingApp\app\src\main\java\uk\ac\ncl\csc2022\t14\bankingapp\frags\banking\BankingFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/tabs/banking/BankingFragment.java" />
+    </list>
     <ignored path="Banking App.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -64,53 +70,30 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/activities/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="299" max-vertical-offset="1139">
+            <state vertical-scroll-proportion="0.0" vertical-offset="484" max-vertical-offset="1139">
               <caret line="49" column="92" selection-start-line="49" selection-start-column="92" selection-end-line="49" selection-end-column="92" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BankingFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/frags/banking/BankingFragment.java">
+      <file leaf-file-name="BankingFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/tabs/banking/BankingFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="297" max-vertical-offset="901">
-              <caret line="43" column="8" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="86" />
+            <state vertical-scroll-proportion="1.6600362" vertical-offset="0" max-vertical-offset="1105">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AccountsFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/frags/banking/AccountsFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="1921">
-              <caret line="38" column="24" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_accounts.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_accounts.xml">
-          <provider selected="true" editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_banking.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="fragment_banking.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_banking.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.58733207" vertical-offset="0" max-vertical-offset="521">
+            <state vertical-scroll-proportion="-9.5625" vertical-offset="0" max-vertical-offset="442">
               <caret line="18" column="52" selection-start-line="18" selection-start-column="52" selection-end-line="18" selection-end-column="52" />
               <folding>
                 <element signature="e#268#303#0" expanded="true" />
@@ -830,9 +813,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/activities/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/AccountsFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_accounts.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/frags/banking/BankingFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/frags/banking/AccountsFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/frags/banking/BankingFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_banking.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/tabs/banking/BankingFragment.java" />
       </list>
     </option>
   </component>
@@ -962,6 +946,28 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="banking" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Banking App" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bankingapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1008,28 +1014,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="bankingapp" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Banking App" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bankingapp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="banking" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1561,16 +1545,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/server/DummyServerConnecter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1360">
-          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BankingApp.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="540">
@@ -1646,39 +1620,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_accounts.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/frags/banking/BankingFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="297" max-vertical-offset="901">
-          <caret line="43" column="8" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/frags/banking/AccountsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="1921">
-          <caret line="38" column="24" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_banking.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58733207" vertical-offset="0" max-vertical-offset="521">
+        <state vertical-scroll-proportion="-9.5625" vertical-offset="0" max-vertical-offset="442">
           <caret line="18" column="52" selection-start-line="18" selection-start-column="52" selection-end-line="18" selection-end-column="52" />
           <folding>
             <element signature="e#268#303#0" expanded="true" />
@@ -1686,6 +1633,24 @@
             <element signature="e#388#421#0" expanded="true" />
             <element signature="e#448#481#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/server/DummyServerConnecter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1360">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/tabs/banking/BankingFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.6600362" vertical-offset="0" max-vertical-offset="1105">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
