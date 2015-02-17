@@ -8,7 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
-import uk.ac.ncl.csc2022.t14.bankingapp.frags.BankingFragment;
+import uk.ac.ncl.csc2022.t14.bankingapp.frags.banking.BankingFragment;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 
 
 /**
@@ -46,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public Fragment getItem(int i) {
-            return BankingFragment.newInstance();
+            return BankingFragment.newInstance(new User(10, "Joe", "Bloggs", "10/03/2015"));
         }
 
         @Override
