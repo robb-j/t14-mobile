@@ -1,5 +1,5 @@
-/BankingApp/.gradle
-/BankingApp/local.properties
-/BankingApp/.idea
+BankingApp/.gradle
+BankingApp/local.properties
+BankingApp/.idea
 .DS_Store
-/BankingApp/build
+BankingApp/build

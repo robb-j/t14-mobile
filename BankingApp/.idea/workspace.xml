@@ -17,15 +17,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: uk.ac.ncl.csc2022.t14.bankingapp" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2b723fa-dfa9-4925-a3c4-d06302f88015" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/frags/banking/AccountsFragment.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/dummy/DummyContent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_accounts.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/activities/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/activities/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_banking.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_banking.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\Uni\Stage 2\CSC2022\Implementation\Mobile\BankingApp\app\src\main\java\uk\ac\ncl\csc2022\t14\bankingapp\frags\BankingFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/uk/ac/ncl/csc2022/t14/bankingapp/frags/banking/BankingFragment.java" />
-    </list>
+    <list default="true" id="b2b723fa-dfa9-4925-a3c4-d06302f88015" name="Default" comment="" />
     <ignored path="Banking App.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
