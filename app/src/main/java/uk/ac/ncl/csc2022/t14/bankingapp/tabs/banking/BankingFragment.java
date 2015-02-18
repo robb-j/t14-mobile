@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
@@ -76,9 +78,23 @@ public class BankingFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         linearLayout.addView(accountsTitle);
 
+
+
         for (Account account : mUser.getAccounts()) {
+            LinearLayout horizontal = new LinearLayout(this.getActivity());
+            float scale = getResources().getDisplayMetrics().density;
+            int dpAsPixels = (int) (30*scale + 0.5f);
+            horizontal.setPadding(0, dpAsPixels, 0, 0);
+            LinearLayout vertical = new LinearLayout(this.getActivity());
+            vertical.setOrientation(LinearLayout.VERTICAL);
+
+            ImageView accountImage = new ImageView(this.getActivity());
             TextView accountName = new TextView(this.getActivity());
             TextView balance = new TextView(this.getActivity());
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(200, 200);
+            accountImage.setLayoutParams(layoutParams);
+            accountImage.setBackgroundResource(R.drawable.account_image);
 
             accountName.setText(account.getName());
             balance.setText("£" + Double.toString(account.getBalance()));
@@ -90,8 +106,12 @@ public class BankingFragment extends Fragment {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
 
-            linearLayout.addView(accountName);
-            linearLayout.addView(balance);
+
+            horizontal.addView(accountImage);
+            vertical.addView(accountName);
+            vertical.addView(balance);
+            horizontal.addView(vertical);
+            linearLayout.addView(horizontal);
         }
 
     }
