@@ -30,7 +30,7 @@ public class DummyServerConnecter implements ServerInterface {
                 User user = new User(26, "Jeff", "Ree", "23/08/1982");
                 Product product1 = new Product(1, "Saving Accounts", "This is going to save you money.");
                 Product product2 = new Product(1, "ISA", "Use this.");
-                List<Product> products = new ArrayList<>();
+                List<Product> products = new ArrayList<Product>();
                 products.add(product1);
                 products.add(product2);
                 String token = "correctToken";
@@ -47,7 +47,7 @@ public class DummyServerConnecter implements ServerInterface {
     public void loadTransactions(Account account, Month month, String token, TransactionDelegate delegate) {
 
         if (token.equals("correctToken")) {
-            List<Transaction> transactions = new ArrayList<>();
+            List<Transaction> transactions = new ArrayList<Transaction>();
             transactions.add(new Transaction(20, 120.00, account, "payee1"));
             transactions.add(new Transaction(21, 22.31, account, "payee2"));
 

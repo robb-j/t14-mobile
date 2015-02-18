@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
@@ -16,7 +17,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
  */
 public class BankingFragment extends Fragment {
 
-
+    private LinearLayout layout = (LinearLayout)this.getView();
 
     private User mUser;
     private static final String USER_KEY = "currentUser";
@@ -59,6 +60,14 @@ public class BankingFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        TextView textView = new TextView(layout.getContext());
+        textView.setText("hallo hallo");
+        textView.setId(R.id.testTextView);
+        textView.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        layout.addView(textView);
 
         for (Account account : mUser.getAccounts()) {
 
