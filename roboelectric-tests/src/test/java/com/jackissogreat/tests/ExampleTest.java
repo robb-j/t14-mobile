@@ -17,15 +17,17 @@ import org.robolectric.annotation.Config;
 @Config(manifest=Config.NONE)
 public class ExampleTest {
 
-    User u = new User(1729,"Jack","Cooper","9/5/95");
+    User mTestUser;
 
     @Before
-    public void instantiate() {
-        u.setId(28);
+    public void setup() {
+
+        mTestUser = new User(1729,"Jack","Cooper","9/5/95");
     }
 
     @Test
-    public void pleaseWork() {
-        assertEquals(u.getId(),28);
+    public void canCreateAUser() {
+
+        assertNotNull("We should be able to create a user", mTestUser);
     }
 }
