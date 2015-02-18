@@ -1,7 +1,11 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,16 +65,33 @@ public class BankingFragment extends Fragment {
 
         LinearLayout linearLayout = (LinearLayout)getActivity().findViewById(R.id.bankingLayout);
 
-        TextView textView = new TextView(this.getActivity());
-        textView.setId(R.id.testTextView);
-        textView.setText("oioi m80");
-        textView.setLayoutParams(new LinearLayout.LayoutParams(
+        TextView accountsTitle = new TextView(this.getActivity());
+        accountsTitle.setId(R.id.title_my_accounts);
+        accountsTitle.setText("My Accounts");
+        accountsTitle.setTextColor(Color.GRAY);
+        accountsTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        accountsTitle.setPaintFlags(accountsTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        accountsTitle.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
-        linearLayout.addView(textView);
+        linearLayout.addView(accountsTitle);
 
         for (Account account : mUser.getAccounts()) {
+            TextView accountName = new TextView(this.getActivity());
+            TextView balance = new TextView(this.getActivity());
 
+            accountName.setText(account.getName());
+            balance.setText("£" + Double.toString(account.getBalance()));
+
+            accountName.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+            balance.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            linearLayout.addView(accountName);
+            linearLayout.addView(balance);
         }
 
     }
