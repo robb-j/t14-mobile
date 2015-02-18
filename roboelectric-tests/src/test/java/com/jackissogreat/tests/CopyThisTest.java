@@ -22,7 +22,7 @@ import org.robolectric.util.ActivityController;
 public class CopyThisTest {
 
     @Before
-    public void instantiate() {
+    public void setup() {
         //Setup variables here
     }
 
