@@ -1,5 +1,6 @@
-BankingApp/.gradle
-BankingApp/local.properties
-BankingApp/.idea
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
 .DS_Store
-BankingApp/build
+/build
