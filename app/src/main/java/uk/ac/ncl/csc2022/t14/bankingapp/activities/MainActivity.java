@@ -1,5 +1,6 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,13 +11,21 @@ import android.os.Bundle;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking.BankingFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
+import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
 
 
 /**
  *
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener{
 
+    private static int tabs = 2;
+
+    // Method from fragment interfaces.
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 
     // Instance Variables
     SectionPagerAdapter mPagerAdapter;
@@ -47,12 +56,24 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public Fragment getItem(int i) {
-            return BankingFragment.newInstance(new User(10, "Joe", "Bloggs", "10/03/2015"));
+            switch (i) {
+                case 0:
+                    // Banking fragment activity
+                    return BankingFragment.newInstance(new User(10, "Joe", "Bloggs", "10/03/2015"));
+                case 1:
+                    // Budgeting fragment activity
+                    return BudgetingFragment.newInstance();
+
+                /* add new tabs here. Change the amount of tabs with the tabs variable. */
+            }
+
+            return null;
+            // return BankingFragment.newInstance(new User(10, "Joe", "Bloggs", "10/03/2015"));
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return tabs;
         }
 
 
