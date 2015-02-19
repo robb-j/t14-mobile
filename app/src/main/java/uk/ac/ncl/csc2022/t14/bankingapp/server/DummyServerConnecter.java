@@ -27,7 +27,7 @@ public class DummyServerConnecter implements ServerInterface {
         /* Correct credentials */
         if (username.equals("Jeff")) {
             if (password[0] == 's' && indices[0] == 2) {
-                User user = new User(26, "Jeff", "Ree", "23/08/1982");
+                User user = new User(26, "Bobby99", "Jeff", "Ree", "23/08/1982");
                 Product product1 = new Product(1, "Saving Accounts", "This is going to save you money.");
                 Product product2 = new Product(1, "ISA", "Use this.");
                 List<Product> products = new ArrayList<Product>();

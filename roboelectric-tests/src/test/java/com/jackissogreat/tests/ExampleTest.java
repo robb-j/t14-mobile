@@ -22,7 +22,7 @@ public class ExampleTest {
     @Before
     public void setup() {
 
-        mTestUser = new User(1729,"Jack","Cooper","9/5/95");
+        mTestUser = new User(1729,"jackissogreat", "Jack","Cooper","9/5/95");
     }
 
     @Test

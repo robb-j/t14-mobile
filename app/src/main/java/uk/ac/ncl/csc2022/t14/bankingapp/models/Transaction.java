@@ -13,18 +13,28 @@ public class Transaction extends ModelObject {
     private Account account;
     private String payee;
 
+
+    /**
+     * Creates a new Transaction model
+     * @param id The unique identifier for this Transactoin
+     * @param amount How much money was transferred
+     * @param account The account the transation was applied to
+     * @param payee Where the money was paid to
+     */
     public Transaction(int id, double amount, Account account, String payee) {
         super(id);
-        this.amount = amount;
-        this.account = account;
-        this.payee = payee;
+        setAmount(amount);
+        setAccount(account);
+        setPayee(payee);
     }
+
+
 
     public double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    private void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -32,7 +42,7 @@ public class Transaction extends ModelObject {
         return account;
     }
 
-    public void setAccount(Account account) {
+    private void setAccount(Account account) {
         this.account = account;
     }
 
@@ -40,7 +50,7 @@ public class Transaction extends ModelObject {
         return payee;
     }
 
-    public void setPayee(String payee) {
+    private void setPayee(String payee) {
         this.payee = payee;
     }
 }

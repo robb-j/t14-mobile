@@ -49,25 +49,22 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
 
+
         /* Test products */
-        List<Product> products = new ArrayList<Product>();
-        products.add(new Product(1, "New ISA offer", "lorem impsum blah blah blah"));
+        Product product = new Product(1, "New ISA offer", "lorem impsum blah blah blah yolo");
+
 
         /* Test accounts */
-        List<Account> accounts = new ArrayList<Account>();
-        Account account1 = new Account(1, "Student Account", 500, null);
-        account1.setBalance(523.33);
-        Account account2 = new Account(1, "Bills Account", 1000, products);
-        account2.setBalance(-120.18);
-        Account account3 = new Account(1, "Savings Account", 1000, null);
-        account3.setBalance(23112.41);
-        accounts.add(account1);
-        accounts.add(account2);
-        accounts.add(account3);
+        Account account1 = new Account(1, "Student Account", 523.33, 500, null);
+        Account account2 = new Account(1, "Bills Account", -120.18, 1000, product);
+        Account account3 = new Account(1, "Savings Account", 23112.41, 1000, null);
+
 
         /* Test user */
-        testUser = new User(10, "Joe", "Bloggs", "10/03/2015");
-        testUser.setAccounts(accounts);
+        testUser = new User(10, "Bobby99", "Joe", "Bloggs", "10/03/2015");
+        testUser.getAccounts().add(account1);
+        testUser.getAccounts().add(account2);
+        testUser.getAccounts().add(account3);
     }
 
 

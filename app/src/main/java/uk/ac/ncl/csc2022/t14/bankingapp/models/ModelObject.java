@@ -7,15 +7,20 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
 /**
  * Superclass for each model to inherit from
  * */
-public class ModelObject {
+public abstract class ModelObject {
 
     private int id;
 
+    /**
+     * Creates a new ModelObject, should only be called
+     * in the use of super(id) from a subclass
+     * @param id The unique identifier for this object
+     */
     public ModelObject(int id) {
-        this.id = id;
+        setId(id);
     }
 
-    public void setId(int id) {
+    private void setId(int id) {
         this.id = id;
     }
 

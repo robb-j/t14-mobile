@@ -152,11 +152,9 @@ public class BankingFragment extends Fragment {
         while (i.hasNext()) {
             Product tempProduct = i.next();
             for (Account account : mUser.getAccounts()) {
-                if (account.getProducts() != null) {
-                    for (Product product : account.getProducts()) {
-                        if (tempProduct.getId() == product.getId()) {
-                            i.remove();
-                        }
+                if (account.getProduct() != null) {
+                    if (tempProduct.getId() == account.getProduct().getId()) {
+                        i.remove();
                     }
                 }
 
