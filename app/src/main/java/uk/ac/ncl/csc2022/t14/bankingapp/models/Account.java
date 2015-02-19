@@ -16,10 +16,10 @@ public class Account extends ModelObject {
     private double balance;
     private int overdraftLimit;
     private List<Transaction> transactions;
-    private Product[] products;
+    private List<Product> products;
 
 
-    public Account(int id, String name, int overdraftLimit, Product[] products) {
+    public Account(int id, String name, int overdraftLimit, List<Product> products) {
         super(id);
         this.name = name;
         this.overdraftLimit = overdraftLimit;
@@ -60,11 +60,11 @@ public class Account extends ModelObject {
         this.transactions = transactions;
     }
 
-    public Product[] getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(Product[] products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 }
