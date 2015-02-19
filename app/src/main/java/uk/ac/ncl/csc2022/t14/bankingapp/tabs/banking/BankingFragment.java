@@ -7,6 +7,9 @@ import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -140,7 +143,7 @@ public class BankingFragment extends Fragment {
                 "This is a test offer that is going to be displayed on the banking page." +
                 "This is a test offer that is going to be displayed on the banking page."));
         allProducts.add(new Product(3, "Student bank offer", "lorem ipsum blah blah blah"));
-        allProducts.add(new Product(4, "Savings Increased Interest Offer", "If you have over £3000 in your bank account then you may be" +
+        allProducts.add(new Product(4, "Savings Increased Interest Offer", "If you have over £3000 in your bank account then you may be " +
                 "eligible to increase your interest rate. Click here to find out more."));
 
 
@@ -198,6 +201,12 @@ public class BankingFragment extends Fragment {
             productName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26);
             productName.setTypeface(null, Typeface.BOLD);
             productDesc.setText(product.getContent());
+
+            // cut off text after 2 lines with an ellipsis
+            productDesc.setEllipsize(TextUtils.TruncateAt.END);
+            productDesc.setLines(2);
+
+
             productDesc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
             productName.setLayoutParams(new LinearLayout.LayoutParams(
