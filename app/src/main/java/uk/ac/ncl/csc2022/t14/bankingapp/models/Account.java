@@ -4,13 +4,16 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
  * Created by Jack on 13/02/2015.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class used to model an Account which belongs to a user
  */
-public class Account extends ModelObject {
+public class Account extends ModelObject implements Parcelable {
 
     private String name;
     private double balance;
@@ -35,7 +38,6 @@ public class Account extends ModelObject {
         setBalance(balance);
         setTransactions(new ArrayList<Transaction>());
     }
-
 
 
     private void setName(String name) {
@@ -80,4 +82,49 @@ public class Account extends ModelObject {
     public Product getProduct() {
         return product;
     }
+
+    protected Account(Parcel in) {
+        name = in.readString();
+        balance = in.readDouble();
+        overdraftLimit = in.readDouble();
+        if (in.readByte() == 0x01) {
+            transactions = new ArrayList<Transaction>();
+            in.readList(transactions, Transaction.class.getClassLoader());
+        } else {
+            transactions = null;
+        }
+        product = (Product) in.readValue(Product.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeDouble(balance);
+        dest.writeDouble(overdraftLimit);
+        if (transactions == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(transactions);
+        }
+        dest.writeValue(product);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Account> CREATOR = new Parcelable.Creator<Account>() {
+        @Override
+        public Account createFromParcel(Parcel in) {
+            return new Account(in);
+        }
+
+        @Override
+        public Account[] newArray(int size) {
+            return new Account[size];
+        }
+    };
 }

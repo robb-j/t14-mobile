@@ -4,6 +4,8 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
  * Created by Jack on 13/02/2015.
  */
 
+import android.os.Parcel;
+
 /**
  * Superclass for each model to inherit from
  * */
@@ -19,6 +21,8 @@ public abstract class ModelObject {
     public ModelObject(int id) {
         setId(id);
     }
+
+    public ModelObject() {};
 
     private void setId(int id) {
         this.id = id;

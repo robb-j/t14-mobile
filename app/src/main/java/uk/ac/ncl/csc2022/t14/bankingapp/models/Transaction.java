@@ -4,10 +4,13 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
  * Created by Jack on 13/02/2015.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Class used to represent a transaction, which will be made between 2 accounts
  */
-public class Transaction extends ModelObject {
+public class Transaction extends ModelObject implements Parcelable {
 
     private double amount;
     private Account account;
@@ -53,4 +56,35 @@ public class Transaction extends ModelObject {
     private void setPayee(String payee) {
         this.payee = payee;
     }
+
+    protected Transaction(Parcel in) {
+        amount = in.readDouble();
+        account = (Account) in.readValue(Account.class.getClassLoader());
+        payee = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(amount);
+        dest.writeValue(account);
+        dest.writeString(payee);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Transaction> CREATOR = new Parcelable.Creator<Transaction>() {
+        @Override
+        public Transaction createFromParcel(Parcel in) {
+            return new Transaction(in);
+        }
+
+        @Override
+        public Transaction[] newArray(int size) {
+            return new Transaction[size];
+        }
+    };
 }

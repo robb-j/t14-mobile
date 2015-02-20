@@ -1,9 +1,11 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -26,6 +28,8 @@ import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Divider;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
@@ -85,13 +89,27 @@ public class BankingFragment extends Fragment {
 
 
         /* Display Accounts */
-        for (Account account : mUser.getAccounts()) {
-            LinearLayout horizontal = new LinearLayout(this.getActivity());
+        for (final Account account : mUser.getAccounts()) {
+
+            LinearLayout accountLayout = new LinearLayout(this.getActivity());
+
+            accountLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(getActivity(), AccountActivity.class);
+                    myIntent.putExtra("account", (Parcelable)account);
+                    startActivity(myIntent);
+                }
+            });
+
+            // scale to size of device.
             float scale = getResources().getDisplayMetrics().density;
-            int dpAsPixels = (int) (20 * scale + 0.5f);
-            horizontal.setPadding(0, dpAsPixels, 0, dpAsPixels);
-            LinearLayout vertical = new LinearLayout(this.getActivity());
-            vertical.setOrientation(LinearLayout.VERTICAL);
+            int paddingInDp = (int) (20 * scale + 0.5f);
+            accountLayout.setPadding(0, paddingInDp, 0, paddingInDp);
+
+            // layout that stores account name and balance
+            LinearLayout accountTextLayout = new LinearLayout(this.getActivity());
+            accountTextLayout.setOrientation(LinearLayout.VERTICAL);
 
             ImageView accountImage = new ImageView(this.getActivity());
             TextView accountName = new TextView(this.getActivity());
@@ -124,11 +142,11 @@ public class BankingFragment extends Fragment {
                     LinearLayout.LayoutParams.WRAP_CONTENT));
 
 
-            horizontal.addView(accountImage);
-            vertical.addView(accountName);
-            vertical.addView(balance);
-            horizontal.addView(vertical);
-            linearLayout.addView(horizontal);
+            accountLayout.addView(accountImage);
+            accountTextLayout.addView(accountName);
+            accountTextLayout.addView(balance);
+            accountLayout.addView(accountTextLayout);
+            linearLayout.addView(accountLayout);
         }
 
 
