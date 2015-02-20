@@ -4,13 +4,16 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
  * Created by Jack on 13/02/2015.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class to represent essential information about a user
  */
-public class User extends ModelObject {
+public class User extends ModelObject implements Parcelable {
 
     private String username;
     private String firstName;
@@ -88,4 +91,51 @@ public class User extends ModelObject {
     public void setLastFullCategorise(String lastFullCategorise) {
         this.lastFullCategorise = lastFullCategorise;
     }
+
+    protected User(Parcel in) {
+        username = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        if (in.readByte() == 0x01) {
+            accounts = new ArrayList<Account>();
+            in.readList(accounts, Account.class.getClassLoader());
+        } else {
+            accounts = null;
+        }
+        dob = in.readString();
+        lastFullCategorise = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(username);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        if (accounts == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(accounts);
+        }
+        dest.writeString(dob);
+        dest.writeString(lastFullCategorise);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

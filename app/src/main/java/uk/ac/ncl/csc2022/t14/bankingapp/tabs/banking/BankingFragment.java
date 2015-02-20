@@ -30,6 +30,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.Divider;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.ProductActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
@@ -93,12 +94,15 @@ public class BankingFragment extends Fragment {
 
             LinearLayout accountLayout = new LinearLayout(this.getActivity());
 
+            // Makes each account lead to their account page.
             accountLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent myIntent = new Intent(getActivity(), AccountActivity.class);
-                    myIntent.putExtra("account", (Parcelable)account);
-                    startActivity(myIntent);
+                    Intent i = new Intent(getActivity(), AccountActivity.class);
+
+                    // pass through the relevant account
+                    i.putExtra("account", (Parcelable) account);
+                    startActivity(i);
                 }
             });
 
@@ -193,11 +197,25 @@ public class BankingFragment extends Fragment {
         linearLayout.addView(new Divider(getActivity()));
 
         /* Display Products */
-        for (Product product : allProducts) {
-            LinearLayout horizontal = new LinearLayout(this.getActivity());
+        for (final Product product : allProducts) {
+
+            LinearLayout productLayout = new LinearLayout(this.getActivity());
+
+            // Makes each account lead to their account page.
+            productLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), ProductActivity.class);
+
+                    // pass through the relevant product
+                    i.putExtra("product", (Parcelable) product);
+                    startActivity(i);
+                }
+            });
+
             float scale = getResources().getDisplayMetrics().density;
             int dpAsPixels = (int) (20 * scale + 0.5f);
-            horizontal.setPadding(0, dpAsPixels, 0, dpAsPixels);
+            productLayout.setPadding(0, dpAsPixels, 0, dpAsPixels);
             LinearLayout vertical = new LinearLayout(this.getActivity());
             vertical.setOrientation(LinearLayout.VERTICAL);
 
@@ -233,11 +251,11 @@ public class BankingFragment extends Fragment {
                     LinearLayout.LayoutParams.WRAP_CONTENT));
 
 
-            horizontal.addView(productImage);
+            productLayout.addView(productImage);
             vertical.addView(productName);
             vertical.addView(productDesc);
-            horizontal.addView(vertical);
-            linearLayout.addView(horizontal);
+            productLayout.addView(vertical);
+            linearLayout.addView(productLayout);
         }
 
 

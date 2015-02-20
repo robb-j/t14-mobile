@@ -1,7 +1,5 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -12,35 +10,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
-import android.widget.TextView;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 
-public class AccountActivity extends ActionBarActivity {
+public class ProductActivity extends ActionBarActivity {
 
-    static Account account;
+    Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
+        setContentView(R.layout.activity_product);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-        /* retrieves the account that was passed through to this activity */
-        account = getIntent().getExtras().getParcelable("account");
-
+        product = getIntent().getExtras().getParcelable("product");
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_account, menu);
+        getMenuInflater().inflate(R.menu.menu_product, menu);
         return true;
     }
 
@@ -70,13 +64,7 @@ public class AccountActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_account, container, false);
-
-            TextView textView = (TextView)rootView.findViewById(R.id.account_textview);
-            textView.setTextColor(Color.BLUE);
-                textView.setText(account.getName());
-
-
+            View rootView = inflater.inflate(R.layout.fragment_product, container, false);
             return rootView;
         }
     }
