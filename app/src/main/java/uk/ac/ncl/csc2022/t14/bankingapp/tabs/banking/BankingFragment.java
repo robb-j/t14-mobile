@@ -48,7 +48,7 @@ public class BankingFragment extends Fragment {
 
         Bundle args = new Bundle();
         // Pass vars to the fragment through this bundle
-
+        //test
 
         // Create a new fragment
         BankingFragment frag = new BankingFragment();
