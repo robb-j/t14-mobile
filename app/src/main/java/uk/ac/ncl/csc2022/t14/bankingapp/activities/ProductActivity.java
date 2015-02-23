@@ -10,13 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.TextView;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 
 public class ProductActivity extends ActionBarActivity {
 
-    Product product;
+    private static Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +64,17 @@ public class ProductActivity extends ActionBarActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+                    Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_product, container, false);
+
+            // Get the title and content from fragment_product
+            TextView title = (TextView) rootView.findViewById(R.id.productTitle);
+            TextView content = (TextView) rootView.findViewById(R.id.productContent);
+
+            //Set the title and content of this product to appear on the fragment
+            title.setText(product.getTitle());
+            content.setText(product.getContent());
+
             return rootView;
         }
     }
