@@ -1,35 +1,28 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.Layout;
-import android.text.StaticLayout;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import uk.ac.ncl.csc2022.t14.bankingapp.Divider;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Divider;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
-import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.ProductActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
@@ -48,7 +41,6 @@ public class BankingFragment extends Fragment {
 
         Bundle args = new Bundle();
         // Pass vars to the fragment through this bundle
-        //test
 
         // Create a new fragment
         BankingFragment frag = new BankingFragment();
@@ -71,12 +63,11 @@ public class BankingFragment extends Fragment {
         // Create the view from the xml layout
         View rootView = inflater.inflate(R.layout.fragment_banking, container, false);
 
-        // main linear layout
+        // The layout of the whole banking tab
         LinearLayout linearLayout = (LinearLayout)rootView.findViewById(R.id.bankingLayout);
 
         /* Accounts title */
         TextView accountsTitle = new TextView(this.getActivity());
-        accountsTitle.setId(R.id.title_my_accounts);
         accountsTitle.setText("My Accounts");
         accountsTitle.setTextColor(Color.GRAY);
         accountsTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -89,25 +80,30 @@ public class BankingFragment extends Fragment {
         linearLayout.addView(new Divider(getActivity()));
 
 
-        /* Display Accounts */
+        /* Display a list of accounts */
         for (final Account account : mUser.getAccounts()) {
 
+            // Each account as a whole (image, acc name, and balance)
             LinearLayout accountLayout = new LinearLayout(this.getActivity());
 
             // Makes each account lead to their account page.
             accountLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    // Create a new account page
                     Intent i = new Intent(getActivity(), AccountActivity.class);
 
                     // pass through the relevant account
-                    i.putExtra("account", (Parcelable) account);
+                    i.putExtra("account", account);
                     startActivity(i);
                 }
             });
 
             // scale to size of device.
             float scale = getResources().getDisplayMetrics().density;
+
+            // make it look nicer for all device resolutions
             int paddingInDp = (int) (20 * scale + 0.5f);
             accountLayout.setPadding(0, paddingInDp, 0, paddingInDp);
 
@@ -119,6 +115,7 @@ public class BankingFragment extends Fragment {
             TextView accountName = new TextView(this.getActivity());
             TextView balance = new TextView(this.getActivity());
 
+            // Setting image properties
             int imgLength = 64;
             int imgLengthAsDp = (int) (imgLength * scale + 0.5f);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imgLengthAsDp, imgLengthAsDp);
@@ -127,28 +124,34 @@ public class BankingFragment extends Fragment {
             accountImage.setLayoutParams(layoutParams);
             accountImage.setBackgroundResource(R.drawable.account_image);
 
+            // Account name properties
             accountName.setText(account.getName());
             accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26);
             accountName.setTypeface(null, Typeface.BOLD);
-            balance.setText("£" + Double.toString(account.getBalance()));
-            balance.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
-            if (account.getBalance() < 0) {
-                balance.setTextColor(Color.RED);
-            } else {
-                balance.setTextColor(Color.rgb(30, 143, 30));
-            }
-
             accountName.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            // Balance properties
+            balance.setText("£" + Double.toString(account.getBalance()));
+            balance.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+
+            // Change the color depending on positive or negative balance.
+            if (account.getBalance() < 0) {
+                balance.setTextColor(Color.RED);
+            } else {
+                balance.setTextColor(Color.rgb(30, 143, 30));   // GREEN
+            }
             balance.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
 
 
+            // Adding the images and texts to their layouts.
             accountLayout.addView(accountImage);
             accountTextLayout.addView(accountName);
             accountTextLayout.addView(balance);
+
             accountLayout.addView(accountTextLayout);
             linearLayout.addView(accountLayout);
         }
@@ -208,21 +211,26 @@ public class BankingFragment extends Fragment {
                     Intent i = new Intent(getActivity(), ProductActivity.class);
 
                     // pass through the relevant product
-                    i.putExtra("product", (Parcelable) product);
+                    i.putExtra("product", product);
                     startActivity(i);
                 }
             });
 
+            // Scale the padding to look better on different resolutions.
             float scale = getResources().getDisplayMetrics().density;
             int dpAsPixels = (int) (20 * scale + 0.5f);
-            productLayout.setPadding(0, dpAsPixels, 0, dpAsPixels);
-            LinearLayout vertical = new LinearLayout(this.getActivity());
-            vertical.setOrientation(LinearLayout.VERTICAL);
+            productLayout.setPadding(0, dpAsPixels, 0, dpAsPixels);     // set the padding
+
+            // Text section of a product
+            LinearLayout textSection = new LinearLayout(this.getActivity());
+            textSection.setOrientation(LinearLayout.VERTICAL);
+
 
             ImageView productImage = new ImageView(this.getActivity());
             TextView productName = new TextView(this.getActivity());
             TextView productDesc = new TextView(this.getActivity());
 
+            // Image properties
             int imgLength = 64;
             int imgLengthAsDp = (int) (imgLength * scale + 0.5f);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imgLengthAsDp, imgLengthAsDp);
@@ -231,42 +239,39 @@ public class BankingFragment extends Fragment {
             productImage.setLayoutParams(layoutParams);
             productImage.setBackgroundResource(R.drawable.account_image);
 
+
+            // Product name properties
             productName.setText(product.getTitle());
             productName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26);
             productName.setTypeface(null, Typeface.BOLD);
+            productName.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            // Cut off text after 2 lines with an ellipsis. Prevents filling the screen with text.
+            productName.setEllipsize(TextUtils.TruncateAt.END);
+            productName.setLines(2);
+
+            // Product description properties
             productDesc.setText(product.getContent());
+            productDesc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            productDesc.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
 
             // cut off text after 2 lines with an ellipsis
             productDesc.setEllipsize(TextUtils.TruncateAt.END);
             productDesc.setLines(2);
 
 
-            productDesc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-
-            productName.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-            productDesc.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-
-
             productLayout.addView(productImage);
-            vertical.addView(productName);
-            vertical.addView(productDesc);
-            productLayout.addView(vertical);
+            textSection.addView(productName);
+            textSection.addView(productDesc);
+            productLayout.addView(textSection);
             linearLayout.addView(productLayout);
         }
 
 
         return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-
-
     }
 }
