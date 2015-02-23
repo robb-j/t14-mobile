@@ -11,4 +11,7 @@
     <string name="title_activity_product">ProductActivity</string>
     <string name="title_activity_login">LoginActivity</string>
 
+    <!-- Account Activity -->
+    <string name="btn_transfer">Make a transfer</string>
+
 </resources>
