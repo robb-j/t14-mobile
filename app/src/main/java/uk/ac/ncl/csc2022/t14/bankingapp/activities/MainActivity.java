@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
@@ -65,6 +66,9 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         testUser.getAccounts().add(account1);
         testUser.getAccounts().add(account2);
         testUser.getAccounts().add(account3);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
     }
 
 

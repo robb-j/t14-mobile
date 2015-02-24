@@ -1,7 +1,7 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
 import android.app.ProgressDialog;
-import android.database.Cursor;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -16,14 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
-import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.CustomAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.TransactionAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
@@ -35,8 +31,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
     private static Account account;
     private static ProgressDialog progressLoadTransactions;
-    private CustomAdapter adapter;
-    ListView listTransactions;
+    private TransactionAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +48,9 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
 
 
-
-
+        // Hide the action bar. -----DON'T TOUCH THIS-----
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
     }
 
 
@@ -85,32 +81,26 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
         progressLoadTransactions.dismiss();
 
-
-
-
-
         final ListView listTransactions = (ListView)findViewById(R.id.list_transactions);
 
-
-
-        adapter = new CustomAdapter(this);
+        adapter = new TransactionAdapter(this);
 
         Calendar cal = Calendar.getInstance();
 
-        for (int i = 31; i > 0; i--) {
-            adapter.addSectionHeaderItem(i + "/mm/yyyy");
-            for (Transaction transaction : transactions) {
-                cal.setTime(transaction.getDate());
-                if (cal.get(Calendar.DAY_OF_MONTH) == i) {
-                    adapter.addItem(transaction.getPayee());
-                }
-            }
-        }
+        int lastDayAdded = 32;
 
-        for (int i = 0; i < adapter.getCount() - 1; i++) {
-            if (adapter.getItemViewType(i) == CustomAdapter.TYPE_SEPARATOR && adapter.getItemViewType(i+1) == CustomAdapter.TYPE_SEPARATOR) {
+        // Assume transactions are ordered in descending order and all from one month
+        for (Transaction transaction : transactions) {
 
+            cal.setTime(transaction.getDate());
+            int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+            if (lastDayAdded != currentDay) {
+                adapter.addSectionHeaderItem(transaction);
+                lastDayAdded = currentDay;
             }
+
+            adapter.addItem(transaction);
         }
 
 

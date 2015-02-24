@@ -29,8 +29,12 @@ public class ProductActivity extends ActionBarActivity {
                     .commit();
         }
         product = getIntent().getExtras().getParcelable("product");
-    }
 
+
+        // Hide the action bar. -----DON'T TOUCH THIS-----
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

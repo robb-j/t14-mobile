@@ -4,64 +4,113 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.Calendar;
+import java.util.TreeSet;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 
 /**
  * Created by Sam on 23/02/2015.
  */
-public class TransactionAdapter extends ArrayAdapter<Transaction> {
+public class TransactionAdapter extends BaseAdapter {
 
-    public TransactionAdapter(Context context, ArrayList<Transaction> items) {
-        super(context, 0, items);
+    public static final int TYPE_ITEM = 0;
+    public static final int TYPE_SEPARATOR = 1;
+
+    // private ArrayList<String> mData = new ArrayList<>();
+    private ArrayList<Transaction> mData = new ArrayList<>();
+    private TreeSet<Integer> sectionHeader = new TreeSet<>();
+
+    public ViewHolder holder = null;
+
+    private LayoutInflater mInflater;
+
+    public TransactionAdapter(Context context) {
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public void addItem(final Transaction item) {
+        mData.add(item);
+        notifyDataSetChanged();
+    }
+
+    public void addSectionHeaderItem(final Transaction item) {
+        mData.add(item);
+        sectionHeader.add(mData.size()-1);
+        notifyDataSetChanged();
+    }
+
+    public void hideView(int position) {
+        holder.textView1.setVisibility(View.GONE);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return sectionHeader.contains(position) ? TYPE_SEPARATOR : TYPE_ITEM;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getCount() {
+        return mData.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mData.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        boolean showSeparator = false;
-        Date[] dates = new Date[] {
+        int rowType = getItemViewType(position);
 
-        } ;
-
-        // Get the data item for this position
-        Transaction transaction = getItem(position);
-
-        // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            //convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_day_of_transaction, parent, false);
+            holder = new ViewHolder();
+            switch (rowType) {
+                case TYPE_ITEM:
+                    convertView = mInflater.inflate(R.layout.item_transaction, null);
+                    holder.textView1 = (TextView) convertView.findViewById(R.id.textview_transaction_details);
+                    holder.textView2 = (TextView) convertView.findViewById(R.id.textview_transaction_cost);
+                    break;
+                case TYPE_SEPARATOR:
+                    convertView = mInflater.inflate(R.layout.item_transaction_header, null);
+                    holder.textView1 = (TextView) convertView.findViewById(R.id.separator);
+                    break;
+            }
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        if (getItemViewType(position) == TYPE_SEPARATOR) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(mData.get(position).getDate());
+            holder.textView1.setText(cal.get(Calendar.DAY_OF_MONTH) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR));
+        } else {
+            holder.textView1.setText(mData.get(position).getPayee());
+            holder.textView2.setText("£" + Double.toString(mData.get(position).getAmount()));
         }
 
-        // Lookup view for data population
-       // TextView transactionDate = (TextView) convertView.findViewById(R.id.textview_transaction_date);
-
-        List<LinearLayout> transactions = new ArrayList<>();
-
-        // for each transaction
-        // add each relevant transaction to the date.
-        // each item is for a specific date
 
 
-        TextView transactionDetails = (TextView) convertView.findViewById(R.id.textview_transaction_details);
-        TextView transactionCost = (TextView) convertView.findViewById(R.id.textview_transaction_cost);
-
-        // Populate the data into the template view using the data object
-        //transactionDate.setText(new SimpleDateFormat("dd/mm/yyyy", Locale.UK).format(transaction.getDate()));
-        transactionDetails.setText(transaction.getPayee());
-        transactionCost.setText("£" + Double.toString(transaction.getAmount()));
-
-        // Return the completed view to render on screen
         return convertView;
+    }
+
+    public static class ViewHolder {
+        public TextView textView1, textView2;
     }
 }

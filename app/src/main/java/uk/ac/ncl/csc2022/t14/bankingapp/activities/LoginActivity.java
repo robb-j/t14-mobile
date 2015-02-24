@@ -24,6 +24,11 @@ public class LoginActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+
+        // Hide the action bar. -----DON'T TOUCH THIS-----
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
     }
 
 
