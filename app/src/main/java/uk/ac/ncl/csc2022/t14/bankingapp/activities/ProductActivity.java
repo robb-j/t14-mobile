@@ -73,7 +73,7 @@ public class ProductActivity extends ActionBarActivity {
 
             //Set the title and content of this product to appear on the fragment
             title.setText(product.getTitle());
-            content.setText(product.getContent());
+            content.setText(android.text.Html.fromHtml("<p>"+product.getContent() + "</p>"));
 
             return rootView;
         }
