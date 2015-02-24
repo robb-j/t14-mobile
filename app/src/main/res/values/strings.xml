@@ -14,6 +14,7 @@
 
     <!-- Account Activity -->
     <string name="btn_transfer">Make a transfer</string>
+    <string name="btn_select_month">Select month</string>
 
 
 

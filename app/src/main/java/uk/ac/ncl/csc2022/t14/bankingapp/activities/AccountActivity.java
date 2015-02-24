@@ -114,38 +114,6 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
             }
         });
 
-
-
-
-
-        /*
-        ArrayList<Transaction> arrayOfTransactions = new ArrayList<Transaction>();
-
-        // Create the adapter to convert the array to views
-        final TransactionAdapter adapter = new TransactionAdapter(this, arrayOfTransactions);
-
-        // Attach the adapter to a ListView
-        final ListView listTransactions = (ListView)findViewById(R.id.list_transactions);
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                listTransactions.setAdapter(adapter);
-            }
-        });
-
-
-        adapter.addAll(transactions);
-        */
-
-
-
-
-
-
-
-
-
     }
 
     @Override
@@ -170,13 +138,13 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
             TextView txtAccName = (TextView)rootView.findViewById(R.id.textview_account_name);
             txtAccName.setText(account.getName());
 
-            // Set the balance, available, and overdraft values
-            TextView txtAccBalance = (TextView)rootView.findViewById(R.id.textview_money_details);
             String balanceColor = account.getBalance() < 0 ? "red" : "\"#1E8F1E\"";
 
-            txtAccBalance.setText(Html.fromHtml("Balance: " + "<font color=" + balanceColor + ">" + "£" + account.getBalance() + "</font><br>" +
-                    "Available: " + "<font color=\"#1E8F1E\">" + "£" + (account.getOverdraftLimit() + account.getBalance()) + "</font><br>" +
-                    "Overdraft: " + "<font color=\"#1E8F1E\">" + "£" + account.getOverdraftLimit() + "</font>"));
+            TextView txtBalanceText = (TextView)rootView.findViewById(R.id.textview_balances_text);
+            txtBalanceText.setText("Balance: \nAvailable: \nOverdraft: ");
+
+            TextView txtBalanceCost = (TextView)rootView.findViewById(R.id.textview_balances_cost);
+            txtBalanceText.setText("£" + account.getBalance() + "\n£" + (account.getOverdraftLimit() + account.getBalance()) + "\n£" + account.getOverdraftLimit());
 
 
 
@@ -218,6 +186,11 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
         public void btnMakeTransfer(View v) {
 
             // MAKE A TRANSFER HAS BEEN CLICKED
+        }
+
+        public void btnSelectMonth(View v) {
+
+
         }
     }
 }
