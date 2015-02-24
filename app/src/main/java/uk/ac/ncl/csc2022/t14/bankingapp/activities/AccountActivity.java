@@ -1,5 +1,7 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.app.ProgressDialog;
+import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,16 +15,28 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.CustomAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.TransactionAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnecter;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 
-public class AccountActivity extends ActionBarActivity {
+public class AccountActivity extends ActionBarActivity implements TransactionDelegate {
 
     private static Account account;
+    private static ProgressDialog progressLoadTransactions;
+    private CustomAdapter adapter;
+    ListView listTransactions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +50,10 @@ public class AccountActivity extends ActionBarActivity {
 
         /* retrieves the account that was passed through to this activity */
         account = getIntent().getExtras().getParcelable("account");
+
+
+
+
 
     }
 
@@ -60,6 +78,89 @@ public class AccountActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void transactionsLoaded(Account account, List<Transaction> transactions) {
+
+        progressLoadTransactions.dismiss();
+
+
+
+
+
+        final ListView listTransactions = (ListView)findViewById(R.id.list_transactions);
+
+
+
+        adapter = new CustomAdapter(this);
+
+        Calendar cal = Calendar.getInstance();
+
+        for (int i = 31; i > 0; i--) {
+            adapter.addSectionHeaderItem(i + "/mm/yyyy");
+            for (Transaction transaction : transactions) {
+                cal.setTime(transaction.getDate());
+                if (cal.get(Calendar.DAY_OF_MONTH) == i) {
+                    adapter.addItem(transaction.getPayee());
+                }
+            }
+        }
+
+        for (int i = 0; i < adapter.getCount() - 1; i++) {
+            if (adapter.getItemViewType(i) == CustomAdapter.TYPE_SEPARATOR && adapter.getItemViewType(i+1) == CustomAdapter.TYPE_SEPARATOR) {
+
+            }
+        }
+
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                listTransactions.setAdapter(adapter);
+
+            }
+        });
+
+
+
+
+
+        /*
+        ArrayList<Transaction> arrayOfTransactions = new ArrayList<Transaction>();
+
+        // Create the adapter to convert the array to views
+        final TransactionAdapter adapter = new TransactionAdapter(this, arrayOfTransactions);
+
+        // Attach the adapter to a ListView
+        final ListView listTransactions = (ListView)findViewById(R.id.list_transactions);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                listTransactions.setAdapter(adapter);
+            }
+        });
+
+
+        adapter.addAll(transactions);
+        */
+
+
+
+
+
+
+
+
+
+    }
+
+    @Override
+    public void transactionsLoadFailed(String errMessage) {
+
     }
 
     /**
@@ -89,35 +190,24 @@ public class AccountActivity extends ActionBarActivity {
 
 
 
-            // Construct the data source
-            ArrayList<Transaction> arrayOfTransactions = new ArrayList<Transaction>();
-            // Create the adapter to convert the array to views
-            TransactionAdapter adapter = new TransactionAdapter(getActivity(), arrayOfTransactions);
-            // Attach the adapter to a ListView
-            ListView listTransactions = (ListView)rootView.findViewById(R.id.list_transactions);
-            listTransactions.setAdapter(adapter);
-
-            Transaction transaction1 = new Transaction(1, 3.51, account, "Greggs");
-            Transaction transaction2 = new Transaction(1, 8.65, account, "Burger King");
-            Transaction transaction3 = new Transaction(1, 33.70, account, "KFC");
-            Transaction transaction4 = new Transaction(1, 62.13, account, "Maccies");
-            Transaction transaction5= new Transaction(1, 2.75, account, "Guitar");
-            Transaction transaction6= new Transaction(1, 1.24, account, "Eat4Less");
-            Transaction transaction7= new Transaction(1, 4.30, account, "Rubber");
-            Transaction transaction8= new Transaction(1, 6.22, account, "Compass");
-            Transaction transaction9= new Transaction(1, 7.11, account, "Protractor");
-            Transaction transaction10 = new Transaction(1, 2.53, account, "Rulers");
-            Transaction transaction11 = new Transaction(1, 2.66, account, "Pens");
-            Transaction transaction12 = new Transaction(1, 0.74, account, "Pencils");
-            Transaction transaction13 = new Transaction(1, 1.67, account, "Textbooks");
-            Transaction transaction14 = new Transaction(1, 19.35, account, "Uni");
-            Transaction transaction15 = new Transaction(1, 3.64, account, "Metro");
-            Transaction transaction16 = new Transaction(1, 17.33, account, "Maplin");
-            Transaction transaction17 = new Transaction(1, 22.10, account, "Primark");
 
 
-            adapter.addAll(transaction1, transaction2, transaction3, transaction4, transaction5, transaction6, transaction7, transaction8, transaction9,
-            transaction10, transaction11, transaction12, transaction13, transaction14, transaction15, transaction16,transaction17);
+            progressLoadTransactions = new ProgressDialog(getActivity());
+            progressLoadTransactions.setTitle("Loading Transactions");
+            progressLoadTransactions.setMessage("Please wait...");
+            progressLoadTransactions.show();
+
+
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ServerInterface transactionLoader = new DummyServerConnecter();
+                    transactionLoader.loadTransactions(account, ServerInterface.Month.Jan, "correctToken", (TransactionDelegate)getActivity());
+                }
+            });
+
+
 
 
 

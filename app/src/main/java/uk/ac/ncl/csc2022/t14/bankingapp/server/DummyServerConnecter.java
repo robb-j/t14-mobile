@@ -1,9 +1,14 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
@@ -46,15 +51,41 @@ public class DummyServerConnecter implements ServerInterface {
     @Override
     public void loadTransactions(Account account, Month month, String token, TransactionDelegate delegate) {
 
-        if (token.equals("correctToken")) {
-            List<Transaction> transactions = new ArrayList<Transaction>();
-            transactions.add(new Transaction(20, 120.00, account, "payee1"));
-            transactions.add(new Transaction(21, 22.31, account, "payee2"));
+        // Loading progress
+        class TransactionTimerTask extends TimerTask {
+            private String token;
+            private Account account;
+            private TransactionDelegate delegate;
 
-            delegate.transactionsLoaded(account, transactions);
-        } else {
-            delegate.transactionsLoadFailed("Authentication error.");
+            @Override
+            public void run() {
+                if (token.equals("correctToken")) {
+                    List<Transaction> transactions = new ArrayList<Transaction>();
+                    Calendar cal = Calendar.getInstance(), cal2 = Calendar.getInstance();
+                    cal.set(Calendar.YEAR, 2015);
+                    cal.set(Calendar.MONTH, Calendar.JANUARY);
+                    cal.set(Calendar.DAY_OF_MONTH, 22);
+                    cal2.set(Calendar.YEAR, 2015);
+                    cal2.set(Calendar.MONTH, Calendar.FEBRUARY);
+                    cal2.set(Calendar.DAY_OF_MONTH, 12);
+                    transactions.add(new Transaction(20, 120.00, cal.getTime(), account, "payee1"));
+                    transactions.add(new Transaction(21, 22.31, cal2.getTime(), account, "payee2"));
+
+                    delegate.transactionsLoaded(account, transactions);
+                } else {
+                    delegate.transactionsLoadFailed("Authentication error.");
+                }
+            }
         }
+
+        Timer timer = new Timer();
+        TransactionTimerTask task = new TransactionTimerTask();
+        task.account = account;
+        task.delegate = delegate;
+        task.token = token;
+        timer.schedule(task, 1000);
+
+
     }
 
     @Override

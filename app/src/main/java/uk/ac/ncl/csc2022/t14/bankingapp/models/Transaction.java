@@ -7,6 +7,9 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Class used to represent a transaction, which will be made between 2 accounts
  */
@@ -15,6 +18,7 @@ public class Transaction extends ModelObject implements Parcelable {
     private double amount;
     private Account account;
     private String payee;
+    private Date date;
 
 
     /**
@@ -24,11 +28,12 @@ public class Transaction extends ModelObject implements Parcelable {
      * @param account The account the transation was applied to
      * @param payee Where the money was paid to
      */
-    public Transaction(int id, double amount, Account account, String payee) {
+    public Transaction(int id, double amount, Date date,  Account account, String payee) {
         super(id);
         setAmount(amount);
         setAccount(account);
         setPayee(payee);
+        setDate(date);
     }
 
 
@@ -55,6 +60,14 @@ public class Transaction extends ModelObject implements Parcelable {
 
     private void setPayee(String payee) {
         this.payee = payee;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     protected Transaction(Parcel in) {
