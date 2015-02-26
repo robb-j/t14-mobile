@@ -1,6 +1,9 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -32,6 +35,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
     private static Account account;
     private static ProgressDialog progressLoadTransactions;
     private TransactionAdapter adapter;
+    private static int month;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,9 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
         /* retrieves the account that was passed through to this activity */
         account = getIntent().getExtras().getParcelable("account");
+
+        month = Calendar.getInstance().get(Calendar.MONTH);
+
 
 
 
@@ -121,6 +128,8 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
     }
 
+
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -144,7 +153,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
             txtBalanceText.setText("Balance: \nAvailable: \nOverdraft: ");
 
             TextView txtBalanceCost = (TextView)rootView.findViewById(R.id.textview_balances_cost);
-            txtBalanceText.setText("£" + account.getBalance() + "\n£" + (account.getOverdraftLimit() + account.getBalance()) + "\n£" + account.getOverdraftLimit());
+            txtBalanceCost.setText("£" + account.getBalance() + "\n£" + (account.getOverdraftLimit() + account.getBalance()) + "\n£" + account.getOverdraftLimit());
 
 
 
@@ -157,28 +166,28 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
 
 
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ServerInterface transactionLoader = new DummyServerConnecter();
-                    transactionLoader.loadTransactions(account, ServerInterface.Month.Jan, "correctToken", (TransactionDelegate)getActivity());
-                }
-            });
+            refreshMonths();
 
 
 
+            /* Set up the buttons */
+            Button btnMakeTransfer = (Button) rootView.findViewById(R.id.btn_make_transfer);
+            Button btnSelectMonth = (Button)rootView.findViewById(R.id.btn_select_month);
 
-
-            // Setting up the "make a transfer" button. See btnMakeTransfer(View v)
-                    Button btn = (Button) rootView.findViewById(R.id.btn_make_transfer);
-
-            // Calls btnMakeTransfer(View v) when clicked.
-            btn.setOnClickListener(new View.OnClickListener() {
+            btnMakeTransfer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     btnMakeTransfer(v);
                 }
             });
+
+            btnSelectMonth.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnSelectMonth(v);
+                }
+            });
+
 
             return rootView;
         }
@@ -190,7 +199,28 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
         public void btnSelectMonth(View v) {
 
+            String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Select a month")
+                    .setItems(months, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // The 'which' argument contains the index position
+                            // of the selected item
+                            month = which;
+                            refreshMonths();
+                        }
+                    });
+            Dialog dialog = builder.create();
+            dialog.show();
 
         }
+
+        public void refreshMonths() {
+            ServerInterface transactionLoader = new DummyServerConnecter();
+            transactionLoader.loadTransactions(account, month, "correctToken", (TransactionDelegate)getActivity());
+
+        }
+
     }
 }

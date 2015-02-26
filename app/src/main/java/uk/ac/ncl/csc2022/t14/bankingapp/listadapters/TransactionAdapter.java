@@ -1,6 +1,7 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.listadapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,6 +104,7 @@ public class TransactionAdapter extends BaseAdapter {
         } else {
             holder.textView1.setText(mData.get(position).getPayee());
             holder.textView2.setText("£" + Double.toString(mData.get(position).getAmount()));
+
         }
 
 
