@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.TreeSet;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 
 /**
@@ -103,8 +104,7 @@ public class TransactionAdapter extends BaseAdapter {
             holder.textView1.setText(cal.get(Calendar.DAY_OF_MONTH) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR));
         } else {
             holder.textView1.setText(mData.get(position).getPayee());
-            holder.textView2.setText("£" + Double.toString(mData.get(position).getAmount()));
-
+            holder.textView2.setText(Utility.doubleToCurrency(mData.get(position).getAmount()));
         }
 
 
