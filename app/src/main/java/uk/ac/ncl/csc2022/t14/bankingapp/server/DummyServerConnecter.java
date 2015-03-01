@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
@@ -143,10 +144,20 @@ public class DummyServerConnecter implements ServerInterface {
     public void makeTransfer(Account accFrom, Account accTo, double amount, String token, TransferDelegate delegate) {
 
         if (token.equals("correctToken")) {
-            if (amount < accFrom.getBalance()) {
+            if (amount <= accFrom.getBalance()) {
+
+                // Subtract the value of the transfer fom the old account...
+                double accFromNewBalance = accFrom.getBalance() - amount;
+                accFrom.setBalance(accFromNewBalance);
+                MainActivity.testUser.getAccounts();
+
+                // ...and add it to the new one.
+                double accToNewBalance = accTo.getBalance() + amount;
+                accTo.setBalance(accToNewBalance);
+
                 delegate.transferPassed(accFrom, accTo, amount);
             } else {
-                delegate.transferFailed("Not enough monies");
+                delegate.transferFailed("Insufficient funds.");
             }
         } else {
             delegate.transferFailed("Authentication error.");
