@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Divider;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.ProductActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
@@ -77,7 +77,7 @@ public class BankingFragment extends Fragment {
         linearLayout.addView(accountsTitle);
 
         // Divider
-        linearLayout.addView(new Divider(getActivity()));
+        linearLayout.addView(Utility.divider(getActivity()));
 
 
         /* Display a list of accounts */
@@ -198,7 +198,7 @@ public class BankingFragment extends Fragment {
         linearLayout.addView(productsTitle);
 
         // Divider
-        linearLayout.addView(new Divider(getActivity()));
+        linearLayout.addView(Utility.divider(getActivity()));
 
         /* Display Products */
         for (final Product product : allProducts) {
