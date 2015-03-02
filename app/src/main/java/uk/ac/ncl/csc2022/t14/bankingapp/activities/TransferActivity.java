@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -102,19 +103,25 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
             TextView outgoingAccount = (TextView) rootView.findViewById(R.id.outgoingAccount);
             outgoingAccount.setText(accountFrom.getName());
 
+
             // Set the list of accounts to pay into to be a choice of all of the user's accounts, excluding
             // the one which is already being paid from.
             List<Account> accounts = user.getAccounts();
             List<String> accountNames = new ArrayList<>();
 
-            for (int i = 0; i < accounts.size(); i++)
-            { // For each accountFrom the user owns
-                if ( !(accounts.get(i).getName().equals(accountFrom.getName())) )
-                { // Add the accountFrom to the list of options on the spinner
-                  // unless it is the accountFrom the transfer is being made from
-                    accountNames.add(accounts.get(i).getName());
+
+            // Create a list of all the account names
+            // That doesn't include the 'from account'
+            for (Account account : accounts) {
+
+                if ( ! (account.getName().equals(accountFrom.getName()))) {
+
+                    accountNames.add(account.getName());
                 }
             }
+
+
+
 
             // Use the adapter to give these values to the spinner
             spinner = (Spinner) rootView.findViewById(R.id.spinner_accounts);

@@ -201,7 +201,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
             Intent i = new Intent(getActivity(), TransferActivity.class);
 
             // pass through the relevant product and account
-            i.putExtra("account", account);
+            i.putExtra("accountFrom", account);
             i.putExtra("user", user);
 
             startActivity(i);

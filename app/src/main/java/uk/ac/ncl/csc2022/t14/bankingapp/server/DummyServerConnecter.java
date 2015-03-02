@@ -146,17 +146,19 @@ public class DummyServerConnecter implements ServerInterface {
         if (token.equals("correctToken")) {
             if (amount <= accFrom.getBalance()) {
 
-                // Subtract the value of the transfer fom the old account...
-                double accFromNewBalance = accFrom.getBalance() - amount;
-                accFrom.setBalance(accFromNewBalance);
-                MainActivity.testUser.getAccounts();
+                // Calculate the new balances
+                double newBalanceFrom = accFrom.getBalance() - amount;
+                double newBalanceTo = accTo.getBalance() + amount;
 
-                // ...and add it to the new one.
-                double accToNewBalance = accTo.getBalance() + amount;
-                accTo.setBalance(accToNewBalance);
+                // Apply the balances
+                accFrom.setBalance(newBalanceFrom);
+                accTo.setBalance(newBalanceTo);
 
+
+                // Tell the delegate
                 delegate.transferPassed(accFrom, accTo, amount);
             } else {
+
                 delegate.transferFailed("Insufficient funds.");
             }
         } else {
