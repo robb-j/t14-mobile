@@ -4,11 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,13 +26,15 @@ import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.TransactionAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnecter;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 
 public class AccountActivity extends ActionBarActivity implements TransactionDelegate {
 
     private static Account account;
+    private static User user;
     private static ProgressDialog progressLoadTransactions;
     private TransactionAdapter adapter;
     private static int month;
@@ -49,6 +51,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
         /* retrieves the account that was passed through to this activity */
         account = getIntent().getExtras().getParcelable("account");
+        user = getIntent().getExtras().getParcelable("user");
 
         month = Calendar.getInstance().get(Calendar.MONTH);
 
@@ -194,7 +197,13 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
         public void btnMakeTransfer(View v) {
 
-            // MAKE A TRANSFER HAS BEEN CLICKED
+            Intent i = new Intent(getActivity(), TransferActivity.class);
+
+            // pass through the relevant product and account
+            i.putExtra("account", account);
+            i.putExtra("user", user);
+
+            startActivity(i);
         }
 
         public void btnSelectMonth(View v) {
@@ -217,7 +226,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
         }
 
         public void refreshMonths() {
-            ServerInterface transactionLoader = new DummyServerConnecter();
+            ServerInterface transactionLoader = new DummyServerConnector();
             transactionLoader.loadTransactions(account, month, "correctToken", (TransactionDelegate)getActivity());
 
         }

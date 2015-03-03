@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking.BankingFragment;
@@ -34,6 +35,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
 
     }
 
+
     // Instance Variables
     SectionPagerAdapter mPagerAdapter;
     ViewPager mViewPager;
@@ -43,7 +45,6 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         // Setup the tabbing
         mPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
@@ -56,9 +57,9 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
 
 
         /* Test accounts */
-        Account account1 = new Account(1, "Student Account", 523.33, 500, null);
-        Account account2 = new Account(1, "Bills Account", -120.18, 1000, product);
-        Account account3 = new Account(1, "Savings Account", 23112.41, 1000, null);
+        Account account1 = new Account(28, "Student Account", 523.33, 500, null);
+        Account account2 = new Account(1729, "Bills Account", -120.18, 1000, product);
+        Account account3 = new Account(8191, "Savings Account", 23112.41, 1000, null);
 
 
         /* Test user */
@@ -66,6 +67,9 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         testUser.getAccounts().add(account1);
         testUser.getAccounts().add(account2);
         testUser.getAccounts().add(account3);
+
+        // Create the Data Store
+        DataStore.sharedInstance().setCurrentUser(testUser);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();

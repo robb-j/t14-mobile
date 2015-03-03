@@ -96,6 +96,7 @@ public class BankingFragment extends Fragment {
 
                     // pass through the relevant account
                     i.putExtra("account", account);
+                    i.putExtra("user", mUser);
                     startActivity(i);
                 }
             });

@@ -44,7 +44,7 @@ public class Account extends ModelObject implements Parcelable {
         this.name = name;
     }
 
-    private void setBalance(double balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

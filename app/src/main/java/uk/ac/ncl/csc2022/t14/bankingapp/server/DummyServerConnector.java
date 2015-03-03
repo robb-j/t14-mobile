@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
@@ -21,7 +23,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
 /**
  * Created by Sam on 17/02/2015.
  */
-public class DummyServerConnecter implements ServerInterface {
+public class DummyServerConnector implements ServerInterface {
 
 
     @Override
@@ -143,10 +145,48 @@ public class DummyServerConnecter implements ServerInterface {
     public void makeTransfer(Account accFrom, Account accTo, double amount, String token, TransferDelegate delegate) {
 
         if (token.equals("correctToken")) {
-            if (amount < accFrom.getBalance()) {
+            if (amount <= accFrom.getBalance()) {
+
+                // Subtract the value of the transfer fom the old account
+                double accFromNewBalance = accFrom.getBalance() - amount;
+                double accToNewBalance = accFrom.getBalance() + amount;
+
+                //Set up a count so the relevant accounts can be accessed
+                int count = 0;
+
+                //These will be used to track when the loop can be broken
+                boolean fromFound = false;
+                boolean toFound = false;
+
+                // For all accounts in the user from the data store
+                for (Account a : DataStore.sharedInstance().getCurrentUser().getAccounts())
+                {
+                    //If the account name matches accFrom
+                    if (accFrom.getId() == a.getId())
+                    {
+                        //Set the value of the paying account to be 'amount' less than before
+                        DataStore.sharedInstance().getCurrentUser().getAccounts().get(count).setBalance(accFromNewBalance);
+                        fromFound = true;
+                    }
+                    //If the account name matches accTo
+                    if (accTo.getId() == a.getId())
+                    {
+                        //Set the value of the receiving account to be 'amount' greater than before
+                        DataStore.sharedInstance().getCurrentUser().getAccounts().get(count).setBalance(accToNewBalance);
+                        toFound = true;
+                    }
+                    //If both accounts that need to be modified have been modified then there is no reason to continue
+                    if (fromFound && toFound)
+                    {
+                        break;
+                    }
+                    //Increment count every run through
+                    count++;
+                }
+
                 delegate.transferPassed(accFrom, accTo, amount);
             } else {
-                delegate.transferFailed("Not enough monies");
+                delegate.transferFailed("Insufficient funds.");
             }
         } else {
             delegate.transferFailed("Authentication error.");
