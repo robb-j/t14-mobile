@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.ProductActivity;
@@ -33,18 +34,16 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
  */
 public class BankingFragment extends Fragment {
 
-    private User mUser;
     private static final String USER_KEY = "currentUser";
 
 
-    public static BankingFragment newInstance(User user) {
+    public static BankingFragment newInstance() {
 
         Bundle args = new Bundle();
         // Pass vars to the fragment through this bundle
 
         // Create a new fragment
         BankingFragment frag = new BankingFragment();
-        frag.mUser = user;
         frag.setArguments(args);
         return frag;
     }
@@ -81,7 +80,8 @@ public class BankingFragment extends Fragment {
 
 
         /* Display a list of accounts */
-        for (final Account account : mUser.getAccounts()) {
+        User user = DataStore.sharedInstance().getCurrentUser();
+        for (final Account account : user.getAccounts()) {
 
             // Each account as a whole (image, acc name, and balance)
             LinearLayout accountLayout = new LinearLayout(this.getActivity());
@@ -95,8 +95,7 @@ public class BankingFragment extends Fragment {
                     Intent i = new Intent(getActivity(), AccountActivity.class);
 
                     // pass through the relevant account
-                    i.putExtra("account", account);
-                    i.putExtra("user", mUser);
+                    i.putExtra("accountId", account.getId());
                     startActivity(i);
                 }
             });
@@ -177,7 +176,7 @@ public class BankingFragment extends Fragment {
         Iterator<Product> i = allProducts.iterator();
         while (i.hasNext()) {
             Product tempProduct = i.next();
-            for (Account account : mUser.getAccounts()) {
+            for (Account account : user.getAccounts()) {
                 if (account.getProduct() != null) {
                     if (tempProduct.getId() == account.getProduct().getId()) {
                         i.remove();

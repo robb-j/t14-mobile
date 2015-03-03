@@ -29,6 +29,6 @@ public interface ServerInterface {
      * @param amount Amount to be transferred.
      * @param token Token required to authenticate session.
      */
-    void makeTransfer(Account accFrom, Account accTo, double amount, String token, TransferDelegate delegate);
+    void makeTransfer(int accFrom, int accTo, double amount, String token, TransferDelegate delegate);
 
 }

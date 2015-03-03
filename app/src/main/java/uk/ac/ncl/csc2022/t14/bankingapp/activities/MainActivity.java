@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking.BankingFragment;
@@ -26,13 +27,13 @@ import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
 public class MainActivity extends ActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener{
 
     private static int tabs = 2;
-    static User testUser;
 
     // Method from fragment interfaces.
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 
     // Instance Variables
     SectionPagerAdapter mPagerAdapter;
@@ -43,7 +44,6 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         // Setup the tabbing
         mPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
@@ -56,16 +56,19 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
 
 
         /* Test accounts */
-        Account account1 = new Account(1, "Student Account", 523.33, 500, null);
-        Account account2 = new Account(1, "Bills Account", -120.18, 1000, product);
-        Account account3 = new Account(1, "Savings Account", 23112.41, 1000, null);
+        Account account1 = new Account(28, "Student Account", 523.33, 500, null);
+        Account account2 = new Account(1729, "Bills Account", -120.18, 1000, product);
+        Account account3 = new Account(8191, "Savings Account", 23112.41, 1000, null);
 
 
         /* Test user */
-        testUser = new User(10, "Bobby99", "Joe", "Bloggs", "10/03/2015");
+        User testUser = new User(10, "Bobby99", "Joe", "Bloggs", "10/03/2015");
         testUser.getAccounts().add(account1);
         testUser.getAccounts().add(account2);
         testUser.getAccounts().add(account3);
+
+        // Create the Data Store
+        DataStore.sharedInstance().setCurrentUser(testUser);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -86,7 +89,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
             switch (i) {
                 case 0:
                     // Banking fragment activity
-                    return BankingFragment.newInstance(testUser);
+                    return BankingFragment.newInstance();
                 case 1:
                     // Budgeting fragment activity
                     return BudgetingFragment.newInstance();

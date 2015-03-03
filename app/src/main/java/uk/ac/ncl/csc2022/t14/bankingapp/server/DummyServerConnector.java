@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
@@ -22,7 +23,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
 /**
  * Created by Sam on 17/02/2015.
  */
-public class DummyServerConnecter implements ServerInterface {
+public class DummyServerConnector implements ServerInterface {
 
 
     @Override
@@ -145,24 +146,21 @@ public class DummyServerConnecter implements ServerInterface {
     }
 
     @Override
-    public void makeTransfer(Account accFrom, Account accTo, double amount, String token, TransferDelegate delegate) {
+    public void makeTransfer(int accFromId, int accToId, double amount, String token, TransferDelegate delegate) {
 
         if (token.equals("correctToken")) {
-            if (amount <= accFrom.getBalance()) {
 
-                // Calculate the new balances
-                double newBalanceFrom = accFrom.getBalance() - amount;
-                double newBalanceTo = accTo.getBalance() + amount;
+            User user = DataStore.sharedInstance().getCurrentUser();
+            Account accountFrom = user.getAccountForId(accFromId);
+            Account accountTo = user.getAccountForId(accToId);
 
-                // Apply the balances
-                accFrom.setBalance(newBalanceFrom);
-                accTo.setBalance(newBalanceTo);
+            if (amount <= accountFrom.getBalance()) {
 
+                accountFrom.setBalance(accountFrom.getBalance() - amount);
+                accountTo.setBalance(accountTo.getBalance() + amount);
 
-                // Tell the delegate
-                delegate.transferPassed(accFrom, accTo, amount);
+                delegate.transferPassed(accountFrom, accountTo, amount);
             } else {
-
                 delegate.transferFailed("Insufficient funds.");
             }
         } else {

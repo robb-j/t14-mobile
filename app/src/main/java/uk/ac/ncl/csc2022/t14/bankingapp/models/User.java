@@ -43,6 +43,22 @@ public class User extends ModelObject implements Parcelable {
     }
 
 
+    /**
+     * Gets an account for a given id
+     * @param accountId The Id of the account you want
+     */
+    public Account getAccountForId(int accountId) {
+
+        for (Account account : accounts) {
+
+            if (account.getId() == accountId) {
+
+                return account;
+            }
+        }
+        return null;
+    }
+
 
     public String getUsername() {
         return username;
