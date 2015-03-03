@@ -142,49 +142,20 @@ public class DummyServerConnector implements ServerInterface {
     }
 
     @Override
-    public void makeTransfer(Account accFrom, Account accTo, double amount, String token, TransferDelegate delegate) {
+    public void makeTransfer(int accFromId, int accToId, double amount, String token, TransferDelegate delegate) {
 
         if (token.equals("correctToken")) {
-            if (amount <= accFrom.getBalance()) {
 
-                // Subtract the value of the transfer fom the old account
-                double accFromNewBalance = accFrom.getBalance() - amount;
-                double accToNewBalance = accFrom.getBalance() + amount;
+            User user = DataStore.sharedInstance().getCurrentUser();
+            Account accountFrom = user.getAccountForId(accFromId);
+            Account accountTo = user.getAccountForId(accToId);
 
-                //Set up a count so the relevant accounts can be accessed
-                int count = 0;
+            if (amount <= accountFrom.getBalance()) {
 
-                //These will be used to track when the loop can be broken
-                boolean fromFound = false;
-                boolean toFound = false;
+                accountFrom.setBalance(accountFrom.getBalance() - amount);
+                accountTo.setBalance(accountTo.getBalance() + amount);
 
-                // For all accounts in the user from the data store
-                for (Account a : DataStore.sharedInstance().getCurrentUser().getAccounts())
-                {
-                    //If the account name matches accFrom
-                    if (accFrom.getId() == a.getId())
-                    {
-                        //Set the value of the paying account to be 'amount' less than before
-                        DataStore.sharedInstance().getCurrentUser().getAccounts().get(count).setBalance(accFromNewBalance);
-                        fromFound = true;
-                    }
-                    //If the account name matches accTo
-                    if (accTo.getId() == a.getId())
-                    {
-                        //Set the value of the receiving account to be 'amount' greater than before
-                        DataStore.sharedInstance().getCurrentUser().getAccounts().get(count).setBalance(accToNewBalance);
-                        toFound = true;
-                    }
-                    //If both accounts that need to be modified have been modified then there is no reason to continue
-                    if (fromFound && toFound)
-                    {
-                        break;
-                    }
-                    //Increment count every run through
-                    count++;
-                }
-
-                delegate.transferPassed(accFrom, accTo, amount);
+                delegate.transferPassed(accountFrom, accountTo, amount);
             } else {
                 delegate.transferFailed("Insufficient funds.");
             }

@@ -27,7 +27,6 @@ import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
 public class MainActivity extends ActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener{
 
     private static int tabs = 2;
-    static User testUser;
 
     // Method from fragment interfaces.
     @Override
@@ -63,7 +62,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
 
 
         /* Test user */
-        testUser = new User(10, "Bobby99", "Joe", "Bloggs", "10/03/2015");
+        User testUser = new User(10, "Bobby99", "Joe", "Bloggs", "10/03/2015");
         testUser.getAccounts().add(account1);
         testUser.getAccounts().add(account2);
         testUser.getAccounts().add(account3);
@@ -90,7 +89,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
             switch (i) {
                 case 0:
                     // Banking fragment activity
-                    return BankingFragment.newInstance(testUser);
+                    return BankingFragment.newInstance();
                 case 1:
                     // Budgeting fragment activity
                     return BudgetingFragment.newInstance();

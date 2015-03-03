@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.TransactionAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
@@ -33,8 +34,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 
 public class AccountActivity extends ActionBarActivity implements TransactionDelegate {
 
-    private static Account account;
-    private static User user;
+    private static int accountId;
     private static ProgressDialog progressLoadTransactions;
     private TransactionAdapter adapter;
     private static int month;
@@ -50,8 +50,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
         }
 
         /* retrieves the account that was passed through to this activity */
-        account = getIntent().getExtras().getParcelable("account");
-        user = getIntent().getExtras().getParcelable("user");
+        accountId = getIntent().getExtras().getInt("accountId");
 
         month = Calendar.getInstance().get(Calendar.MONTH);
 
@@ -146,6 +145,10 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
+            Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
+
+
+
             // Set the account name to the name of the account passed through.
             TextView txtAccName = (TextView)rootView.findViewById(R.id.textview_account_name);
             txtAccName.setText(account.getName());
@@ -200,8 +203,8 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
             Intent i = new Intent(getActivity(), TransferActivity.class);
 
             // pass through the relevant product and account
-            i.putExtra("account", account);
-            i.putExtra("user", user);
+            Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
+            i.putExtra("accountId", account.getId());
 
             startActivity(i);
         }
@@ -227,6 +230,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
         public void refreshMonths() {
             ServerInterface transactionLoader = new DummyServerConnector();
+            Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
             transactionLoader.loadTransactions(account, month, "correctToken", (TransactionDelegate)getActivity());
 
         }

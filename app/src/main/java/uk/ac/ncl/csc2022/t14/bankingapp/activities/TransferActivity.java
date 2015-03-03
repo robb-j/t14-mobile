@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
@@ -26,8 +27,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
 
 public class TransferActivity extends ActionBarActivity implements TransferDelegate {
 
-    private static Account accountFrom;
-    private static User user;
+    private static int accountFromId;
     private static Spinner spinner;
     private static ArrayAdapter<String> adapter;
 
@@ -45,10 +45,7 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
         actionBar.hide();
 
         // Receives the accountFrom and user that were passed through to this activity
-        accountFrom = getIntent().getExtras().getParcelable("account");
-        user = getIntent().getExtras().getParcelable("user");
-
-
+        accountFromId = getIntent().getExtras().getInt("accountId");
     }
 
 
@@ -97,6 +94,8 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_transfer, container, false);
+            User user = DataStore.sharedInstance().getCurrentUser();
+            Account accountFrom = user.getAccountForId(accountFromId);
 
             // Set the outgoing accountFrom to be the accountFrom we clicked "Make a Transfer" from
             TextView outgoingAccount = (TextView) rootView.findViewById(R.id.outgoingAccount);
@@ -133,7 +132,7 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
 
                     // Set the accountFrom to be transferred to
                     String accName = (String) spinner.getSelectedItem();
-                    List<Account> accounts = user.getAccounts();
+                    List<Account> accounts = DataStore.sharedInstance().getCurrentUser().getAccounts();
                     Account accountTo = new Account(0,null,0,0,null);
 
                     for (int i = 0; i < accounts.size(); i++ )
@@ -157,7 +156,7 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
 
         public void btnMakeTransfer(View v, Account accountTo, double amount) {
             ServerInterface transferrer = new DummyServerConnector();
-            transferrer.makeTransfer(accountFrom,accountTo, amount, "correctToken", (TransferDelegate) this.getActivity());
+            transferrer.makeTransfer(accountFromId,accountTo.getId(), amount, "correctToken", (TransferDelegate) this.getActivity());
         }
     }
 }
