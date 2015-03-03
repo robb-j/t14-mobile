@@ -1,5 +1,125 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context="uk.ac.ncl.csc2022.t14.bankingapp.activities.LoginActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame"
+    android:orientation="vertical"
+
+    android:background="#ffffff">
+
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/TopRelativeLayout">
+        <ImageView
+            android:layout_width="212dp"
+            android:layout_height="50dp"
+            android:id="@+id/HorseImage"
+            android:scaleType="fitXY"
+            android:src="@drawable/lloyds_bank_logo"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="2dp"
+            android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#006a4d"
+        android:layout_below="@+id/TopRelativeLayout"
+        android:layout_marginTop="2dp"
+        android:id="@+id/view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please enter your username and the indicated characters from your password"
+        android:id="@+id/textView"
+        android:layout_below="@+id/view"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textSize="20sp" />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/username"
+        android:hint="Username"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="20dp"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PasswordCharacterContainer"
+        android:layout_below="@+id/username"
+        android:layout_centerHorizontal="true">
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/passwordchar1"
+            android:layout_toLeftOf="@+id/passwordchar2"
+            android:maxLength="1"
+
+
+            />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/passwordchar2"
+            android:maxLength="1"
+
+
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:maxLength="1"
+            android:id="@+id/passwordchar3"
+            android:layout_toRightOf="@+id/passwordchar2"
+
+
+            />
+        </RelativeLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/LoginButton"
+        android:layout_below="@+id/PasswordCharacterContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:textSize="20dp"
+        android:textColor="#ffffffff"
+        android:background="#006a4d"
+        android:onClick="Send"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Username or password incorrect"
+        android:id="@+id/IncorrectPasswordMessage"
+        android:layout_below="@+id/PasswordCharacterContainer"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffff0800"
+        android:visibility="invisible" />
+
+
+</RelativeLayout>
