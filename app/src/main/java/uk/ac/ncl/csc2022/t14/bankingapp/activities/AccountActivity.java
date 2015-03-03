@@ -1,25 +1,30 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
+import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,7 +43,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
     private static User user;
     private static ProgressDialog progressLoadTransactions;
     private TransactionAdapter adapter;
-    private static int month;
+    private static int month, year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +216,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
             String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Select a month")
                     .setItems(months, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -222,13 +227,34 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
                         }
                     });
             Dialog dialog = builder.create();
-            dialog.show();
+            dialog.show();*/
+            final Calendar current  = Calendar.getInstance();
+            int mYear = current.get(Calendar.YEAR);
+            int mMonth = current.get(Calendar.MONTH);
+            int mDay = current.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(),
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+
+
+                        }
+
+                    }, mYear, mMonth, mDay);
+            // dpd.getDatePicker().findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+            // dpd.getDatePicker().getChildAt(0).setVisibility(View.GONE);
+            dpd.show();
+
+
 
         }
 
         public void refreshMonths() {
             ServerInterface transactionLoader = new DummyServerConnecter();
-            transactionLoader.loadTransactions(account, month, "correctToken", (TransactionDelegate)getActivity());
+            transactionLoader.loadTransactions(account, month, year, "correctToken", (TransactionDelegate)getActivity());
 
         }
 

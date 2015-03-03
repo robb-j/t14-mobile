@@ -50,9 +50,10 @@ public class DummyServerConnecter implements ServerInterface {
     }
 
     @Override
-    public void loadTransactions(Account account, int month, String token, TransactionDelegate delegate) {
+    public void loadTransactions(Account account, int month, int year, String token, TransactionDelegate delegate) {
 
         final int fMonth = month;
+        final int fYear = year;
 
         // Loading progress
         class TransactionTimerTask extends TimerTask {
@@ -70,7 +71,7 @@ public class DummyServerConnecter implements ServerInterface {
                     cal.set(Calendar.YEAR, 2015);
                     cal.set(Calendar.MONTH, Calendar.FEBRUARY);
                     cal.set(Calendar.DAY_OF_MONTH, 22);
-                    cal2.set(Calendar.YEAR, 2015);
+                    cal2.set(Calendar.YEAR, 2014);
                     cal2.set(Calendar.MONTH, Calendar.FEBRUARY);
                     cal2.set(Calendar.DAY_OF_MONTH, 17);
                     cal3.set(Calendar.YEAR, 2015);
@@ -115,6 +116,9 @@ public class DummyServerConnecter implements ServerInterface {
                     transactionsMar.add(new Transaction(43, 66.21, cal6.getTime(), account, "payee9"));
                     transactionsMar.add(new Transaction(44, -33.1, cal6.getTime(), account, "payee10"));
 
+                    Calendar monthCal = Calendar.getInstance();
+                    monthCal.set(fYear, fMonth, 1);
+                    Date date = monthCal.getTime();
                     switch (fMonth) {
                         case Calendar.FEBRUARY:
                             delegate.transactionsLoaded(account, transactions);
