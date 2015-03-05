@@ -21,7 +21,7 @@ public interface ServerInterface {
      * @param month Month of transactions to load.
      * @param token Token required to authenticate session.
      */
-    void loadTransactions(Account account, int month, String token, TransactionDelegate delegate);
+    void loadTransactions(Account account, int month, int year, String token, TransactionDelegate delegate);
 
     /**
      * @param accFrom Account transferring from.
