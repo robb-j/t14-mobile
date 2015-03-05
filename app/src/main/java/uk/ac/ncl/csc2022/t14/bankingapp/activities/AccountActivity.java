@@ -86,6 +86,18 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        //Get this account's updated values from a transaction
+        Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
+
+        //Display them accordingly
+        TextView txtBalanceCost = (TextView) findViewById(R.id.textview_balances_cost);
+        txtBalanceCost.setText("£" + account.getBalance() + "\n£" + (account.getOverdraftLimit() + account.getBalance()) + "\n£" + account.getOverdraftLimit());
+
+    }
+
+    @Override
     public void transactionsLoaded(Account account, List<Transaction> transactions) {
 
         progressLoadTransactions.dismiss();
@@ -205,7 +217,6 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
             // pass through the relevant product and account
             Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
             i.putExtra("accountId", account.getId());
-
             startActivity(i);
         }
 

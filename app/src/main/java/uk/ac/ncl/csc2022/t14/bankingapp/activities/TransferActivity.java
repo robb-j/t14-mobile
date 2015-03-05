@@ -1,5 +1,10 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -73,11 +78,40 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
 
     @Override
     public void transferPassed(Account accFrom, Account accTo, double amount) {
-
+        // If a successful transfer has been made then return to the account view
+        this.finish();
     }
 
     @Override
     public void transferFailed(String errMessage) {
+
+        // Displayed as the dialog message
+        final String dialogMessage = errMessage;
+
+        class failureOptionsDialogFragment extends DialogFragment {
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Error Performing Transfer");
+                builder.setMessage(dialogMessage)
+                        .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Dialog automatically cancels when button is pressed
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                TransferActivity.this.finish();
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                return builder.create();
+            }
+        }
+
+        //Display the above dialog
+        DialogFragment transferFailed = new failureOptionsDialogFragment();
+        transferFailed.show(getFragmentManager(),"");
 
     }
 
@@ -104,7 +138,7 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
             // Set the list of accounts to pay into to be a choice of all of the user's accounts, excluding
             // the one which is already being paid from.
             List<Account> accounts = user.getAccounts();
-            List<String> accountNames = new ArrayList<>();
+            List<String> accountNames = new ArrayList<String>();
 
             for (int i = 0; i < accounts.size(); i++)
             { // For each accountFrom the user owns
@@ -117,7 +151,7 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
 
             // Use the adapter to give these values to the spinner
             spinner = (Spinner) rootView.findViewById(R.id.spinner_accounts);
-            adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, accountNames);
+            adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, accountNames);
             spinner.setAdapter(adapter);
 
             final TextView transferAmount = (TextView) rootView.findViewById(R.id.transferAmount);
@@ -129,7 +163,6 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     // Set the accountFrom to be transferred to
                     String accName = (String) spinner.getSelectedItem();
                     List<Account> accounts = DataStore.sharedInstance().getCurrentUser().getAccounts();

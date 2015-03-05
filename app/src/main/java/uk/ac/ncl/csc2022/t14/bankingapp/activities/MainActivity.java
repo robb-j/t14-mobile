@@ -74,7 +74,6 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         actionBar.hide();
     }
 
-
     /**
      * An Adapter to create the different tab fragments
      */

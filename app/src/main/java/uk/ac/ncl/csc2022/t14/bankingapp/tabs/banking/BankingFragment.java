@@ -274,4 +274,5 @@ public class BankingFragment extends Fragment {
 
         return rootView;
     }
+
 }

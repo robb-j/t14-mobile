@@ -146,18 +146,23 @@ public class DummyServerConnector implements ServerInterface {
 
         if (token.equals("correctToken")) {
 
+            //Get user from the data store
             User user = DataStore.sharedInstance().getCurrentUser();
+
+            // Get accounts to be transferred from and to from the user above
             Account accountFrom = user.getAccountForId(accFromId);
             Account accountTo = user.getAccountForId(accToId);
 
+            // If we have sufficient funds available to transfer
             if (amount <= accountFrom.getBalance()) {
 
+                // Set the balances accordingly
                 accountFrom.setBalance(accountFrom.getBalance() - amount);
                 accountTo.setBalance(accountTo.getBalance() + amount);
 
                 delegate.transferPassed(accountFrom, accountTo, amount);
             } else {
-                delegate.transferFailed("Insufficient funds.");
+                delegate.transferFailed("Insufficient funds");
             }
         } else {
             delegate.transferFailed("Authentication error.");
