@@ -116,7 +116,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                 DataStore.sharedInstance().setProducts(products);
                 DataStore.sharedInstance().setToken(token);
 
-                Intent i = new Intent(this, AccountActivity.class);
+                Intent i = new Intent(LoginActivity.this, AccountActivity.class);
                 startActivity(i);
 
             }
