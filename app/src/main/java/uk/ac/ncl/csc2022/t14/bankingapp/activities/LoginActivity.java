@@ -1,6 +1,7 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 
@@ -96,16 +98,12 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         final TextView password3 = (TextView)findViewById(R.id.passwordchar3);
 
         //adding the password characters into a list
-        List<String> password = new ArrayList<String>();
-        password.add(password1.getText().toString());
-        password.add(password2.getText().toString());
-        password.add(password3.getText().toString());
+        char[] password = {password1.getText().charAt(0), password2.getText().charAt(0), password3.getText().charAt(0)};
 
-        //adding the indicies into a list
-        List<Integer> indicies = new ArrayList<Integer>();
-        indicies.add(first);
-        indicies.add(second);
-        indicies.add(third);
+
+        //adding the indicies into an array
+
+        int[] indicies = {first, second, third};
 
         String un = username.getText().toString();
         LoginDelegate LD = new LoginDelegate()
@@ -114,10 +112,18 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
             public void loginPassed(User user, List<Product> products, String token)
             {
 
+                DataStore.sharedInstance().setCurrentUser(user);
+                DataStore.sharedInstance().setProducts(products);
+                DataStore.sharedInstance().setToken(token);
+
+                Intent i = new Intent(LoginActivity.this, AccountActivity.class);
+                startActivity(i);
+
             }
 
             @Override
-            public void loginFailed(String errMessage) {
+            public void loginFailed(String errMessage)
+            {
                 //Set all the fields to blank
                 password1.setText("");
                 password2.setText("");
