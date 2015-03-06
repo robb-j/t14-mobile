@@ -242,7 +242,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
         public void refreshMonths() {
             ServerInterface transactionLoader = new DummyServerConnector();
             Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
-            transactionLoader.loadTransactions(account, month, "correctToken", (TransactionDelegate)getActivity());
+            transactionLoader.loadTransactions(account, month, 2015, "correctToken", (TransactionDelegate)getActivity());
 
         }
 

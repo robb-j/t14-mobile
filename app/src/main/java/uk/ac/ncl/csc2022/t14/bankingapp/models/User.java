@@ -13,8 +13,9 @@ import java.util.List;
 /**
  * Class to represent essential information about a user
  */
-public class User extends ModelObject implements Parcelable {
+public class User extends ModelObject {
 
+    // Banking fields
     private String username;
     private String firstName;
     private String lastName;
@@ -22,6 +23,13 @@ public class User extends ModelObject implements Parcelable {
     private String dob;
     private String lastFullCategorise;
 
+    // Budgeting fields
+    private MonthBudget currentBudget;
+    private List<BudgetGroup> allGroups;
+    private List<Reward> recentRewards;
+    private List<PointGain> recentPoints;
+    private int numberOfSpins;
+    private int numNewPayments;
 
     /**
      * Creates a new User model
@@ -34,12 +42,21 @@ public class User extends ModelObject implements Parcelable {
     public User(int id, String username, String firstName, String lastName, String dob) {
 
         super(id);
+
+        // Set banking fields
         setUsername(username);
         setFirstName(firstName);
         setLastName(lastName);
         setDob(dob);
         setAccounts(new ArrayList<Account>());
         setLastFullCategorise("01/01/1970");
+
+        // Set budgeting fields
+        allGroups = new ArrayList<>();
+        recentRewards = new ArrayList<>();
+        recentPoints = new ArrayList<>();
+        setNumberOfSpins(0);
+        setNumNewPayments(0);
     }
 
 
@@ -108,50 +125,51 @@ public class User extends ModelObject implements Parcelable {
         this.lastFullCategorise = lastFullCategorise;
     }
 
-    protected User(Parcel in) {
-        username = in.readString();
-        firstName = in.readString();
-        lastName = in.readString();
-        if (in.readByte() == 0x01) {
-            accounts = new ArrayList<Account>();
-            in.readList(accounts, Account.class.getClassLoader());
-        } else {
-            accounts = null;
-        }
-        dob = in.readString();
-        lastFullCategorise = in.readString();
+    public MonthBudget getCurrentBudget() {
+        return currentBudget;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    private void setCurrentBudget(MonthBudget currentBudget) {
+        this.currentBudget = currentBudget;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(username);
-        dest.writeString(firstName);
-        dest.writeString(lastName);
-        if (accounts == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(accounts);
-        }
-        dest.writeString(dob);
-        dest.writeString(lastFullCategorise);
+    public List<BudgetGroup> getAllGroups() {
+        return allGroups;
     }
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
+    public void setAllGroups(List<BudgetGroup> allGroups) {
+        this.allGroups = allGroups;
+    }
 
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
+    public List<Reward> getRecentRewards() {
+        return recentRewards;
+    }
+
+    public void setRecentRewards(List<Reward> recentRewards) {
+        this.recentRewards = recentRewards;
+    }
+
+    public List<PointGain> getRecentPoints() {
+        return recentPoints;
+    }
+
+    public void setRecentPoints(List<PointGain> recentPoints) {
+        this.recentPoints = recentPoints;
+    }
+
+    public int getNumberOfSpins() {
+        return numberOfSpins;
+    }
+
+    public void setNumberOfSpins(int numberOfSpins) {
+        this.numberOfSpins = numberOfSpins;
+    }
+
+    public int getNumNewPayments() {
+        return numNewPayments;
+    }
+
+    public void setNumNewPayments(int numNewPayments) {
+        this.numNewPayments = numNewPayments;
+    }
 }
