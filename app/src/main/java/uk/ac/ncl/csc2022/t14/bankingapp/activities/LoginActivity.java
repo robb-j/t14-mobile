@@ -85,13 +85,18 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
     public void Send(View view)
     {
         //calling the text views for analysis
+        Boolean validuserpass = true;
         final TextView username = (TextView)findViewById(R.id.username);
         final TextView password1 = (TextView)findViewById(R.id.passwordchar1);
         final TextView password2 = (TextView)findViewById(R.id.passwordchar2);
         final TextView password3 = (TextView)findViewById(R.id.passwordchar3);
 
         //adding the password characters into a list
-        char[] password = {password1.getText().charAt(0), password2.getText().charAt(0), password3.getText().charAt(0)};
+
+
+
+        char[] password = {password1.getText().charAt(0), password2.getText().charAt(0), password3.getText().charAt(0)}; //If the passwords are empty it crashes
+
 
 
         //adding the indicies into an array
@@ -130,8 +135,11 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
             }
         };
 
-        DummyServerConnector DSC = new DummyServerConnector();
-        DSC.login(un, password, indices, LD); //what now?
+
+            DummyServerConnector DSC = new DummyServerConnector();
+            DSC.login(un, password, indices, LD); //what now?
+
+
 
     }
 
@@ -195,7 +203,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                 final float scale = getResources().getDisplayMetrics().density;
                 int pixels = (int) (80 * scale + 0.5f);
                 params.width = pixels;
-                return "2nd last";
+                return "2nd last"; //Just use 6th and 7th? Makes the password textviews the same size
             case 7: return "last";
             default: return (i+1) + "th";
         }
