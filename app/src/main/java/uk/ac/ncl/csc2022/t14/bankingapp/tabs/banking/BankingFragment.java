@@ -172,22 +172,9 @@ public class BankingFragment extends Fragment {
 
 
 
-        /* TEST === List of all available products */
+        /* List of all available products */
         List<Product> allProducts = DataStore.sharedInstance().getProducts();
 
-        // Remove products that the user already has
-        Iterator<Product> i = allProducts.iterator();
-        while (i.hasNext()) {
-            Product tempProduct = i.next();
-            for (Account account : user.getAccounts()) {
-                if (account.getProduct() != null) {
-                    if (tempProduct.getId() == account.getProduct().getId()) {
-                        i.remove();
-                    }
-                }
-
-            }
-        }
 
         /* Products title */
         TextView productsTitle = new TextView(this.getActivity());

@@ -78,8 +78,13 @@ public class DummyServerConnector implements ServerInterface {
             user.getAccounts().add(new Account(7, "Savings Account", 1219.01, 0, product1));
 
 
+            // 'Filter' out the unused products ones
+            List<Product> unusedProducts = new ArrayList<Product>();
+            unusedProducts.add(product2);
+
+
             DataStore.sharedInstance().setCurrentUser(user);
-            DataStore.sharedInstance().setProducts(allProducts);
+            DataStore.sharedInstance().setProducts(unusedProducts);
             DataStore.sharedInstance().setToken("DummyTokenThatIsReallyLong");
 
             delegate.loginPassed(user);
