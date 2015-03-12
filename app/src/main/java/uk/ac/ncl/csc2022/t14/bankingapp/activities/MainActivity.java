@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         testUser.getAccounts().add(account3);
 
         // Create the Data Store
-        DataStore.sharedInstance().setCurrentUser(testUser);
+        //DataStore.sharedInstance().setCurrentUser(testUser);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();

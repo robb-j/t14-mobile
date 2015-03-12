@@ -29,9 +29,10 @@ public class DummyServerConnector implements ServerInterface {
     @Override
     public void login(String username, char[] password, int[] indices, LoginDelegate delegate) {
 
-        boolean passed = false;
+        //boolean passed = false;
 
         /* Correct credentials */
+        /*
         if (username.equals("Jeff")) {
             if (password[0] == 's' && indices[0] == 2) {
                 User user = new User(26, "Bobby99", "Jeff", "Ree", "23/08/1982");
@@ -47,7 +48,43 @@ public class DummyServerConnector implements ServerInterface {
         }
         if (!passed) {
             delegate.loginFailed("Invalid login details");
+        }*/
+
+
+
+        if (username.equals("Fail")) {
+
+            delegate.loginFailed("There was a problem logging in");
         }
+
+        else {
+
+            User user = new User(1, "Geoff95", "Geoff", "Butcher", "22/08/2995");
+
+
+            // Create the products
+            Product product1 = new Product(2, "Saving Accounts", "This is going to save you money.");
+            Product product2 = new Product(3, "ISA", "Use this.");
+            Product product3 = new Product(4, "Student Account", "Great interest, for the first year");
+            List<Product> allProducts = new ArrayList<Product>();
+            allProducts.add(product1);
+            allProducts.add(product2);
+            allProducts.add(product3);
+
+
+            // Create some accounts
+            user.getAccounts().add(new Account(5, "Student Account", 523.33, 500, product3));
+            user.getAccounts().add(new Account(6, "Bills Account", -120.18, 750, product3));
+            user.getAccounts().add(new Account(7, "Savings Account", 1219.01, 0, product1));
+
+
+            DataStore.sharedInstance().setCurrentUser(user);
+            DataStore.sharedInstance().setProducts(allProducts);
+            DataStore.sharedInstance().setToken("DummyTokenThatIsReallyLong");
+
+            delegate.loginPassed(user);
+        }
+
     }
 
     @Override

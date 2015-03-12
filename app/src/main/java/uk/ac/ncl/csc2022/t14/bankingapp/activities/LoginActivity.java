@@ -65,7 +65,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
     }
 
     @Override
-    public void loginPassed(User user, List<Product> products, String token) {
+    public void loginPassed(User user) {
 
     }
 
@@ -109,12 +109,8 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         LoginDelegate LD = new LoginDelegate()
         {
             @Override
-            public void loginPassed(User user, List<Product> products, String token)
+            public void loginPassed(User user)
             {
-
-                DataStore.sharedInstance().setCurrentUser(user);
-                DataStore.sharedInstance().setProducts(products);
-                DataStore.sharedInstance().setToken(token);
 
                 Intent i = new Intent(LoginActivity.this, AccountActivity.class);
                 startActivity(i);

@@ -10,7 +10,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
  */
 public interface LoginDelegate {
 
-    void loginPassed(User user, List<Product> products, String token);
+    void loginPassed(User user);
 
     void loginFailed(String errMessage);
 }
