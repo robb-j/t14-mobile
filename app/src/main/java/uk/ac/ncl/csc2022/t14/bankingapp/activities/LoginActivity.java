@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.net.*;
 import java.io.*;
@@ -31,9 +33,10 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
 
 public class LoginActivity extends ActionBarActivity implements LoginDelegate{
-    int first;
-    int second;
-    int third;
+
+    char[] password = new char[3];
+    int[] indices = new int[3];
+    Random rand = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +54,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        //set up the initial random characters, displayed as hints
-        Random randomG = new Random();
-        first = (randomG.nextInt(6)+1);
-        second = (first+randomG.nextInt(8-first)+1);
-        third = randomG.nextInt(2);
-        TextView password1 = (TextView)findViewById(R.id.passwordchar1);
-        password1.setHint(Integer.toString(first));
-        TextView password2 = (TextView)findViewById(R.id.passwordchar2);
-        password2.setHint(Integer.toString(second));
-        TextView password3 = (TextView)findViewById(R.id.passwordchar3);
-        password3.setHint(Integer.toString(third));
+        generateRandomIndices();
     }
 
     @Override
@@ -103,7 +96,6 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
 
         //adding the indicies into an array
 
-        int[] indicies = {first, second, third};
 
         String un = username.getText().toString();
         LoginDelegate LD = new LoginDelegate()
@@ -131,18 +123,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                 errMessageDisplay.setVisibility(View.VISIBLE);
                 errMessageDisplay.setText(errMessage);
 
-                //set the random characters again, displayed as hints
-                username.setHint("Username");
-                Random randomG = new Random();
-                first = (randomG.nextInt(6)+1);
-                second = (first+randomG.nextInt(8-first)+1);
-                third = randomG.nextInt(2);
-                TextView password1 = (TextView)findViewById(R.id.passwordchar1);
-                password1.setHint(Integer.toString(first));
-                TextView password2 = (TextView)findViewById(R.id.passwordchar2);
-                password2.setHint(Integer.toString(second));
-                TextView password3 = (TextView)findViewById(R.id.passwordchar3);
-                password3.setHint(Integer.toString(third));
+                generateRandomIndices();
 
 
 
@@ -150,7 +131,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         };
 
         DummyServerConnector DSC = new DummyServerConnector();
-        DSC.login(un, password, indicies, LD); //what now?
+        DSC.login(un, password, indices, LD); //what now?
 
     }
 
@@ -162,16 +143,6 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
     public void randomcharGenerator() //generates the character numbers
     {
 
-        Random randomG = new Random();
-        first = (randomG.nextInt(6)+1);
-        second = (first+randomG.nextInt(8-first)+1);
-        third = randomG.nextInt(2);
-        TextView password1 = (TextView)findViewById(R.id.passwordchar1);
-        password1.setHint(first);
-        TextView password2 = (TextView)findViewById(R.id.passwordchar2);
-        password2.setHint(second);
-        TextView password3 = (TextView)findViewById(R.id.passwordchar3);
-        password3.setHint(third);
     }
 
 
@@ -211,5 +182,45 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
             View rootView = inflater.inflate(R.layout.fragment_login, container, false);
             return rootView;
         }
+    }
+
+    public String addSuffixToNumber(int i) {
+        switch(i%10) {
+            case 0: return (i+1) + "st";
+            case 1: return (i+1) + "nd";
+            case 2: return (i+1) + "rd";
+            case 6:
+                EditText editText = (EditText)findViewById(R.id.passwordchar3);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) editText.getLayoutParams();
+                final float scale = getResources().getDisplayMetrics().density;
+                int pixels = (int) (80 * scale + 0.5f);
+                params.width = pixels;
+                return "2nd last";
+            case 7: return "last";
+            default: return (i+1) + "th";
+        }
+    }
+
+    public void generateRandomIndices() {
+        // set up the initial random characters, displayed as hints
+        // first index
+        int min = 0, max = 4;
+        indices[0] = rand.nextInt(max - min + 1) + min;
+
+        // second index
+        min = indices[0] + 1; max = 5;
+        indices[1] = rand.nextInt(max - min + 1) + min;
+
+        // third index
+        min = 6; max = 7;
+        indices[2] = rand.nextInt(max - min + 1) + min;
+
+
+        TextView password1 = (TextView)findViewById(R.id.passwordchar1);
+        password1.setHint(addSuffixToNumber(indices[0]));
+        TextView password2 = (TextView)findViewById(R.id.passwordchar2);
+        password2.setHint(addSuffixToNumber(indices[1]));
+        TextView password3 = (TextView)findViewById(R.id.passwordchar3);
+        password3.setHint(addSuffixToNumber(indices[2]));
     }
 }
