@@ -57,11 +57,11 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         second = (first+randomG.nextInt(8-first)+1);
         third = randomG.nextInt(2);
         TextView password1 = (TextView)findViewById(R.id.passwordchar1);
-        password1.setHint(first);
+        password1.setHint(Integer.toString(first));
         TextView password2 = (TextView)findViewById(R.id.passwordchar2);
-        password2.setHint(second);
+        password2.setHint(Integer.toString(second));
         TextView password3 = (TextView)findViewById(R.id.passwordchar3);
-        password3.setHint(third);
+        password3.setHint(Integer.toString(third));
     }
 
     @Override
@@ -89,7 +89,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
       // }
 
     }
-    public void Send()
+    public void Send(View view)
     {
         //calling the text views for analysis
         final TextView username = (TextView)findViewById(R.id.username);
@@ -138,11 +138,11 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                 second = (first+randomG.nextInt(8-first)+1);
                 third = randomG.nextInt(2);
                 TextView password1 = (TextView)findViewById(R.id.passwordchar1);
-                password1.setHint(first);
+                password1.setHint(Integer.toString(first));
                 TextView password2 = (TextView)findViewById(R.id.passwordchar2);
-                password2.setHint(second);
+                password2.setHint(Integer.toString(second));
                 TextView password3 = (TextView)findViewById(R.id.passwordchar3);
-                password3.setHint(third);
+                password3.setHint(Integer.toString(third));
 
 
 
