@@ -159,18 +159,7 @@ public class BankingFragment extends Fragment {
 
 
         /* TEST === List of all available products */
-        List<Product> allProducts = new ArrayList<Product>();
-        allProducts.add(new Product(1, "New ISA offer", "lorem ipsum blah blah blah"));
-        allProducts.add(new Product(2, "Amazing new offer", "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page."));
-        allProducts.add(new Product(3, "Student bank offer", "lorem ipsum blah blah blah"));
-        allProducts.add(new Product(4, "Savings Increased Interest Offer", "If you have over £3000 in your bank account then you may be " +
-                "eligible to increase your interest rate. Click here to find out more."));
-
+        List<Product> allProducts = DataStore.sharedInstance().getProducts();
 
         // Remove products that the user already has
         Iterator<Product> i = allProducts.iterator();

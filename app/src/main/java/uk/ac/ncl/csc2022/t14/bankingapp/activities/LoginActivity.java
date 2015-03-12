@@ -112,7 +112,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
             public void loginPassed(User user)
             {
 
-                Intent i = new Intent(LoginActivity.this, AccountActivity.class);
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(i);
 
             }
