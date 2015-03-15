@@ -1,5 +1,7 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +58,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         // don't have to shout
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
 
 
     }
@@ -129,6 +133,11 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
             TextView password3 = (TextView)rootView.findViewById(R.id.password_char_3);
             password3.setHint(addSuffixToNumber(indices[2]));
 
+            TextView username = (TextView)rootView.findViewById(R.id.edit_username);
+            TextViewFocus(username);
+
+
+
             Button b = (Button) rootView.findViewById(R.id.btn_login);
             b.setOnClickListener(this);
 
@@ -168,6 +177,15 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                 default: return (i+1) + "th";
             }
         }
+
+
+            public void TextViewFocus(TextView TV)
+            {
+                TV.requestFocus();
+
+                this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            }
+
 
         @Override
         public void onClick(View v) {
