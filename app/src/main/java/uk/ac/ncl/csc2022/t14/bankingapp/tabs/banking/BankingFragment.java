@@ -1,5 +1,8 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -63,7 +66,7 @@ public class BankingFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_banking, container, false);
 
         // The layout of the whole banking tab
-        LinearLayout linearLayout = (LinearLayout)rootView.findViewById(R.id.bankingLayout);
+        LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.bankingLayout);
 
         /* Accounts title */
         TextView accountsTitle = new TextView(this.getActivity());
@@ -81,110 +84,97 @@ public class BankingFragment extends Fragment {
 
         /* Display a list of accounts */
         User user = DataStore.sharedInstance().getCurrentUser();
-        for (final Account account : user.getAccounts()) {
+        try {
+            for (final Account account : user.getAccounts()) {
 
-            // Each account as a whole (image, acc name, and balance)
-            LinearLayout accountLayout = new LinearLayout(this.getActivity());
+                // Each account as a whole (image, acc name, and balance)
+                LinearLayout accountLayout = new LinearLayout(this.getActivity());
 
-            // Makes each account lead to their account page.
-            accountLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                // Makes each account lead to their account page.
+                accountLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    // Create a new account page
-                    Intent i = new Intent(getActivity(), AccountActivity.class);
+                        // Create a new account page
+                        Intent i = new Intent(getActivity(), AccountActivity.class);
 
-                    // pass through the relevant account
-                    i.putExtra("accountId", account.getId());
-                    startActivity(i);
-                }
-            });
-
-            // scale to size of device.
-            float scale = getResources().getDisplayMetrics().density;
-
-            // make it look nicer for all device resolutions
-            int paddingInDp = (int) (20 * scale + 0.5f);
-            accountLayout.setPadding(0, paddingInDp, 0, paddingInDp);
-
-            // layout that stores account name and balance
-            LinearLayout accountTextLayout = new LinearLayout(this.getActivity());
-            accountTextLayout.setOrientation(LinearLayout.VERTICAL);
-
-            ImageView accountImage = new ImageView(this.getActivity());
-            TextView accountName = new TextView(this.getActivity());
-            TextView balance = new TextView(this.getActivity());
-
-            // Setting image properties
-            int imgLength = 64;
-            int imgLengthAsDp = (int) (imgLength * scale + 0.5f);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imgLengthAsDp, imgLengthAsDp);
-            int imgMargin = (int) (20 * scale + 0.5f);
-            layoutParams.setMargins(imgMargin, 0, imgMargin, 0);
-            accountImage.setLayoutParams(layoutParams);
-            accountImage.setBackgroundResource(R.drawable.account_image);
-
-            // Account name properties
-            accountName.setText(account.getName());
-            accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26);
-            accountName.setTypeface(null, Typeface.BOLD);
-            accountName.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-
-            // Balance properties
-            balance.setText("£" + Double.toString(account.getBalance()));
-            balance.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
-
-            // Change the color depending on positive or negative balance.
-            if (account.getBalance() < 0) {
-                balance.setTextColor(Color.RED);
-            } else {
-                balance.setTextColor(Color.rgb(30, 143, 30));   // GREEN
-            }
-            balance.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-
-
-            // Adding the images and texts to their layouts.
-            accountLayout.addView(accountImage);
-            accountTextLayout.addView(accountName);
-            accountTextLayout.addView(balance);
-
-            accountLayout.addView(accountTextLayout);
-            linearLayout.addView(accountLayout);
-        }
-
-
-
-        /* TEST === List of all available products */
-        List<Product> allProducts = new ArrayList<Product>();
-        allProducts.add(new Product(1, "New ISA offer", "lorem ipsum blah blah blah"));
-        allProducts.add(new Product(2, "Amazing new offer", "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page." +
-                "This is a test offer that is going to be displayed on the banking page."));
-        allProducts.add(new Product(3, "Student bank offer", "lorem ipsum blah blah blah"));
-        allProducts.add(new Product(4, "Savings Increased Interest Offer", "If you have over £3000 in your bank account then you may be " +
-                "eligible to increase your interest rate. Click here to find out more."));
-
-
-        // Remove products that the user already has
-        Iterator<Product> i = allProducts.iterator();
-        while (i.hasNext()) {
-            Product tempProduct = i.next();
-            for (Account account : user.getAccounts()) {
-                if (account.getProduct() != null) {
-                    if (tempProduct.getId() == account.getProduct().getId()) {
-                        i.remove();
+                        // pass through the relevant account
+                        i.putExtra("accountId", account.getId());
+                        startActivity(i);
                     }
-                }
+                });
 
+                // scale to size of device.
+                float scale = getResources().getDisplayMetrics().density;
+
+                // make it look nicer for all device resolutions
+                int paddingInDp = (int) (20 * scale + 0.5f);
+                accountLayout.setPadding(0, paddingInDp, 0, paddingInDp);
+
+                // layout that stores account name and balance
+                LinearLayout accountTextLayout = new LinearLayout(this.getActivity());
+                accountTextLayout.setOrientation(LinearLayout.VERTICAL);
+
+                ImageView accountImage = new ImageView(this.getActivity());
+                TextView accountName = new TextView(this.getActivity());
+                TextView balance = new TextView(this.getActivity());
+
+                // Setting image properties
+                int imgLength = 64;
+                int imgLengthAsDp = (int) (imgLength * scale + 0.5f);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(imgLengthAsDp, imgLengthAsDp);
+                int imgMargin = (int) (20 * scale + 0.5f);
+                layoutParams.setMargins(imgMargin, 0, imgMargin, 0);
+                accountImage.setLayoutParams(layoutParams);
+                accountImage.setBackgroundResource(R.drawable.account_image);
+
+                // Account name properties
+                accountName.setText(account.getName());
+                accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26);
+                accountName.setTypeface(null, Typeface.BOLD);
+                accountName.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                // Balance properties
+                balance.setText("£" + Double.toString(account.getBalance()));
+                balance.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+
+                // Change the color depending on positive or negative balance.
+                if (account.getBalance() < 0) {
+                    balance.setTextColor(Color.RED);
+                } else {
+                    balance.setTextColor(Color.rgb(30, 143, 30));   // GREEN
+                }
+                balance.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+                // Adding the images and texts to their layouts.
+                accountLayout.addView(accountImage);
+                accountTextLayout.addView(accountName);
+                accountTextLayout.addView(balance);
+
+                accountLayout.addView(accountTextLayout);
+                linearLayout.addView(accountLayout);
             }
+        } catch (NullPointerException e) {
+            // No user found
+            // Display error message.
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Error");
+            builder.setMessage("No user found");
+            Dialog dialog = builder.create();
+            dialog.show();
+            return rootView;
         }
+
+
+
+        /* List of all available products */
+        List<Product> allProducts = DataStore.sharedInstance().getProducts();
+
 
         /* Products title */
         TextView productsTitle = new TextView(this.getActivity());

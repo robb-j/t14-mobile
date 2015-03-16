@@ -50,26 +50,6 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
 
-
-        /* Test products */
-        Product product = new Product(1, "New ISA offer", "lorem impsum blah blah blah yolo");
-
-
-        /* Test accounts */
-        Account account1 = new Account(28, "Student Account", 523.33, 500, null);
-        Account account2 = new Account(1729, "Bills Account", -120.18, 1000, product);
-        Account account3 = new Account(8191, "Savings Account", 23112.41, 1000, null);
-
-
-        /* Test user */
-        User testUser = new User(10, "Bobby99", "Joe", "Bloggs", "10/03/2015");
-        testUser.getAccounts().add(account1);
-        testUser.getAccounts().add(account2);
-        testUser.getAccounts().add(account3);
-
-        // Create the Data Store
-        DataStore.sharedInstance().setCurrentUser(testUser);
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
     }
