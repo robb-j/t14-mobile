@@ -12,10 +12,19 @@ import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategoriseDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ChooseRewardDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerBudgetingInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
@@ -23,7 +32,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
 /**
  * Created by Sam on 17/02/2015.
  */
-public class DummyServerConnector implements ServerInterface {
+public class DummyServerConnector implements ServerInterface, ServerBudgetingInterface {
 
 
     @Override
@@ -40,8 +49,8 @@ public class DummyServerConnector implements ServerInterface {
                 List<Product> products = new ArrayList<Product>();
                 products.add(product1);
                 products.add(product2);
-                String token = "correctToken";
-                delegate.loginPassed(user, products, token);
+                List<Reward> rewards = new ArrayList<>();
+                delegate.loginPassed(products, rewards);
                 passed = true;
             }
         }
@@ -171,6 +180,30 @@ public class DummyServerConnector implements ServerInterface {
         } else {
             delegate.transferFailed("Authentication error.");
         }
+
+    }
+
+    @Override
+    public void loadNewPaymentsForUser(NewPaymentsDelegate delegate) {
+    }
+
+    @Override
+    public void categorisePayments(List<Categorisation> categorizations, CategoriseDelegate delegate) {
+
+    }
+
+    @Override
+    public void updateBudget(MonthBudget newBudget, BudgetUpdateDelegate delegate) {
+
+    }
+
+    @Override
+    public void chooseReward(Reward reward, ChooseRewardDelegate delegate) {
+
+    }
+
+    @Override
+    public void performSpin(PointSpinDelegate delegate) {
 
     }
 }
