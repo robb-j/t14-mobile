@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -86,6 +87,12 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
             user.getAccounts().add(new Account(6, "Bills Account", -120.18, 750, product3));
             user.getAccounts().add(new Account(7, "Savings Account", 1219.01, 0, product1));
 
+            // Create some rewards
+            List<Reward> allRewards = new ArrayList<>();
+            Reward r1 = new Reward(100, "Amazon Voucher", "£20 to spend on amazon.co.uk", 80);
+            Reward r2 = new Reward(101, "Odeon Cinema Tickets", "Tickets to a film of your choice", 30);
+            allRewards.add(r1);
+            allRewards.add(r2);
 
             // 'Filter' out the unused products ones
             List<Product> unusedProducts = new ArrayList<Product>();
@@ -94,6 +101,7 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
 
             DataStore.sharedInstance().setCurrentUser(user);
             DataStore.sharedInstance().setProducts(unusedProducts);
+            DataStore.sharedInstance().setRewards(allRewards);
             DataStore.sharedInstance().setToken("DummyTokenThatIsReallyLong");
 
             delegate.loginPassed(user);
@@ -115,7 +123,7 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
 
             @Override
             public void run() {
-                if (token.equals("correctToken")) {
+                if (token.equals("DummyTokenThatIsReallyLong")) {
 
                     /* February test data --- will be deleted when pulling data from the server */
                     List<Transaction> transactions = new ArrayList<Transaction>();
@@ -199,7 +207,7 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
     @Override
     public void makeTransfer(int accFromId, int accToId, double amount, String token, TransferDelegate delegate) {
 
-        if (token.equals("correctToken")) {
+        if (token.equals("DummyTokenThatIsReallyLong")) {
 
             //Get user from the data store
             User user = DataStore.sharedInstance().getCurrentUser();
@@ -227,25 +235,129 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
 
     @Override
     public void loadNewPaymentsForUser(NewPaymentsDelegate delegate) {
+
+        // Get the token and user from the data store
+        String token = DataStore.sharedInstance().getToken();
+        User user = DataStore.sharedInstance().getCurrentUser();
+
+        // If the token is correct
+        if (token.equals("DummyTokenThatIsReallyLong")) {
+            // And there is a user to act upon
+            if (!(user == null)) {
+                // As part of dummy just created some transactions instead of got them from user
+                List<Transaction> transactions = new ArrayList<Transaction>();
+                Calendar cal = Calendar.getInstance();
+                // This corresponds to the Student Account
+                Account account = user.getAccountForId(5);
+
+                // Stole these from TransactionTimerTask above
+                cal.set(Calendar.YEAR, 2015);
+                cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+                cal.set(Calendar.DAY_OF_MONTH, 22);
+                transactions.add(new Transaction(20, 120.05, cal.getTime(), account, "payee1"));
+                transactions.add(new Transaction(21, -1.21, cal.getTime(), account, "payee3"));
+                transactions.add(new Transaction(22, -55.21, cal.getTime(), account, "payee6"));
+
+                delegate.newPaymentsLoaded(transactions);
+            }
+            else {
+                delegate.newPaymentsLoadFailed("No user detected");
+            }
+        }
+        else {
+            delegate.newPaymentsLoadFailed("Authentication error.");
+        }
     }
 
+    // TODO Give each different path its own response so devs can easily see what's happening
     @Override
-    public void categorisePayments(List<Categorisation> categorizations, CategoriseDelegate delegate) {
+    public void categorisePayments(List<Categorisation> categorisations, CategoriseDelegate delegate) {
+
+        // Get the token from the data store
+        String token = DataStore.sharedInstance().getToken();
+        boolean hasNewSpin = false;
+
+        // If the token is correct
+        if (token.equals("DummyTokenThatIsReallyLong"))
+        {
+            // If list is empty fail
+            if (categorisations.size() == 0) {
+                delegate.categorisationFailed("Cannot categorise empty list");
+            }
+            // If list is of size 1 pass but don't award a new spin
+            if (categorisations.size() == 1) {
+                delegate.categorisationPassed(hasNewSpin);
+            }
+            // If list is at least 2 elements large then pass and award a new spin
+            else {
+                hasNewSpin = true;
+                delegate.categorisationPassed(hasNewSpin);
+            }
+        }
+        else
+        {
+            delegate.categorisationFailed("Authentication error.");
+        }
 
     }
 
     @Override
     public void updateBudget(MonthBudget newBudget, BudgetUpdateDelegate delegate) {
 
+        // Get the token from the data store
+        String token = DataStore.sharedInstance().getToken();
+
+        // If the token is correct
+        if (token.equals("DummyTokenThatIsReallyLong"))
+        {
+            // Update the user's budget
+            DataStore.sharedInstance().getCurrentUser().setCurrentBudget(newBudget);
+            // Notify delegate that completion was successful
+            delegate.updateBudgetPassed();
+        }
+        else
+        {
+            delegate.updateBudgetFailed("Authentication error.");
+        }
+
     }
 
     @Override
     public void chooseReward(Reward reward, ChooseRewardDelegate delegate) {
+
+        // Get the token from the data store
+        String token = DataStore.sharedInstance().getToken();
+        List<Reward> rewards = DataStore.sharedInstance().getRewards();
+        // If the token is correct
+        if (token.equals("DummyTokenThatIsReallyLong"))
+        {
+
+            // Take from global store of rewards
+            for (Reward r : rewards) {
+                // If the reward matches the one we passed to this method
+                if (reward.getId() == r.getId()) {
+                    // Give user reward
+                    delegate.chooseRewardPassed();
+                    break;
+                }
+            }
+        }
+        else
+        {
+            delegate.chooseRewardFailed("Authentication error.");
+        }
 
     }
 
     @Override
     public void performSpin(PointSpinDelegate delegate) {
 
+        // Use for integer RNG
+        Random rand = new Random();
+
+        // RNG picks a multiple of 10 from 10 to 100
+        int points = (rand.nextInt(10) + 1) * 10;
+        // Pass delegate with amount of points
+        delegate.spinPassed(points);
     }
 }

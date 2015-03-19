@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.models.*;
@@ -29,7 +31,7 @@ public class ModelTest {
         testUser = new User(1, "Bobby99", "First", "Last", "01/01/1970");
         testProduct = new Product(10, "Product 1", "P1 Desc");
         testAccount = new Account(2,"Student Account", 1000, 500, testProduct);
-        testTransaction = new Transaction(3, 300, testAccount, "First");
+        testTransaction = new Transaction(3, 300, new Date(), testAccount, "First");
     }
 
     @Test

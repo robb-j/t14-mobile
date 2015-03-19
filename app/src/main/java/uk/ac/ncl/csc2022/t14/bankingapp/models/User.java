@@ -129,7 +129,7 @@ public class User extends ModelObject {
         return currentBudget;
     }
 
-    private void setCurrentBudget(MonthBudget currentBudget) {
+    public void setCurrentBudget(MonthBudget currentBudget) {
         this.currentBudget = currentBudget;
     }
 
