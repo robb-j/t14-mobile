@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    tools:context="uk.ac.ncl.csc2022.t14.bankingapp.activities.CategorizeActivity$PlaceholderFragment"
+    android:background="#ffffffff">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/TopRelativeLayout">
+        <ImageView
+            android:layout_width="212dp"
+            android:layout_height="50dp"
+            android:id="@+id/HorseImage"
+            android:scaleType="fitXY"
+            android:src="@drawable/lloyds_bank_logo"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="2dp"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#006a4d"
+        android:layout_below="@+id/TopRelativeLayout"
+        android:layout_marginTop="2dp"
+        android:id="@+id/view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Transaction Manager"
+        android:id="@+id/transactionLabel"
+        android:layout_below="@+id/view"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="10dp"/>
+
+</RelativeLayout>
