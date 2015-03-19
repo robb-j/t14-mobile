@@ -24,10 +24,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/edit_username"
             android:hint="Username"
-
+            android:singleLine="true"
             android:layout_below="@id/txt_login_desc"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:nextFocusDown="@+id/password_char_1"/>
 
         <LinearLayout
             android:id="@+id/layout_indices"
@@ -45,7 +46,8 @@
                 android:textSize="12sp"
                 android:id="@+id/password_char_1"
                 android:maxLength="1"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:nextFocusDown="@+id/password_char_2"/>
 
             <EditText
                 android:layout_width="64dp"
@@ -54,7 +56,8 @@
                 android:textSize="12sp"
                 android:id="@+id/password_char_2"
                 android:maxLength="1"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:nextFocusDown="@+id/password_char_3"/>
 
             <EditText
                 android:layout_width="64dp"
