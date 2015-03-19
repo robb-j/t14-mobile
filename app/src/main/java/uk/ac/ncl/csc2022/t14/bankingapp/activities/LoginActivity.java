@@ -8,6 +8,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -124,22 +128,72 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
+            final EditText[] passwordChars = new EditText[3];
+
+            passwordChars[0] = (EditText) rootView.findViewById(R.id.password_char_1);
+            passwordChars[1] = (EditText) rootView.findViewById(R.id.password_char_2);
+            passwordChars[2] = (EditText) rootView.findViewById(R.id.password_char_3);
+
+            final Button btnLogin = (Button) rootView.findViewById(R.id.btn_login);
+            btnLogin.setOnClickListener(this);
+            passwordChars[0].addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (passwordChars[0].length() > 0)
+                        passwordChars[1].requestFocus();
+                }
+            });
+            passwordChars[1].addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (passwordChars[1].length() > 0)
+                        passwordChars[2].requestFocus();
+                }
+            });
+            passwordChars[2].setOnEditorActionListener(new EditText.OnEditorActionListener() {
+
+                @Override
+                public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+                    if (arg1 == EditorInfo.IME_ACTION_DONE) {
+                        btnLogin.performClick();
+                    }
+                    return false;
+                }
+
+            });
+
             generateRandomIndices();
 
-            TextView password1 = (TextView)rootView.findViewById(R.id.password_char_1);
-            password1.setHint(addSuffixToNumber(indices[0]));
-            TextView password2 = (TextView)rootView.findViewById(R.id.password_char_2);
-            password2.setHint(addSuffixToNumber(indices[1]));
-            TextView password3 = (TextView)rootView.findViewById(R.id.password_char_3);
-            password3.setHint(addSuffixToNumber(indices[2]));
+            passwordChars[0].setHint(addSuffixToNumber(indices[0]));
+            passwordChars[1].setHint(addSuffixToNumber(indices[1]));
+            passwordChars[2].setHint(addSuffixToNumber(indices[2]));
 
             TextView username = (TextView)rootView.findViewById(R.id.edit_username);
             TextViewFocus(username);
 
 
 
-            Button b = (Button) rootView.findViewById(R.id.btn_login);
-            b.setOnClickListener(this);
+
 
             return rootView;
         }
@@ -197,17 +251,19 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                     final TextView password1 = (TextView)getView().findViewById(R.id.password_char_1);
                     final TextView password2 = (TextView)getView().findViewById(R.id.password_char_2);
                     final TextView password3 = (TextView)getView().findViewById(R.id.password_char_3);
-                    String username = "";
+                    String username;
 
 
                     try {
                         username = usernameField.getText().toString();
-                        char[] password = { password1.getText().charAt(0), password2.getText().charAt(0), password3.getText().charAt(0)};
+                        password[0] = password1.getText().charAt(0);
+                        password[1] = password2.getText().charAt(0);
+                        password[2] = password3.getText().charAt(0);
                     } catch (NullPointerException e) {
-                        ((LoginActivity)getActivity()).loginFailed("Invalid login details");
+                        ((LoginActivity)getActivity()).loginFailed("Field(s) left blank");
                         return;
                     }  catch (IndexOutOfBoundsException e) {
-                        ((LoginActivity)getActivity()).loginFailed("Invalid login details");
+                        ((LoginActivity)getActivity()).loginFailed("Field(s) left blank");
                         return;
                     }
 

@@ -179,13 +179,12 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
                     Calendar monthCal = Calendar.getInstance();
                     monthCal.set(fYear, fMonth, 1);
                     Date date = monthCal.getTime();
-                    switch (fMonth) {
-                        case Calendar.FEBRUARY:
-                            delegate.transactionsLoaded(account, transactions);
-                            break;
-                        case Calendar.MARCH:
-                            delegate.transactionsLoaded(account, transactionsMar);
-                            break;
+                    if (fMonth == Calendar.FEBRUARY && fYear == 2015) {
+                        delegate.transactionsLoaded(account, transactions);
+                    } else if (fMonth == Calendar.MARCH && fYear == 2015) {
+                        delegate.transactionsLoaded(account, transactionsMar);
+                    } else {
+                        delegate.transactionsLoaded(account, null);
                     }
 
                 } else {

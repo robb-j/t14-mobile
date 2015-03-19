@@ -16,14 +16,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 
+import com.google.android.gms.internal.cl;
+
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.TransactionAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
@@ -37,7 +42,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
     private static int accountId;
     private static ProgressDialog progressLoadTransactions;
     private TransactionAdapter adapter;
-    private static int month;
+    private static int month, year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
         accountId = getIntent().getExtras().getInt("accountId");
 
         month = Calendar.getInstance().get(Calendar.MONTH);
+        year = Calendar.getInstance().get(Calendar.YEAR);
 
 
 
@@ -92,8 +98,9 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
         Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
 
         //Display them accordingly
-        TextView txtBalanceCost = (TextView) findViewById(R.id.textview_balances_cost);
-        txtBalanceCost.setText("£" + account.getBalance() + "\n£" + (account.getOverdraftLimit() + account.getBalance()) + "\n£" + account.getOverdraftLimit());
+        TextView txtBalanceCost = (TextView)findViewById(R.id.textview_balances_cost);
+        txtBalanceCost.setText(Utility.doubleToCurrency(account.getBalance()) + "\n" + Utility.doubleToCurrency(account.getOverdraftLimit() + account.getBalance()) +
+                "\n" + Utility.doubleToCurrency(account.getOverdraftLimit()));
 
     }
 
@@ -103,6 +110,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
         progressLoadTransactions.dismiss();
 
         final ListView listTransactions = (ListView)findViewById(R.id.list_transactions);
+        final TextView errorNoTransactions = (TextView)findViewById(R.id.text_error_no_transactions);
 
         adapter = new TransactionAdapter(this);
 
@@ -110,21 +118,43 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
         int lastDayAdded = 32;
 
-        // Assume transactions are ordered in descending order and all from one month
-        for (Transaction transaction : transactions) {
+        if (transactions != null) {
 
-            cal.setTime(transaction.getDate());
-            int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    errorNoTransactions.setVisibility(View.INVISIBLE);
+                }
+            });
 
-            if (lastDayAdded != currentDay) {
-                adapter.addSectionHeaderItem(transaction);
-                lastDayAdded = currentDay;
+
+
+            // Assume transactions are ordered in descending order and all from one month
+            for (Transaction transaction : transactions) {
+
+                cal.setTime(transaction.getDate());
+                int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+                if (lastDayAdded != currentDay) {
+                    adapter.addSectionHeaderItem(transaction);
+                    lastDayAdded = currentDay;
+                }
+
+                adapter.addItem(transaction);
             }
 
-            adapter.addItem(transaction);
+
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    errorNoTransactions.setText("Sorry, no transactions found for " + getMonth(month) + " " + year);
+                    errorNoTransactions.setVisibility(View.VISIBLE);
+                }
+            });
+
+
         }
-
-
 
         runOnUiThread(new Runnable() {
             @Override
@@ -134,6 +164,8 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
             }
         });
+
+
 
     }
 
@@ -165,13 +197,12 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
             TextView txtAccName = (TextView)rootView.findViewById(R.id.textview_account_name);
             txtAccName.setText(account.getName());
 
-            String balanceColor = account.getBalance() < 0 ? "red" : "\"#1E8F1E\"";
-
             TextView txtBalanceText = (TextView)rootView.findViewById(R.id.textview_balances_text);
             txtBalanceText.setText("Balance: \nAvailable: \nOverdraft: ");
 
             TextView txtBalanceCost = (TextView)rootView.findViewById(R.id.textview_balances_cost);
-            txtBalanceCost.setText("£" + account.getBalance() + "\n£" + (account.getOverdraftLimit() + account.getBalance()) + "\n£" + account.getOverdraftLimit());
+            txtBalanceCost.setText(Utility.doubleToCurrency(account.getBalance()) + "\n" + Utility.doubleToCurrency(account.getOverdraftLimit() + account.getBalance()) +
+                    "\n" + Utility.doubleToCurrency(account.getOverdraftLimit()));
 
 
 
@@ -184,13 +215,14 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
 
 
-            refreshMonths();
+            refreshMonth();
 
 
 
             /* Set up the buttons */
             Button btnMakeTransfer = (Button) rootView.findViewById(R.id.btn_make_transfer);
             Button btnSelectMonth = (Button)rootView.findViewById(R.id.btn_select_month);
+            Button btnSelectYear = (Button)rootView.findViewById(R.id.btn_select_year);
 
             btnMakeTransfer.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -203,6 +235,13 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
                 @Override
                 public void onClick(View v) {
                     btnSelectMonth(v);
+                }
+            });
+
+            btnSelectYear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnSelectYear(v);
                 }
             });
 
@@ -231,20 +270,51 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
                             // The 'which' argument contains the index position
                             // of the selected item
                             month = which;
-                            refreshMonths();
+                            refreshMonth();
                         }
                     });
             Dialog dialog = builder.create();
             dialog.show();
 
+
         }
 
-        public void refreshMonths() {
+        public void btnSelectYear(View v) {
+
+            final Dialog d = new Dialog(getActivity());
+            d.setTitle("Select a year");
+            d.setContentView(R.layout.year_number_picker);
+            Button btnOK = (Button) d.findViewById(R.id.btn_year_number_picker);
+            final NumberPicker np = (NumberPicker) d.findViewById(R.id.number_picker_year);
+            np.setMaxValue(Calendar.getInstance().get(Calendar.YEAR)); // max value current year
+            np.setMinValue(Calendar.getInstance().get(Calendar.YEAR) - 50);
+            np.setValue(year);  // set the default value to the year selected
+            np.setWrapSelectorWheel(false);
+            btnOK.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v) {
+                    year = np.getValue();
+                    refreshMonth();
+                    d.dismiss();
+                }
+            });
+            d.show();
+
+
+
+        }
+
+        public void refreshMonth() {
             ServerInterface transactionLoader = new DummyServerConnector();
             Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
-            transactionLoader.loadTransactions(account, month, 2015, "correctToken", (TransactionDelegate)getActivity());
+            transactionLoader.loadTransactions(account, month, year, "correctToken", (TransactionDelegate)getActivity());
 
         }
 
+    }
+
+    public String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month];
     }
 }
