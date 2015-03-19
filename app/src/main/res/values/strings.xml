@@ -9,7 +9,6 @@
     <string name="coming_soon">Coming Soon!</string>
     <string name="title_activity_account">AccountActivity</string>
     <string name="title_activity_product">ProductActivity</string>
-    <string name="title_activity_login">LoginActivity</string>
     <string name="separator_description">This is a separator used to split up sections.</string>
 
     <!-- Account Activity -->
