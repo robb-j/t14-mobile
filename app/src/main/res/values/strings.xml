@@ -13,8 +13,10 @@
     <string name="separator_description">This is a separator used to split up sections.</string>
 
     <!-- Account Activity -->
-    <string name="btn_transfer">Make a transfer</string>
-    <string name="btn_select_month">Select month</string>
+    <string name="btn_transfer">Transfer</string>
+    <string name="btn_select_month">Month</string>
+    <string name="btn_select_year">Year</string>
+    <string name="error_no_transactions_found">Sorry, no transactions were found.</string>
 
 
 
