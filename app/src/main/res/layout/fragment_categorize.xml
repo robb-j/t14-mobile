@@ -39,9 +39,29 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Transaction Manager"
+        android:layout_marginBottom="10dp"
         android:id="@+id/transactionLabel"
         android:layout_below="@+id/view"
         android:layout_centerHorizontal="true"
         android:paddingTop="10dp"/>
+
+    <ExpandableListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list"
+        android:layout_below="@+id/transactionLabel"
+
+         />
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Confirm categories"
+        android:id="@+id/confirm_categories"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:background="#006a4d"
+        android:textColor="#ffffffff" />
 
 </RelativeLayout>
