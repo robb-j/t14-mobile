@@ -15,7 +15,6 @@ public class Categorisation extends ModelObject {
     public Transaction getTransaction() {
         return transaction;
     }
-
     private void setTransaction(Transaction transaction) {
         this.transaction = transaction;
     }
@@ -23,7 +22,6 @@ public class Categorisation extends ModelObject {
     public BudgetCategory getBudgetCategory() {
         return budgetCategory;
     }
-
     private void setBudgetCategory(BudgetCategory budgetCategory) {
         this.budgetCategory = budgetCategory;
     }

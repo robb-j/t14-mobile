@@ -19,7 +19,7 @@ public class Transaction extends ModelObject implements Parcelable {
     private Account account;
     private String payee;
     private Date date;
-    private Boolean categorized;
+    private boolean categorised;
     private String category;
 
 
@@ -38,12 +38,9 @@ public class Transaction extends ModelObject implements Parcelable {
         setDate(date);
     }
 
-
-
     public double getAmount() {
         return amount;
     }
-
     private void setAmount(double amount) {
         this.amount = amount;
     }
@@ -51,7 +48,6 @@ public class Transaction extends ModelObject implements Parcelable {
     public Account getAccount() {
         return account;
     }
-
     private void setAccount(Account account) {
         this.account = account;
     }
@@ -59,7 +55,6 @@ public class Transaction extends ModelObject implements Parcelable {
     public String getPayee() {
         return payee;
     }
-
     private void setPayee(String payee) {
         this.payee = payee;
     }
@@ -67,18 +62,23 @@ public class Transaction extends ModelObject implements Parcelable {
     public Date getDate() {
         return date;
     }
-
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public Boolean getCategorized(){ return categorized; }
+    public boolean getCategorised(){
+        return categorised;
+    }
+    public void setCategorised(boolean categorized) {
+        this.categorised = categorized;
+    }
 
-    public void setCategorized(Boolean categorized) { this.categorized = categorized; }
-
-    public String getCategory(){ return category; }
-
-    public void setCategory(String category) { this.category = category; }
+    public String getCategory(){
+        return category;
+    }
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     protected Transaction(Parcel in) {
         amount = in.readDouble();

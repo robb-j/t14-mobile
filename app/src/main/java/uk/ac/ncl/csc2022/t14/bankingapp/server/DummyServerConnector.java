@@ -17,6 +17,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.RewardTaken;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
@@ -324,21 +325,29 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
     @Override
     public void chooseReward(Reward reward, ChooseRewardDelegate delegate) {
 
-        // Get the token from the data store
+        // Get the token, user and rewards from the data store
         String token = DataStore.sharedInstance().getToken();
+        User user = DataStore.sharedInstance().getCurrentUser();
         List<Reward> rewards = DataStore.sharedInstance().getRewards();
+
         // If the token is correct
         if (token.equals("DummyTokenThatIsReallyLong"))
         {
+
+            int count = 0; //Used to keep track of place in the loop so removing from data store is easy
 
             // Take from global store of rewards
             for (Reward r : rewards) {
                 // If the reward matches the one we passed to this method
                 if (reward.getId() == r.getId()) {
-                    // Give user reward
+                    // Remove this reward from the data store and give it to the user
+                    DataStore.sharedInstance().getRewards().remove(count);
+                    user.getRecentRewards().add(new RewardTaken(100,r));
+
                     delegate.chooseRewardPassed();
                     break;
                 }
+                count++;
             }
         }
         else

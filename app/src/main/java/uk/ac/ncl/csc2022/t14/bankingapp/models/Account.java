@@ -33,54 +33,45 @@ public class Account extends ModelObject implements Parcelable {
     public Account(int id, String name, double balance, double overdraftLimit, Product product) {
         super(id);
         setName(name);
+        setBalance(balance);
         setOverdraftLimit(overdraftLimit);
         setProduct(product);
-        setBalance(balance);
         setTransactions(new ArrayList<Transaction>());
     }
 
-
+    public String getName() {
+        return name;
+    }
     private void setName(String name) {
         this.name = name;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    private void setOverdraftLimit(double overdraftLimit) {
-        this.overdraftLimit = overdraftLimit;
-    }
-
-    private void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
-
-    private void setProduct(Product product) {
-        this.product = product;
-    }
-
-
-
-    public String getName() {
-
-        return name;
     }
 
     public double getBalance() {
         return balance;
     }
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 
     public double getOverdraftLimit() {
         return overdraftLimit;
+    }
+    private void setOverdraftLimit(double overdraftLimit) {
+        this.overdraftLimit = overdraftLimit;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+    private void setProduct(Product product) {
+        this.product = product;
     }
 
     public List<Transaction> getTransactions() {
         return transactions;
     }
-
-    public Product getProduct() {
-        return product;
+    private void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     protected Account(Parcel in) {

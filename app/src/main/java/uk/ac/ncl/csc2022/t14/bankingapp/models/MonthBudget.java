@@ -25,7 +25,6 @@ public class MonthBudget extends ModelObject {
     public Map<Integer, Double> getBudgetAmount() {
         return budgetAmount;
     }
-
     private void setBudgetAmount(Map<Integer, Double> budgetAmount) {
         this.budgetAmount = budgetAmount;
     }
@@ -33,7 +32,6 @@ public class MonthBudget extends ModelObject {
     public Map<Integer, String> getCategoryNameChanges() {
         return categoryNameChanges;
     }
-
     private void setCategoryNameChanges(Map<Integer, String> categoryNameChanges) {
         this.categoryNameChanges = categoryNameChanges;
     }
@@ -41,7 +39,6 @@ public class MonthBudget extends ModelObject {
     public Map<Integer, String> getGroupNameChanges() {
         return groupNameChanges;
     }
-
     private void setGroupNameChanges(Map<Integer, String> groupNameChanges) {
         this.groupNameChanges = groupNameChanges;
     }

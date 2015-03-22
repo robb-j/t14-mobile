@@ -26,7 +26,7 @@ public class User extends ModelObject {
     // Budgeting fields
     private MonthBudget currentBudget;
     private List<BudgetGroup> allGroups;
-    private List<Reward> recentRewards;
+    private List<RewardTaken> recentRewards;
     private List<PointGain> recentPoints;
     private int numberOfSpins;
     private int numNewPayments;
@@ -80,7 +80,6 @@ public class User extends ModelObject {
     public String getUsername() {
         return username;
     }
-
     private void setUsername(String username) {
         this.username = username;
     }
@@ -88,7 +87,6 @@ public class User extends ModelObject {
     public String getFirstName() {
         return firstName;
     }
-
     private void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -96,7 +94,6 @@ public class User extends ModelObject {
     public String getLastName() {
         return lastName;
     }
-
     private void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -104,7 +101,6 @@ public class User extends ModelObject {
     public List<Account> getAccounts() {
         return accounts;
     }
-
     private void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
@@ -112,7 +108,6 @@ public class User extends ModelObject {
     public String getDob() {
         return dob;
     }
-
     private void setDob(String dob) {
         this.dob = dob;
     }
@@ -120,7 +115,6 @@ public class User extends ModelObject {
     public String getLastFullCategorise() {
         return lastFullCategorise;
     }
-
     public void setLastFullCategorise(String lastFullCategorise) {
         this.lastFullCategorise = lastFullCategorise;
     }
@@ -128,7 +122,6 @@ public class User extends ModelObject {
     public MonthBudget getCurrentBudget() {
         return currentBudget;
     }
-
     public void setCurrentBudget(MonthBudget currentBudget) {
         this.currentBudget = currentBudget;
     }
@@ -136,40 +129,35 @@ public class User extends ModelObject {
     public List<BudgetGroup> getAllGroups() {
         return allGroups;
     }
-
-    public void setAllGroups(List<BudgetGroup> allGroups) {
+    private void setAllGroups(List<BudgetGroup> allGroups) {
         this.allGroups = allGroups;
     }
 
-    public List<Reward> getRecentRewards() {
+    public List<RewardTaken> getRecentRewards() {
         return recentRewards;
     }
-
-    public void setRecentRewards(List<Reward> recentRewards) {
+    private void setRecentRewards(List<RewardTaken> recentRewards) {
         this.recentRewards = recentRewards;
     }
 
     public List<PointGain> getRecentPoints() {
         return recentPoints;
     }
-
-    public void setRecentPoints(List<PointGain> recentPoints) {
+    private void setRecentPoints(List<PointGain> recentPoints) {
         this.recentPoints = recentPoints;
     }
 
     public int getNumberOfSpins() {
         return numberOfSpins;
     }
-
-    public void setNumberOfSpins(int numberOfSpins) {
+    private void setNumberOfSpins(int numberOfSpins) {
         this.numberOfSpins = numberOfSpins;
     }
 
     public int getNumNewPayments() {
         return numNewPayments;
     }
-
-    public void setNumNewPayments(int numNewPayments) {
+    private void setNumNewPayments(int numNewPayments) {
         this.numNewPayments = numNewPayments;
     }
 }

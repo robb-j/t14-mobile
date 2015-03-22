@@ -19,7 +19,6 @@ public class PointGain extends ModelObject {
     public String getName() {
         return name;
     }
-
     private void setName(String name) {
         this.name = name;
     }
@@ -27,7 +26,6 @@ public class PointGain extends ModelObject {
     public String getDescription() {
         return description;
     }
-
     private void setDescription(String description) {
         this.description = description;
     }
@@ -35,7 +33,6 @@ public class PointGain extends ModelObject {
     public int getPoints() {
         return points;
     }
-
     private void setPoints(int points) {
         this.points = points;
     }

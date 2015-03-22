@@ -30,7 +30,6 @@ public class Product extends ModelObject implements Parcelable {
     public String getTitle() {
         return title;
     }
-
     private void setTitle(String title) {
         this.title = title;
     }
@@ -38,7 +37,6 @@ public class Product extends ModelObject implements Parcelable {
     public String getContent() {
         return content;
     }
-
     private void setContent(String content) {
         this.content = content;
     }

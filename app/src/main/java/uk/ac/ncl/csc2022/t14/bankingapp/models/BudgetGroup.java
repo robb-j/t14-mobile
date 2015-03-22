@@ -20,7 +20,6 @@ public class BudgetGroup extends ModelObject {
     public String getName() {
         return name;
     }
-
     private void setName(String name) {
         this.name = name;
     }
@@ -28,7 +27,6 @@ public class BudgetGroup extends ModelObject {
     public List<BudgetCategory> getCategories() {
         return categories;
     }
-
     private void setCategories(List<BudgetCategory> categories) {
         this.categories = categories;
     }

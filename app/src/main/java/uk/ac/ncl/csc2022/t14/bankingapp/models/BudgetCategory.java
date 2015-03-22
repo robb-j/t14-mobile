@@ -19,7 +19,6 @@ public class BudgetCategory extends ModelObject {
     public String getName() {
         return name;
     }
-
     private void setName(String name) {
         this.name = name;
     }
@@ -27,7 +26,6 @@ public class BudgetCategory extends ModelObject {
     public double getBudgeted() {
         return budgeted;
     }
-
     private void setBudgeted(int budgeted) {
         this.budgeted = budgeted;
     }
@@ -35,7 +33,6 @@ public class BudgetCategory extends ModelObject {
     public double getSpent() {
         return spent;
     }
-
     private void setSpent(double spent) {
         this.spent = spent;
     }

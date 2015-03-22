@@ -19,7 +19,6 @@ public class Reward extends ModelObject {
     public String getName() {
         return name;
     }
-
     private void setName(String name) {
         this.name = name;
     }
@@ -27,7 +26,6 @@ public class Reward extends ModelObject {
     public String getDescription() {
         return description;
     }
-
     private void setDescription(String description) {
         this.description = description;
     }
@@ -35,7 +33,6 @@ public class Reward extends ModelObject {
     public int getCost() {
         return cost;
     }
-
     private void setCost(int cost) {
         this.cost = cost;
     }
