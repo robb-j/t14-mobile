@@ -172,6 +172,12 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
     @Override
     public void transactionsLoadFailed(String errMessage) {
 
+        progressLoadTransactions.dismiss();
+
+        TextView errorNoTransactions = (TextView)findViewById(R.id.text_error_no_transactions);
+
+        errorNoTransactions.setText(errMessage);
+        errorNoTransactions.setVisibility(View.VISIBLE);
     }
 
 
@@ -208,14 +214,11 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
 
 
-            progressLoadTransactions = new ProgressDialog(getActivity());
-            progressLoadTransactions.setTitle("Loading Transactions");
-            progressLoadTransactions.setMessage("Please wait...");
-            progressLoadTransactions.show();
 
 
 
-            refreshMonth();
+
+            // refreshMonth();
 
 
 
@@ -247,6 +250,13 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
 
             return rootView;
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+
+            refreshMonth();
         }
 
         public void btnMakeTransfer(View v) {
@@ -306,9 +316,14 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
         }
 
         public void refreshMonth() {
+            progressLoadTransactions = new ProgressDialog(getActivity());
+            progressLoadTransactions.setTitle("Loading Transactions");
+            progressLoadTransactions.setMessage("Please wait...");
+            progressLoadTransactions.show();
+
             ServerInterface transactionLoader = new DummyServerConnector();
             Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
-            transactionLoader.loadTransactions(account, month, year, "correctToken", (TransactionDelegate)getActivity());
+            transactionLoader.loadTransactions(account, month, year, "DummyTokenThatIsReallyLong", (TransactionDelegate)getActivity());
 
         }
 
