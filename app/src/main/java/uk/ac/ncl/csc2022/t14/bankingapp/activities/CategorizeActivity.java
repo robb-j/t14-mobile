@@ -12,13 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.ExpandableListAdapter;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 
 public class CategorizeActivity extends ActionBarActivity {
 
@@ -71,7 +78,14 @@ public class CategorizeActivity extends ActionBarActivity {
         ExpandableListAdapter eListAdapter;
         ExpandableListView expListView;
         List<String> listDataHeader;
+        List<newTransaction> newTransactionList;
+        NewPaymentsDelegate nPD;
         HashMap<String, List<String>> listDataChild;
+        List<String> categories = new ArrayList<String>();
+
+        User currentUser = DataStore.sharedInstance().getCurrentUser();
+        DummyServerConnector dSC = new DummyServerConnector();
+
 
         public PlaceholderFragment() {
         }
@@ -91,33 +105,108 @@ public class CategorizeActivity extends ActionBarActivity {
 
 
             expListView.setAdapter(eListAdapter);
+            //I really don't know how this worked but it did
+            //Set a listener for each group opening
+            expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                @Override
+                public boolean onGroupClick(ExpandableListView parent, final View Gv, int groupPosition, long id) {
+                    expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener()
+                    {
+                        //for each open group start a child listener for their children
+                        @Override
+                        public boolean onChildClick(ExpandableListView parent, View Cv, int groupPosition, int childPosition, long id)
+                        {
+
+                            //The childPosition is the category which was selected, and the groupPosition is the transaction
+                            //set the selected category as the transactions category
+                            newTransactionList.get(groupPosition).setCategory(categories.get(childPosition));
+                            //change the text to notify the user that their category selection has been noted
+                            TextView tV = (TextView)Gv.findViewById(R.id.transaction_category);
+                            tV.setText(categories.get(childPosition));
+
+                            return false;
+                        }
+                    }
+                    );
+                    return false;
+                }
+            });
+
+
+
+
 
 
 
             return rootView;
         }
+        public class newTransaction
+        {
+            private Transaction transaction;
+            private String category;
+            public void setTransaction(Transaction t)
+            {
+                transaction = t;
+            }
+
+            public Transaction getTransaction()
+            {
+                return transaction;
+            }
+            public String getCategory()
+            {
+                return category;
+            }
+            public void setCategory(String cat)
+            {
+                category = cat;
+            }
+        }
         private void getListData()
         {
-            //Hardcoded until I know where the transactions are coming from
-
-            listDataHeader = new ArrayList<String>();
+            newTransactionList = new ArrayList<newTransaction>();
             listDataChild = new HashMap<String, List<String>>();
+            listDataHeader = new ArrayList<String>();
 
-            //adding the transactions
-            listDataHeader.add("Maccy Ds");
-            listDataHeader.add("Netflix");
-            listDataHeader.add("Tesco");
+            //Sorting the payments when they come from the DummyServerConnector
+            NewPaymentsDelegate nPD = new NewPaymentsDelegate() {
+                @Override
+                public void newPaymentsLoaded(List<Transaction> transactions)
+                {
+                    for(int i = 0; i<transactions.size();i++)
+                    {
+                        newTransaction nT = new newTransaction();
+                        nT.setTransaction(transactions.get(i));
+                        newTransactionList.add(nT);
+                    }
+                }
 
-            //adding the possible categories
-            List<String> categories = new ArrayList<String>();
+                @Override
+                public void newPaymentsLoadFailed(String errMessage)
+                {
+                    //I guess just go back to the budget view?
+                }
+            };
+
+            dSC.loadNewPaymentsForUser(nPD);
+
+            //adding the possible categories, might add an option to add your own
+
             categories.add("Bills");
             categories.add("Food & Drink");
             categories.add("Going out");
 
-            listDataChild.put(listDataHeader.get(0), categories);
-            listDataChild.put(listDataHeader.get(1), categories);
-            listDataChild.put(listDataHeader.get(2), categories);
+            //Will use a for loop when I get proper transactions
+            for(int i=0; i<newTransactionList.size(); i++)
+            {
+                listDataChild.put(newTransactionList.get(i).getTransaction().getPayee(), categories);
+                listDataHeader.add(newTransactionList.get(i).getTransaction().getPayee());
+            }
+
+
         }
+
+
     }
 
 
