@@ -17,6 +17,7 @@
     <string name="btn_select_year">Year</string>
     <string name="error_no_transactions_found">Sorry, no transactions were found.</string>
     <string name="title_activity_categorize">CategorizeActivity</string>
+    <string name="title_activity_rewards">RewardsActivity</string>
 
 
 

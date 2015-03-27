@@ -28,6 +28,7 @@ public class User extends ModelObject {
     private List<BudgetGroup> allGroups;
     private List<RewardTaken> recentRewards;
     private List<PointGain> recentPoints;
+    private int points;
     private int numberOfSpins;
     private int numNewPayments;
 
@@ -57,6 +58,7 @@ public class User extends ModelObject {
         recentPoints = new ArrayList<>();
         setNumberOfSpins(0);
         setNumNewPayments(0);
+        setPoints(100);
     }
 
 
@@ -159,5 +161,12 @@ public class User extends ModelObject {
     }
     private void setNumNewPayments(int numNewPayments) {
         this.numNewPayments = numNewPayments;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

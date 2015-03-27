@@ -92,8 +92,33 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
             List<Reward> allRewards = new ArrayList<>();
             Reward r1 = new Reward(100, "Amazon Voucher", "£20 to spend on amazon.co.uk", 80);
             Reward r2 = new Reward(101, "Odeon Cinema Tickets", "Tickets to a film of your choice", 30);
+
+            // If you need to check what happens if scrollable uncomment these and uncomment the add section just below
+            Reward r3 = new Reward(102, "Test Reward", "Checking if scrollable", 10);
+            Reward r4 = new Reward(103, "Test Reward", "Checking if scrollable", 10);
+            Reward r5 = new Reward(104, "Test Reward", "Checking if scrollable", 10);
+            Reward r6 = new Reward(105, "Test Reward", "Checking if scrollable", 10);
+            Reward r7 = new Reward(106, "Test Reward", "Checking if scrollable", 10);
+            Reward r8 = new Reward(107, "Test Reward", "Checking if scrollable", 10);
+            Reward r9 = new Reward(108, "Test Reward", "Checking if scrollable", 10);
+            Reward r10 = new Reward(109, "Test Reward", "Checking if scrollable", 10);
+            Reward r11 = new Reward(110, "Test Reward", "Checking if scrollable", 10);
+            Reward r12 = new Reward(111, "Test Reward", "Checking if scrollable", 10);
+
+
             allRewards.add(r1);
             allRewards.add(r2);
+
+            allRewards.add(r3);
+            allRewards.add(r4);
+            allRewards.add(r5);
+            allRewards.add(r6);
+            allRewards.add(r7);
+            allRewards.add(r8);
+            allRewards.add(r9);
+            allRewards.add(r10);
+            allRewards.add(r11);
+            allRewards.add(r12);
 
             // 'Filter' out the unused products ones
             List<Product> unusedProducts = new ArrayList<Product>();
@@ -320,12 +345,19 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
             for (Reward r : rewards) {
                 // If the reward matches the one we passed to this method
                 if (reward.getId() == r.getId()) {
-                    // Remove this reward from the data store and give it to the user
-                    DataStore.sharedInstance().getRewards().remove(count);
-                    user.getRecentRewards().add(new RewardTaken(100,r));
-
-                    delegate.chooseRewardPassed();
-                    break;
+                    // Calculate how many remaining points the user will have after claiming their reward
+                    int newPointsValue = user.getPoints()- r.getCost();
+                    // If it will leave the user with less than zero points then do not allow them to claim it
+                    if ( !(newPointsValue < 0)) {
+                        // Give this reward to the user and deduct the cost from the user's point store
+                        DataStore.sharedInstance().getCurrentUser().getRecentRewards().add(new RewardTaken(100,r));
+                        DataStore.sharedInstance().getCurrentUser().setPoints(newPointsValue);
+                        delegate.chooseRewardPassed();
+                        break;
+                    }
+                    else {
+                        delegate.chooseRewardFailed("Not enough points");
+                    }
                 }
                 count++;
             }

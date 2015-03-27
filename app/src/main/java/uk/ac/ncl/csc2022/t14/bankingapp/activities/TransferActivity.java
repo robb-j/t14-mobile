@@ -121,6 +121,7 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
     public static class PlaceholderFragment extends Fragment {
 
         private double amount;
+
         public PlaceholderFragment() {
         }
 
@@ -151,7 +152,7 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
 
             // Use the adapter to give these values to the spinner
             spinner = (Spinner) rootView.findViewById(R.id.spinner_accounts);
-            adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, accountNames);
+            adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, accountNames);
             spinner.setAdapter(adapter);
 
             final TextView transferAmount = (TextView) rootView.findViewById(R.id.transferAmount);
@@ -166,7 +167,7 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
                     // Set the accountFrom to be transferred to
                     String accName = (String) spinner.getSelectedItem();
                     List<Account> accounts = DataStore.sharedInstance().getCurrentUser().getAccounts();
-                    Account accountTo = new Account(0,null,0,0,null);
+                    Account accountTo = null;
 
                     for (int i = 0; i < accounts.size(); i++ )
                     { // For each accountFrom the user owns

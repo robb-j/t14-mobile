@@ -51,6 +51,10 @@
             android:name=".activities.CategorizeActivity"
             android:label="@string/title_activity_categorize" >
         </activity>
+        <activity
+            android:name=".activities.RewardsActivity"
+            android:label="@string/title_activity_rewards" >
+        </activity>
     </application>
 
 </manifest>
