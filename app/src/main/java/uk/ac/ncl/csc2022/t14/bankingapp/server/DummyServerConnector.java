@@ -13,6 +13,8 @@ import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
@@ -70,7 +72,7 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
 
         else {
 
-            User user = new User(1, "Geoff95", "Geoff", "Butcher", "22/08/2995");
+            User user = new User(1, "Geoff95", "Geoff", "Butcher", "22/08/1995");
 
 
             // Create the products
@@ -123,6 +125,20 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
             // 'Filter' out the unused products ones
             List<Product> unusedProducts = new ArrayList<Product>();
             unusedProducts.add(product2);
+
+            // Create some budgets
+            BudgetGroup savingFunds = new BudgetGroup(1, "Saving Funds"), everydayExpenses = new BudgetGroup(2, "Everyday Expenses");
+            BudgetCategory budCarFund = new BudgetCategory(1, "Car Fund", 320), budEmergency = new BudgetCategory(2, "Emergency Fund", 600);
+            savingFunds.getCategories().add(budCarFund);
+            savingFunds.getCategories().add(budEmergency);
+            BudgetCategory budGroceries = new BudgetCategory(3, "Groceries", 160), budGames = new BudgetCategory(4, "Games", 60),
+                    budTakeOut = new BudgetCategory(5, "Take Out Food", 30);
+            everydayExpenses.getCategories().add(budGroceries);
+            everydayExpenses.getCategories().add(budGames);
+            everydayExpenses.getCategories().add(budTakeOut);
+
+            user.getAllGroups().add(savingFunds);
+            user.getAllGroups().add(everydayExpenses);
 
 
             DataStore.sharedInstance().setCurrentUser(user);

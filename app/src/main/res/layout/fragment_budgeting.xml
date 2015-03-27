@@ -21,7 +21,7 @@
             android:id="@+id/layout_new_transactions"
             android:layout_below="@+id/title_budgeting"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
@@ -38,11 +38,56 @@
                 android:layout_marginRight="10dp"/>
 
             <TextView
+                android:id="@+id/text_new_transactions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:text="new transactions"/>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_budget_unspent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_new_transactions"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="This is a test"
+            />
+
+
+        <ImageView
+            android:id="@+id/divider_budgeting"
+            android:contentDescription="@string/separator_description"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@color/black"
+            android:layout_below="@+id/text_budget_unspent"
+            android:layout_marginBottom="10dp"/>
+
+        <ListView
+            android:id="@+id/list_budgets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider_budgeting"
+            android:layout_above="@+id/btn_edit_budgets"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="8sp"
+            android:padding="12dp"
+            android:layout_alignParentLeft="true"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"/>
+
+        <Button
+            android:id="@+id/btn_edit_budgets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/btn_edit_budgets"
+            android:layout_alignParentBottom="true"/>
 
 
     </RelativeLayout>

@@ -60,9 +60,9 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
 
         // Hide the action bar. -----DON'T TOUCH THIS-----
         // don't have to shout
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
+        // ActionBar actionBar = getSupportActionBar();
+        // actionBar.hide();
+        // actionBar.setLogo(R.drawable.ic_launcher);
 
 
     }

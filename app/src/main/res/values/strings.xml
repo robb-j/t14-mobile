@@ -19,6 +19,9 @@
     <string name="title_activity_categorize">CategorizeActivity</string>
     <string name="title_activity_rewards">RewardsActivity</string>
 
+    <!-- Budget Fragment -->
+    <string name="btn_edit_budgets">Edit Budgets</string>
+
 
 
 </resources>

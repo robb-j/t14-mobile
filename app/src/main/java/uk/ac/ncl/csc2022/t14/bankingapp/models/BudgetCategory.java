@@ -9,7 +9,7 @@ public class BudgetCategory extends ModelObject {
     private double budgeted;
     private double spent;
 
-    public BudgetCategory(int id, int budgeted) {
+    public BudgetCategory(int id, String name, double budgeted) {
         super(id);
         setName(name);
         setBudgeted(budgeted);
@@ -26,7 +26,7 @@ public class BudgetCategory extends ModelObject {
     public double getBudgeted() {
         return budgeted;
     }
-    private void setBudgeted(int budgeted) {
+    private void setBudgeted(double budgeted) {
         this.budgeted = budgeted;
     }
 
