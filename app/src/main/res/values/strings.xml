@@ -18,6 +18,9 @@
     <string name="error_no_transactions_found">Sorry, no transactions were found.</string>
     <string name="title_activity_categorize">CategorizeActivity</string>
 
+    <!-- Budget Fragment -->
+    <string name="btn_edit_budgets">Edit Budgets</string>
+
 
 
 </resources>
