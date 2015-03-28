@@ -75,15 +75,17 @@ public class RewardsActivity extends ActionBarActivity implements ChooseRewardDe
 
     @Override
     public void chooseRewardPassed() {
+        // Display a message at the top of the screen telling a user their reward selection was successful
         TextView passMsg = (TextView) findViewById(R.id.textView_selectionResponse);
-        passMsg.setTextColor(Color.parseColor("#22B14C"));
+        passMsg.setTextColor(Color.parseColor("#22B14C")); // Default green was pretty obnoxious, this is green but not blinding
         passMsg.setText("Reward successfully acquired");
     }
 
     @Override
     public void chooseRewardFailed(String errMessage) {
+        // Display the error message at the top of the screen so a user knows what went wrong
         TextView passMsg = (TextView) findViewById(R.id.textView_selectionResponse);
-        passMsg.setTextColor(Color.parseColor("#ED1C24"));
+        passMsg.setTextColor(Color.parseColor("#ED1C24")); // Again, red but not too red
         passMsg.setText("Error: " + errMessage);
     }
 
@@ -102,13 +104,14 @@ public class RewardsActivity extends ActionBarActivity implements ChooseRewardDe
                     @Override
                     public Dialog onCreateDialog(Bundle savedInstanceState) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        // Set the response message to be blank, so if a user gets the same message twice in a row it's still obvious something is happening underneath
                         TextView passMsg = (TextView) getActivity().findViewById(R.id.textView_selectionResponse);
                         passMsg.setText("");
+
                         builder.setTitle("Choose this Reward?");
                         builder.setMessage("This cannot be undone")
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-
                                         //If yes was selected then run the chooseReward method from the server connector
                                         ServerBudgetingInterface sbi = new DummyServerConnector();
                                         sbi.chooseReward(DataStore.sharedInstance().getRewards().get(position), (ChooseRewardDelegate) getActivity());
