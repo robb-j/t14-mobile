@@ -58,10 +58,15 @@
         android:layout_height="wrap_content"
         android:text="Confirm categories"
         android:id="@+id/confirm_categories"
+        android:background="#006a4d"
+        android:textColor="#ffffffff"
+        android:clickable="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
-        android:background="#006a4d"
-        android:textColor="#ffffffff" />
+        android:layout_marginLeft="68dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginBottom="3dp"
+        android:enabled="true"
+        />
 
 </RelativeLayout>

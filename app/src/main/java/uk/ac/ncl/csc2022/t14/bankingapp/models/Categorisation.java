@@ -15,14 +15,14 @@ public class Categorisation extends ModelObject {
     public Transaction getTransaction() {
         return transaction;
     }
-    private void setTransaction(Transaction transaction) {
+    public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
     }
 
     public BudgetCategory getBudgetCategory() {
         return budgetCategory;
     }
-    private void setBudgetCategory(BudgetCategory budgetCategory) {
+    public void setBudgetCategory(BudgetCategory budgetCategory) {
         this.budgetCategory = budgetCategory;
     }
 }
