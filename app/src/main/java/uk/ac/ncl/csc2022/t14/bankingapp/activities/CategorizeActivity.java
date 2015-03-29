@@ -128,6 +128,7 @@ public class CategorizeActivity extends ActionBarActivity {
                 public boolean onGroupClick(ExpandableListView parent, final View Gv, int groupPosition, long id)
                 {
                     currentView = Gv;
+                    listDataHeader.set(groupPosition, newTransactionList.get(groupPosition).getTransaction().getPayee());
                     return false;
                 }
             });
@@ -147,10 +148,10 @@ public class CategorizeActivity extends ActionBarActivity {
                     Log.d("Saved: ", listDataHeader.get(groupPosition));
                     //change the text to notify the user that their category selection has been noted
                     //This bit can fuck up but the correct category is saved
-                    //For some reason, the bottom two category captions switch with each other when you open the top group
+                    //I'm not sure why, but if you select a category, close the tab it wil crash if you try and open it again
 
-                    TextView tV = (TextView)currentView.findViewById(R.id.transaction_category);
-                    tV.setText(categoryNameList.get(childPosition));
+
+                    listDataHeader.set(groupPosition, newTransactionList.get(groupPosition).getTransaction().getPayee() + " - " + categoryNameList.get(childPosition));
                     expListView.collapseGroup(groupPosition);
                     return false;
                 }
@@ -162,6 +163,7 @@ public class CategorizeActivity extends ActionBarActivity {
                 @Override
                 public void onGroupExpand(int groupPosition)
                 {
+
                     for(int i = 0; i<newTransactionList.size();i++)
                     {
                         if(i!=groupPosition)
@@ -209,7 +211,7 @@ public class CategorizeActivity extends ActionBarActivity {
                             if(hasNewSpin)
                             {
                                 //currentUser.setNumberOfSpins(currentUser.getNumberOfSpins()+1);
-                                //:(
+                                //Why is this private?
                             }
 
                             //All the transactions are categorized, go back to main activity

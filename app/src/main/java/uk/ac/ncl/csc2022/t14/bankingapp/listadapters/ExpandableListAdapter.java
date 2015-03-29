@@ -2,6 +2,7 @@ package uk.ac.ncl.csc2022.t14.bankingapp.listadapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     {
         final String childText = (String) getChild(groupPosition, childPosition);
 
+
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.transaction_categories, null);
@@ -62,6 +64,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public int getChildrenCount(int groupPosition)
     {
+
         return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
     }
 
@@ -87,15 +90,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
+
         String headerTitle = (String) getGroup(groupPosition);
+        Log.d("GGV", headerTitle);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.transaction_categorize_group, null);
         }
 
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.transaction_payee);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+
+            lblListHeader.setTypeface(null, Typeface.BOLD);
+            lblListHeader.setText(headerTitle);
+
+
+        //Log.d("LDH", Integer.toString(groupPosition) + " - " + isExpanded + " " + headerTitle);
 
         return convertView;
     }
