@@ -22,6 +22,7 @@ import java.util.Calendar;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.BudgetEditActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.CategorizeActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.TransferActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
@@ -113,6 +114,8 @@ public class BudgetingFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 // Open budget edit activity
+                Intent i = new Intent(getActivity(), BudgetEditActivity.class);
+                startActivity(i);
             }
         });
 

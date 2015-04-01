@@ -55,6 +55,10 @@
             android:name=".activities.RewardsActivity"
             android:label="@string/title_activity_rewards" >
         </activity>
+        <activity
+            android:name=".activities.BudgetEditActivity"
+            android:label="@string/title_activity_budget_edit" >
+        </activity>
     </application>
 
 </manifest>
