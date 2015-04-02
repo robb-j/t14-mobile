@@ -6,7 +6,7 @@
 
 
     <TextView
-        android:id="@+id/title_budgeting"
+        android:id="@+id/title_awards"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="My Awards"
@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:id="@+id/layout_current_points"
-        android:layout_below="@+id/title_budgeting"
+        android:layout_below="@+id/title_awards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

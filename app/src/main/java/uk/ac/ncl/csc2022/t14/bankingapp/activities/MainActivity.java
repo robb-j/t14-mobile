@@ -1,5 +1,6 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -51,6 +52,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         mPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
+
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();

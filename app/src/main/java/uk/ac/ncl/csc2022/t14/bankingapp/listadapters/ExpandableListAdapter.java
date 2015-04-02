@@ -92,7 +92,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     {
 
         String headerTitle = (String) getGroup(groupPosition);
-        Log.d("GGV", headerTitle);
+
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.transaction_categorize_group, null);

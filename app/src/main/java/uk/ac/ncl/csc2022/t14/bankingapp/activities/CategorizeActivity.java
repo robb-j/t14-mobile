@@ -215,8 +215,9 @@ public class CategorizeActivity extends ActionBarActivity {
                             }
 
                             //All the transactions are categorized, go back to main activity
-                            Intent i = new Intent(getActivity(), MainActivity.class);
-                            startActivity(i);
+                            getActivity().finish();
+                            //Intent i = new Intent(getActivity(), MainActivity.class);
+                            //startActivity(i);
                         }
 
                         @Override
