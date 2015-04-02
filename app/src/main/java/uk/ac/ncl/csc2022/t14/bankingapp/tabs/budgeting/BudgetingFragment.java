@@ -22,8 +22,10 @@ import java.util.Calendar;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.BudgetEditActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.CategorizeActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.TransferActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BudgetAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.TransactionAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
@@ -34,6 +36,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.tabs.Awards.AwardsFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +46,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
  * Use the {@link BudgetingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BudgetingFragment extends Fragment {
+public class BudgetingFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -111,6 +114,8 @@ public class BudgetingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Open budget edit activity
+                Intent i = new Intent(getActivity(), BudgetEditActivity.class);
+                startActivity(i);
             }
         });
 

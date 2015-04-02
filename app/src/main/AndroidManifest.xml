@@ -56,8 +56,8 @@
             android:label="@string/title_activity_rewards" >
         </activity>
         <activity
-            android:name=".activities.SpinActivity"
-            android:label="@string/title_activity_spin" >
+            android:name=".activities.BudgetEditActivity"
+            android:label="@string/title_activity_budget_edit" >
         </activity>
     </application>
 

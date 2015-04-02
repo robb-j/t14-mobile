@@ -14,8 +14,10 @@ import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
+import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
+import uk.ac.ncl.csc2022.t14.bankingapp.tabs.Awards.AwardsFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking.BankingFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
@@ -24,9 +26,9 @@ import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
 /**
  *
  */
-public class MainActivity extends ActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener{
+public class MainActivity extends ActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener, AwardsFragment.OnFragmentInteractionListener{
 
-    private static int tabs = 2;
+    private static int tabs = 3;
 
     // Method from fragment interfaces.
     @Override
@@ -72,6 +74,9 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
                 case 1:
                     // Budgeting fragment activity
                     return BudgetingFragment.newInstance();
+                case 2:
+                    // Awards fragment activity
+                    return AwardsFragment.newInstance();
 
                 /* add new tabs here. Change the amount of tabs with the tabs variable. */
             }
@@ -95,6 +100,9 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
 
                 case 1:
                     return "Budgeting";
+
+                case 2:
+                    return "Awards";
 
                 // ...
             }
