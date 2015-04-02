@@ -56,7 +56,7 @@ public class User extends ModelObject {
         allGroups = new ArrayList<>();
         recentRewards = new ArrayList<>();
         recentPoints = new ArrayList<>();
-        setNumberOfSpins(0);
+        setNumberOfSpins(5);
         setNumNewPayments(0);
         setPoints(100);
     }
@@ -152,7 +152,7 @@ public class User extends ModelObject {
     public int getNumberOfSpins() {
         return numberOfSpins;
     }
-    private void setNumberOfSpins(int numberOfSpins) {
+    public void setNumberOfSpins(int numberOfSpins) {
         this.numberOfSpins = numberOfSpins;
     }
 

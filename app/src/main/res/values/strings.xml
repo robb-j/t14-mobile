@@ -21,6 +21,7 @@
 
     <!-- Budget Fragment -->
     <string name="btn_edit_budgets">Edit Budgets</string>
+    <string name="title_activity_spin">SpinActivity</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

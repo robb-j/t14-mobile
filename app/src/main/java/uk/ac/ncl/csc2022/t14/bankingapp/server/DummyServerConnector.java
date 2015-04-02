@@ -388,12 +388,22 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
     @Override
     public void performSpin(PointSpinDelegate delegate) {
 
-        // Use for integer RNG
-        Random rand = new Random();
+        // Get user data from data store
+        User user = DataStore.sharedInstance().getCurrentUser();
+        int numberOfSpins = user.getNumberOfSpins();
 
-        // RNG picks a multiple of 10 from 10 to 100
-        int points = (rand.nextInt(10) + 1) * 10;
-        // Pass delegate with amount of points
-        delegate.spinPassed(points);
+        // If the user has a spin to use
+        if (numberOfSpins > 0) {
+            Random rand = new Random(); // Integer RNG
+            int points = (rand.nextInt(10) + 1) * 10; // RNG picks a multiple of 10 from 10 to 100
+
+            //Subtract from the amount of spins the user has remaining
+            DataStore.sharedInstance().getCurrentUser().setNumberOfSpins(numberOfSpins - 1);
+            // Pass delegate with amount of points
+            delegate.spinPassed(points);
+        }
+        else {
+            delegate.spinFailed("You have no spins remaining");
+        }
     }
 }
