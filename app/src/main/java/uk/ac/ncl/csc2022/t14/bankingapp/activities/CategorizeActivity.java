@@ -187,8 +187,8 @@ public class CategorizeActivity extends ActionBarActivity {
                         //Is it categorized?
                         if(newTransactionList.get(i).isCategorized)
                         {
-                            //What is the id?
-                            Categorisation cat = new Categorisation(i);
+                            //Hard coded Longitude and latitude
+                            Categorisation cat = new Categorisation(i,0,0);
                             //the set functions in categorisation were private, I've changed them
                             cat.setTransaction(newTransactionList.get(i).getTransaction());
                             //use the coordinates saved when the category object was created to find the correct budget category
