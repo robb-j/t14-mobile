@@ -1,6 +1,8 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,11 +17,14 @@ public class MonthBudget extends ModelObject {
     /** Maps Group ID to group's new name */
     private Map<Integer, String> groupNameChanges;
 
+    public List<BudgetGroup> newGroups;
+
     public MonthBudget(int id) {
         super(id);
         budgetAmount = new HashMap<>();
         categoryNameChanges = new HashMap<>();
         groupNameChanges = new HashMap<>();
+        newGroups = new ArrayList<>();
     }
 
     public Map<Integer, Double> getBudgetAmount() {
@@ -41,5 +46,13 @@ public class MonthBudget extends ModelObject {
     }
     private void setGroupNameChanges(Map<Integer, String> groupNameChanges) {
         this.groupNameChanges = groupNameChanges;
+    }
+
+    public List<BudgetGroup> getNewGroups() {
+        return newGroups;
+    }
+
+    public void setNewGroups(List<BudgetGroup> newGroups) {
+        this.newGroups = newGroups;
     }
 }

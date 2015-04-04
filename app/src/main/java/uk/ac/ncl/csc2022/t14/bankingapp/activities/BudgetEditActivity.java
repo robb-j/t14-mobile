@@ -1,17 +1,23 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -68,6 +74,7 @@ public class BudgetEditActivity extends ActionBarActivity {
     public static class PlaceholderFragment extends Fragment {
 
         EditBudgetAdapter adapter = null;
+        MonthBudget newBudget = new MonthBudget(1);
 
         public PlaceholderFragment() {
         }
@@ -80,7 +87,7 @@ public class BudgetEditActivity extends ActionBarActivity {
             refreshBudget(rootView);
 
             // Setting up buttons
-            /*/ Button btnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
+            Button btnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
             Button btnSave = (Button)rootView.findViewById(R.id.btn_save);
 
             btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +107,9 @@ public class BudgetEditActivity extends ActionBarActivity {
                     // close activity
                     getActivity().finish();
                 }
-            });*/
+            });
+
+
 
             return rootView;
         }
@@ -111,7 +120,11 @@ public class BudgetEditActivity extends ActionBarActivity {
         public void saveBudget() {
 
             // create a MonthBudget object (TODO: REPLACE ID)
-            MonthBudget monthBudget = new MonthBudget(1);
+            MonthBudget monthBudget = DataStore.sharedInstance().getCurrentUser().getCurrentBudget();
+            // monthBudget.setNewGroups(adapter.getGroups());
+            DataStore.sharedInstance().getCurrentUser().setCurrentBudget(monthBudget);
+
+
 
             // put the information into a MonthBudget object (group and category name changes)
 
@@ -122,7 +135,7 @@ public class BudgetEditActivity extends ActionBarActivity {
         public void refreshBudget(View v) {
 
         /* List of budget groups and categories. */
-            ListView listBudgets = (ListView)v.findViewById(R.id.list_edit_budget);
+            final ListView listBudgets = (ListView)v.findViewById(R.id.list_edit_budget);
 
             adapter = new EditBudgetAdapter(getActivity());
 
@@ -136,6 +149,78 @@ public class BudgetEditActivity extends ActionBarActivity {
             adapter.addNewItem("+ New Group");
 
             listBudgets.setAdapter(adapter);
+            listBudgets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    switch (adapter.getItemViewType(position)) {
+                        case EditBudgetAdapter.TYPE_SEPARATOR:
+
+                            break;
+                        case EditBudgetAdapter.TYPE_ITEM:
+
+                            break;
+                        case EditBudgetAdapter.TYPE_NEW:
+                            // if new group
+                            if (position == adapter.getCount()-1) {
+                                addNewGroup(position);
+                            } else {
+                                addNewCategory(position);
+                            }
+
+                            break;
+                    }
+
+                }
+            });
+            listBudgets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                    switch (adapter.getItemViewType(position)) {
+                        case EditBudgetAdapter.TYPE_SEPARATOR:
+                            AlertDialog.Builder builderSep = new AlertDialog.Builder(getActivity())
+                                    .setMessage("Are you sure you want to delete the group: " + ((BudgetGroup) adapter.getItem(position)).getName() + "?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            adapter.removeItem(position);
+                                        }
+                                    })
+                                    .setNegativeButton("No", null);
+
+                            AlertDialog alertSep = builderSep.create(); // create one
+
+                            alertSep.show(); //display it
+                            break;
+                        case EditBudgetAdapter.TYPE_ITEM:
+                            AlertDialog.Builder builderItem = new AlertDialog.Builder(getActivity())
+                                    .setMessage("Are you sure you want to delete the category: " + ((BudgetCategory) adapter.getItem(position)).getName() + "?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            adapter.removeItem(position);
+                                        }
+                                    })
+                                    .setNegativeButton("No", null);
+
+                            AlertDialog alertItem = builderItem.create(); // create one
+
+                            alertItem.show(); //display it
+                            break;
+                    }
+
+                    return false;
+                }
+            });
+        }
+
+        public void addNewGroup(int pos) {
+            adapter.addHeaderAtPos(new BudgetGroup(0, "New Group"), pos);
+            adapter.addNewAtPos("+ New Category", pos + 1);
+        }
+
+        public void addNewCategory(int pos) {
+            adapter.addItemAtPos(new BudgetCategory(0, "New Category", 0), pos);
         }
     }
 }
