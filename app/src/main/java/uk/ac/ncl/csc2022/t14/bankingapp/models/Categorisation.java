@@ -7,9 +7,13 @@ public class Categorisation extends ModelObject {
 
     private Transaction transaction;
     private BudgetCategory budgetCategory;
+    private double latitude;
+    private double longitude;
 
-    public Categorisation(int id) {
+    public Categorisation(int id, double latitude, double longitude) {
         super(id);
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
 
     public Transaction getTransaction() {
@@ -24,5 +28,19 @@ public class Categorisation extends ModelObject {
     }
     public void setBudgetCategory(BudgetCategory budgetCategory) {
         this.budgetCategory = budgetCategory;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

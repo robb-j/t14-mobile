@@ -25,9 +25,9 @@ public class Transaction extends ModelObject implements Parcelable {
 
     /**
      * Creates a new Transaction model
-     * @param id The unique identifier for this Transactoin
+     * @param id The unique identifier for this transaction
      * @param amount How much money was transferred
-     * @param account The account the transation was applied to
+     * @param account The account the transaction was applied to
      * @param payee Where the money was paid to
      */
     public Transaction(int id, double amount, Date date,  Account account, String payee) {
