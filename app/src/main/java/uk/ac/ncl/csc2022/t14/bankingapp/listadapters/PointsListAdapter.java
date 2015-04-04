@@ -1,36 +1,28 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.listadapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.TreeSet;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
-import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.PointGain;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.RewardTaken;
 
 /**
- * Created by Robert Hamilton on 29/03/2015.
+ * Created by Robert Hamilton on 02/04/2015.
  */
-public class AwardsAdapter extends BaseAdapter
-{
+public class PointsListAdapter extends BaseAdapter {
     public Context mContext;
     protected LayoutInflater mInflater;
 
-    private List<Reward> mDataChild;
+    private List<PointGain> mDataChild;
 
-    public AwardsAdapter(Context aContext, List<Reward> DataChild)
+    public PointsListAdapter(Context aContext, List<PointGain> DataChild)
     {
         mContext = aContext;
 
@@ -45,7 +37,7 @@ public class AwardsAdapter extends BaseAdapter
     }
 
     @Override
-    public Reward getItem(int position)
+    public PointGain getItem(int position)
     {
         return mDataChild.get(position);
     }
@@ -61,19 +53,12 @@ public class AwardsAdapter extends BaseAdapter
     {
         if(convertView == null)
         {
-            convertView = mInflater.inflate(R.layout.item_award, null);
+            convertView = mInflater.inflate(R.layout.item_recentpoints, null);
         }
-        TextView awardDate = (TextView)convertView.findViewById(R.id.textview_award_date);
-        TextView awardDetails = (TextView)convertView.findViewById(R.id.textview_award_details);
-        //awardDate.setText(mDataChild.get(position).getDateTaken().toString());
-        awardDetails.setText(mDataChild.get(position).getDescription());
+        TextView pointValue = (TextView)convertView.findViewById(R.id.textview_point_value);
+        TextView pointDescription = (TextView)convertView.findViewById(R.id.textview_point_description);
+        pointValue.setText(Integer.toString(mDataChild.get(position).getPoints()));
+        pointDescription.setText(mDataChild.get(position).getDescription());
         return convertView;
     }
-
-
-
-
-
-
-
 }

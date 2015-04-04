@@ -7,11 +7,14 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
@@ -41,6 +44,8 @@ public class EditBudgetAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+
+
     public void addItem(final BudgetCategory item) {
         mData.add(item);
         sectionBudget.add(mData.size()-1);
@@ -57,7 +62,99 @@ public class EditBudgetAdapter extends BaseAdapter {
     public void addNewItem(final String item) {
         mData.add(item);
         sectionNew.add(mData.size()-1);
-        //notifyDataSetChanged();
+        notifyDataSetChanged();
+    }
+
+    public void addItemAtPos(final BudgetCategory item, int position) {
+        mData.add(position, item);
+        incrementTreeMaps(position);
+        sectionBudget.add(position);
+        notifyDataSetChanged();
+    }
+
+    public void addHeaderAtPos(final BudgetGroup item, int position) {
+        mData.add(position, item);
+        incrementTreeMaps(position);
+        sectionHeader.add(position);
+        notifyDataSetChanged();
+    }
+
+    public void addNewAtPos(final String item, int position) {
+        mData.add(position, item);
+        incrementTreeMaps(position);
+        sectionNew.add(position);
+        notifyDataSetChanged();
+    }
+
+    public void incrementTreeMaps(Integer i) {
+        for (Integer j = getCount(); j >= i; j--) {
+
+            if (sectionBudget.contains(j)) {
+                sectionBudget.remove(j);
+                sectionBudget.add(j+1);
+            }
+
+            if (sectionHeader.contains(j)) {
+                sectionHeader.remove(j);
+                sectionHeader.add(j+1);
+            }
+
+            if (sectionNew.contains(j)) {
+                sectionNew.remove(j);
+                sectionNew.add(j+1);
+            }
+        }
+    }
+
+    public void decrementTreeMaps(Integer i) {
+        if (sectionBudget.contains(i))
+            sectionBudget.remove(i);
+
+        if (sectionHeader.contains(i))
+            sectionHeader.remove(i);
+
+        if (sectionNew.contains(i))
+            sectionNew.remove(i);
+
+        for (Integer j = i+1; j < getCount()+1; j++) {
+
+            if (sectionBudget.contains(j)) {
+                sectionBudget.remove(j);
+                sectionBudget.add(j-1);
+            }
+
+            if (sectionHeader.contains(j)) {
+                sectionHeader.remove(j);
+                sectionHeader.add(j-1);
+            }
+
+            if (sectionNew.contains(j)) {
+                sectionNew.remove(j);
+                sectionNew.add(j-1);
+            }
+        }
+    }
+
+    public void removeItem(int position) {
+
+        if (getItemViewType(position) == TYPE_SEPARATOR) {
+            mData.remove(position);
+            decrementTreeMaps(position);
+            notifyDataSetChanged();
+            while ((getItemViewType(position) == TYPE_ITEM || getItemViewType(position) == TYPE_NEW) && position != getCount()-1) {
+                mData.remove(position);
+                decrementTreeMaps(position);
+                notifyDataSetChanged();
+            }
+        } else {
+            mData.remove(position);
+            decrementTreeMaps(position);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void removeGroup(int position) {
+
     }
 
     @Override
@@ -68,9 +165,27 @@ public class EditBudgetAdapter extends BaseAdapter {
             return TYPE_SEPARATOR;
         } else if (sectionBudget.contains(position)) {
             return TYPE_ITEM;
-        } else {
+        } else if (sectionNew.contains(position)) {
             return TYPE_NEW;
         }
+        else return 7;
+    }
+
+    public ArrayList<BudgetGroup> getGroups() {
+        ArrayList<BudgetGroup> groups = new ArrayList<>();
+        for (int i = 0; i < getCount(); i++) {
+            if (getItemViewType(i) == TYPE_SEPARATOR) {
+                BudgetGroup group = (BudgetGroup)getItem(i);
+                int j = i;
+                while (getItemViewType(j) == TYPE_ITEM) {
+                    BudgetCategory category = (BudgetCategory)getItem(j);
+                    group.getCategories().add(category);
+                }
+                groups.add(group);
+            }
+        }
+
+        return groups;
     }
 
     @Override
@@ -111,6 +226,7 @@ public class EditBudgetAdapter extends BaseAdapter {
                 case TYPE_SEPARATOR:
                     convertView = mInflater.inflate(R.layout.item_budget_header, null);
                     holder.textHolder1 = (TextView) convertView.findViewById(R.id.budget_separator);
+                    holder.textHolder2 = holder.textHolder1;
                     break;
                 case TYPE_NEW:
                     convertView = mInflater.inflate(R.layout.item_add_new_budget, null);
@@ -122,10 +238,10 @@ public class EditBudgetAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if (getItemViewType(position) == TYPE_SEPARATOR) {
+        if (rowType == TYPE_SEPARATOR) {
             BudgetGroup current = (BudgetGroup)mData.get(position);
             holder.textHolder1.setText(current.getName());
-        } else if (getItemViewType(position) == TYPE_NEW) {
+        } else if (rowType == TYPE_NEW) {
             String current = (String)mData.get(position);
             holder.textHolder1.setText(current);
             if (position == getCount()-1) {
@@ -149,6 +265,7 @@ public class EditBudgetAdapter extends BaseAdapter {
 
         return convertView;
     }
+
 
     public static class ViewHolder {
 

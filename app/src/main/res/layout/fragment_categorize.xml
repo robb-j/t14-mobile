@@ -6,50 +6,76 @@
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
     tools:context="uk.ac.ncl.csc2022.t14.bankingapp.activities.CategorizeActivity$PlaceholderFragment"
-    android:background="#ffffffff">
-
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/TopRelativeLayout">
-        <ImageView
-            android:layout_width="212dp"
-            android:layout_height="50dp"
-            android:id="@+id/HorseImage"
-            android:scaleType="fitXY"
-            android:src="@drawable/lloyds_bank_logo"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="2dp"
-            android:layout_centerHorizontal="true" />
-
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="#006a4d"
-        android:layout_below="@+id/TopRelativeLayout"
-        android:layout_marginTop="2dp"
-        android:id="@+id/view" />
+    >
 
     <TextView
+        android:id="@+id/title_categorize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Categorization"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:id="@+id/layout_null"
+        android:layout_below="@+id/title_categorize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Transaction Manager"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/transactionLabel"
-        android:layout_below="@+id/view"
+        android:orientation="horizontal"
         android:layout_centerHorizontal="true"
-        android:paddingTop="10dp"/>
+        android:layout_marginTop="10dp"
+        >
+
+        <ImageView
+            android:contentDescription="new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/account_image"
+            android:maxWidth="16dp"
+            android:maxHeight="16dp"
+            android:adjustViewBounds="true"
+
+            android:layout_marginRight="10dp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/blank_space_baby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text=""/>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/text_categorize_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_null"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Select Categories for your transactions"
+        />
+
+
+    <ImageView
+        android:id="@+id/divider_categorize"
+        android:contentDescription="@string/separator_description"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@color/black"
+        android:layout_below="@+id/text_categorize_hint"
+        android:layout_marginBottom="10dp"/>
+
 
     <ExpandableListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list"
-        android:layout_below="@+id/transactionLabel"
+        android:layout_below="@+id/divider_categorize"
 
          />
 

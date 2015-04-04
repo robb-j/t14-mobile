@@ -1,5 +1,6 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +18,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
+import uk.ac.ncl.csc2022.t14.bankingapp.tabs.ATMFinder.ATMFinderFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.Awards.AwardsFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking.BankingFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
@@ -26,9 +28,9 @@ import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
 /**
  *
  */
-public class MainActivity extends ActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener, AwardsFragment.OnFragmentInteractionListener{
+public class MainActivity extends ActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener, AwardsFragment.OnFragmentInteractionListener, ATMFinderFragment.OnFragmentInteractionListener{
 
-    private static int tabs = 3;
+    private static int tabs = 4;
 
     // Method from fragment interfaces.
     @Override
@@ -51,6 +53,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         mPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
+
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -77,6 +80,9 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
                 case 2:
                     // Awards fragment activity
                     return AwardsFragment.newInstance();
+                case 3:
+                    //ATMFinder fragment activity
+                    return ATMFinderFragment.newInstance();
 
                 /* add new tabs here. Change the amount of tabs with the tabs variable. */
             }
@@ -103,6 +109,9 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
 
                 case 2:
                     return "Awards";
+
+                case 3:
+                    return "ATM Finder";
 
                 // ...
             }

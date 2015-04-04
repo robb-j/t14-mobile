@@ -41,7 +41,8 @@
         android:padding="12dp"
         android:layout_alignParentLeft="true"
         android:listSelector="@android:color/transparent"
-        android:cacheColorHint="@android:color/transparent"/>
+        android:cacheColorHint="@android:color/transparent"
+        android:descendantFocusability="afterDescendants"/>
 
     <LinearLayout
         android:id="@+id/layout_edit_budget_buttons"
