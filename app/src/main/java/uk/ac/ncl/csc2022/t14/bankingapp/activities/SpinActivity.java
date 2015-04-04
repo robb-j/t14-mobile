@@ -1,5 +1,6 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
@@ -113,6 +115,9 @@ public class SpinActivity extends ActionBarActivity implements PointSpinDelegate
     @Override
     public void spinFailed(String errMessage) {
 
+        TextView failMsg = (TextView) findViewById(R.id.textView_spinErrMessage);
+        failMsg.setTextColor(Color.parseColor("#ED1C24")); // Red but not blindingly so
+        failMsg.setText(errMessage);
     }
 
     /**

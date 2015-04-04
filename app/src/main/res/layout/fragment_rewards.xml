@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Rewards"
-        android:id="@+id/textView_title"
+        android:id="@+id/textView_rewardsTitle"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView_rewards"
-        android:layout_below="@+id/textView_title"
+        android:layout_below="@+id/textView_rewardsTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:layout_alignParentBottom="true" />

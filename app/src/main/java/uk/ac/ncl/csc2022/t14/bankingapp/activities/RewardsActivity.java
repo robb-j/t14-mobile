@@ -84,9 +84,9 @@ public class RewardsActivity extends ActionBarActivity implements ChooseRewardDe
     @Override
     public void chooseRewardFailed(String errMessage) {
         // Display the error message at the top of the screen so a user knows what went wrong
-        TextView passMsg = (TextView) findViewById(R.id.textView_selectionResponse);
-        passMsg.setTextColor(Color.parseColor("#ED1C24")); // Again, red but not too red
-        passMsg.setText("Error: " + errMessage);
+        TextView failMsg = (TextView) findViewById(R.id.textView_selectionResponse);
+        failMsg.setTextColor(Color.parseColor("#ED1C24")); // Again, red but not too red
+        failMsg.setText("Error: " + errMessage);
     }
 
     /**
