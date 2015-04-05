@@ -3,12 +3,22 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
 /**
  * Created by Jack on 06/03/2015.
  */
+
+/**
+ * Class used to model a BudgetCategory. Not to be confused with a BudgetGroup, which contains a list of BudgetCategories.
+ */
 public class BudgetCategory extends ModelObject {
 
     private String name;
     private double budgeted;
     private double spent;
 
+    /**
+     * Creates a new BudgetCategory instance
+     * @param id The unique identifier for this BudgetCategory
+     * @param name A friendly name for this BudgetCategory
+     * @param budgeted The amount of money budgeted for this category
+     */
     public BudgetCategory(int id, String name, double budgeted) {
         super(id);
         setName(name);

@@ -5,11 +5,20 @@ import java.util.Date;
 /**
  * Created by Jack on 22/03/2015.
  */
+
+/**
+ * Class used to model a reward being redeemed
+ */
 public class RewardTaken extends ModelObject {
 
     private Reward reward;
     private Date dateTaken;
 
+    /**
+     *
+     * @param id The unique identifier for this RewardTaken
+     * @param reward The reward which is being redeemed
+     */
     public RewardTaken(int id, Reward reward) {
         super(id);
         setReward(reward);

@@ -8,6 +8,10 @@ import java.util.Map;
 /**
  * Created by Jack on 06/03/2015.
  */
+
+/**
+ * Class used to manage a user's budget for the current month
+ */
 public class MonthBudget extends ModelObject {
 
     /** Maps Category ID to amount budgeted this month */
@@ -19,6 +23,10 @@ public class MonthBudget extends ModelObject {
 
     public List<BudgetGroup> newGroups;
 
+    /**
+     * Creates a new MonthBudget instance
+     * @param id The unique identifier for this MonthBudget
+     */
     public MonthBudget(int id) {
         super(id);
         budgetAmount = new HashMap<>();

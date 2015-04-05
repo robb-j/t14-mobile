@@ -4,8 +4,6 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
  * Created by Jack on 13/02/2015.
  */
 
-import android.os.Parcel;
-
 /**
  * Superclass for each model to inherit from
  * */

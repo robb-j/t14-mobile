@@ -6,11 +6,20 @@ import java.util.List;
 /**
  * Created by Jack on 06/03/2015.
  */
+
+/**
+ * Class used to model a BudgetGroup. Contains a list of BudgetCategories.
+ */
 public class BudgetGroup extends ModelObject {
 
     private String name;
     private List<BudgetCategory> categories;
 
+    /**
+     * Creates a new BudgetGroup instance
+     * @param id The unique identifier for this BudgetGroup
+     * @param name A friendly name for this BudgetGroup
+     */
     public BudgetGroup(int id, String name) {
         super(id);
         setName(name);

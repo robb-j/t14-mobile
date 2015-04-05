@@ -3,6 +3,10 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
 /**
  * Created by Jack on 12/03/2015.
  */
+
+/**
+ * Class used to model a Categorisation
+ */
 public class Categorisation extends ModelObject {
 
     private Transaction transaction;
@@ -10,6 +14,20 @@ public class Categorisation extends ModelObject {
     private double latitude;
     private double longitude;
 
+    /**
+     * Creates a new Categorisation instance without location information
+     * @param id The unique identifier for this Categorisation
+     */
+    public Categorisation(int id) {
+        super(id);
+    }
+
+    /**
+     * Creates a new Categorisation instance with location information
+     * @param id The unique identifier for this Categorisation
+     * @param latitude The latitude where this Categorisation refers to
+     * @param longitude The longitude where this Categorisation refers to
+     */
     public Categorisation(int id, double latitude, double longitude) {
         super(id);
         setLatitude(latitude);
