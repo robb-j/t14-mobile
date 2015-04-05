@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,7 @@ public class ATMFinderFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+
      * @return A new instance of fragment ATMFinderFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -60,12 +60,30 @@ public class ATMFinderFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    public static View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_atmfinder, container, false);
+        if(view!=null)
+        {
+            ViewGroup parent = (ViewGroup)view.getParent();
+            if(parent!=null)
+            {
+                parent.removeView(view);
+            }
+        }
+        try
+        {
+            view = inflater.inflate(R.layout.fragment_atmfinder, container, false);
+        }
+        catch(InflateException e)
+        {
+
+        }
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
