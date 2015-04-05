@@ -33,6 +33,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
     private static int tabs = 4;
 
     // Method from fragment interfaces.
+    public static FragmentManager fragmentManager;
     @Override
     public void onFragmentInteraction(Uri uri) {
 
@@ -57,6 +58,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+        fragmentManager = getSupportFragmentManager();
     }
 
     /**
