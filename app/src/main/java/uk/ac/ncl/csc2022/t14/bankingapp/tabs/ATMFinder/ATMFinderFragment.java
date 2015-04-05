@@ -31,10 +31,18 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,6 +100,10 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
     GoogleMap map;
     MapView mapView;
     SupportMapFragment mapFragment;
+    DummyServerConnector dSC = new DummyServerConnector();
+    List<ATM> atmlist = new ArrayList<ATM>();
+    List<Marker> atmMarkers = new ArrayList<Marker>();
+
 
 
     @Override
@@ -148,7 +160,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
         map.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-
+        //set the location of the user
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
         if(location != null)
         {
@@ -156,6 +168,23 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
             CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(15).bearing(0).tilt(0).build();
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
+        ATMDelegate aD = new ATMDelegate() {
+            @Override
+            public void loadATMsPassed(List<ATM> allATMs) {
+                atmlist = allATMs;
+                for(int i=0;i<atmlist.size();i++)
+                {
+                    MarkerOptions mO = new MarkerOptions().position(new LatLng(atmlist.get(i).getLatitude(), atmlist.get(i).getLongitude())).title(atmlist.get(i).getName());
+                    map.addMarker(mO);
+                }
+            }
+
+            @Override
+            public void loadATMsFailed(String errMessage) {
+
+            }
+        };
+        dSC.loadATMS(aD);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
