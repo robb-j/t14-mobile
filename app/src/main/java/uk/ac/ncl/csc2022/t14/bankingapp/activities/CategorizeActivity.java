@@ -129,6 +129,8 @@ public class CategorizeActivity extends ActionBarActivity {
                 {
                     currentView = Gv;
                     listDataHeader.set(groupPosition, newTransactionList.get(groupPosition).getTransaction().getPayee());
+                    newTransactionList.get(groupPosition).uncategorize();
+
                     return false;
                 }
             });
@@ -179,7 +181,7 @@ public class CategorizeActivity extends ActionBarActivity {
                 public void onClick(View v)
                 {
                    List<Categorisation> sortedTransactions = new ArrayList<Categorisation>();
-                    Log.d("Working", "yay");
+
                     //Loop goes through all the transactions to check if they're all categorized and to attach a budget category to each one
                     for(int i=0; i<newTransactionList.size();i++)
                     {
@@ -260,6 +262,7 @@ public class CategorizeActivity extends ActionBarActivity {
             }
             public Boolean getiscategorized(){return isCategorized;}
             public void categorize(){isCategorized=true;}
+            public void uncategorize(){isCategorized=false;}
         }
 
         public class category
