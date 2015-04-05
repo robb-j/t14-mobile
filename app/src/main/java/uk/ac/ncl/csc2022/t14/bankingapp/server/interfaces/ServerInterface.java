@@ -31,4 +31,13 @@ public interface ServerInterface {
      */
     void makeTransfer(int accFrom, int accTo, double amount, String token, TransferDelegate delegate);
 
+    /**
+     * @param delegate The delegate to notify of success or failure
+     */
+    void loadATMS(ATMDelegate delegate);
+
+    /**
+     * @param delegate The delegate to notify of success or failure
+     */
+    void loadHeatMap(HeatMapDelegate delegate);
 }

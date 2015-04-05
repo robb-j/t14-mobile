@@ -12,19 +12,23 @@ import java.util.TimerTask;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.RewardTaken;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategoriseDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ChooseRewardDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.HeatMapDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
@@ -405,5 +409,43 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
         else {
             delegate.spinFailed("You have no spins remaining");
         }
+    }
+
+    @Override
+    public void loadATMS(ATMDelegate delegate) {
+
+        ATM atm1 = new ATM(0,"ATM #1", 0, 0, 0);
+        ATM atm2 = new ATM(1,"ATM #2", 0, 0, 0);
+        ATM atm3 = new ATM(2,"ATM #3", 0, 0, 2.5);
+
+        List<ATM> ATMs = new ArrayList<>();
+        ATMs.add(atm1);
+        ATMs.add(atm2);
+        ATMs.add(atm3);
+
+        delegate.loadATMsPassed(ATMs);
+    }
+
+    @Override
+    public void loadHeatMap(HeatMapDelegate delegate) {
+
+        HeatPoint hp1 = new HeatPoint(1,1,1);
+        HeatPoint hp2 = new HeatPoint(2,2,1);
+        HeatPoint hp3 = new HeatPoint(3,3,1);
+        HeatPoint hp4 = new HeatPoint(4,4,1);
+        HeatPoint hp5 = new HeatPoint(5,5,1);
+        HeatPoint hp6 = new HeatPoint(6,6,1);
+        HeatPoint hp7 = new HeatPoint(7,7,1);
+
+        List<HeatPoint> heatPoints = new ArrayList<>();
+        heatPoints.add(hp1);
+        heatPoints.add(hp2);
+        heatPoints.add(hp3);
+        heatPoints.add(hp4);
+        heatPoints.add(hp5);
+        heatPoints.add(hp6);
+        heatPoints.add(hp7);
+
+        delegate.loadHeatMapPassed(heatPoints);
     }
 }
