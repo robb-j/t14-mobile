@@ -1,0 +1,28 @@
+{
+    "Transactions": [
+        {
+            "ID": 8,
+            "Amount": "-9.99",
+            "Payee": "Spotify",
+            "Date": "2015-04-01",
+            "Latitude": "53.438055",
+            "Longitude": "-1.357008",
+            "IsTransfer": "0",
+            "Account": 7
+        }
+    ],
+    "Account": {
+        "ID": 7,
+        "AccountType": "Student Account",
+        "OverdraftLimit": "500.00",
+        "Balance": "131.97",
+        "FirstTransaction": "2015-01-01",
+        "User": 2,
+        "Product": 2,
+        "Transactions": [
+            8,
+            9,
+            10
+        ]
+    }
+}

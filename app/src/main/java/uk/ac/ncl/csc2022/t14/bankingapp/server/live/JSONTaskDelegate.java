@@ -9,5 +9,5 @@ import org.json.JSONObject;
  */
 public interface JSONTaskDelegate {
 
-    public void taskCompleted(boolean success, JSONObject json);
+    public void taskCompleted(boolean success, String message, JSONObject json);
 }

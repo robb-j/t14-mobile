@@ -1,0 +1,30 @@
+{
+    "payerAcc": {
+        "ID": 7,
+        "AccountType": "Student Account",
+        "OverdraftLimit": "500.00",
+        "Balance": 121.97,
+        "FirstTransaction": "2015-01-01",
+        "User": 2,
+        "Product": 2,
+        "Transactions": [
+            8,
+            9,
+            10,
+            11
+        ]
+    },
+    "payeeAcc": {
+        "ID": 8,
+        "AccountType": "Super Saver",
+        "OverdraftLimit": "0.00",
+        "Balance": 1031.91,
+        "FirstTransaction": "2015-01-01",
+        "User": 2,
+        "Product": 1,
+        "Transactions": [
+            12
+        ]
+    },
+    "amount": "10"
+}

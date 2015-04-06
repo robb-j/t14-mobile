@@ -90,7 +90,7 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
         super.onPostExecute(result);
 
         // When we're finished, notify our delegate
-        delegate.taskCompleted(result, jsonResponse);
+        delegate.taskCompleted(result, "passed", jsonResponse);
 
     }
 }

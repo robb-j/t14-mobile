@@ -1,0 +1,155 @@
+{
+    "User": {
+        "ID": 2,
+        "Username": "geoff",
+        "FirstName": "Geoff",
+        "LastName": "Butcher",
+        "Email": "geoff@gmail.com",
+        "LastFullCategorise": "2015-01-21",
+        "DOB": "1995-08-22",
+        "Password": "F1nDmiFcLeB4rSwoUigliQ==",
+        "NumberOfSpins": "3",
+        "Points": "450",
+        "LastBudgetUpdate": "2015-03-06",
+        "Accounts": [
+            7,
+            8
+        ],
+        "Groups": [
+            3,
+            4
+        ],
+        "PointsAwarded": [
+            2,
+            3
+        ],
+        "RewardsTaken": [
+            2
+        ]
+    },
+    "NewProducts": [
+        {
+            "ID": 3,
+            "Title": "ISA Plan",
+            "Content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Sed posuere consectetur est at lobortis. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p><p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean lacinia bibendum nulla sed consectetur. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p><p>Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Curabitur blandit tempus porttitor.</p>"
+        }
+    ],
+    "Token": "Ppx9BeXdbotVtfxQJ5H3v0bEl9kFtciZ1pLcCgRP2GbGvPVX4LgVFKEB98IgflkZ",
+    "Accounts": [
+        {
+            "ID": 7,
+            "AccountType": "Student Account",
+            "OverdraftLimit": "500.00",
+            "Balance": "131.97",
+            "FirstTransaction": "2015-01-01",
+            "User": 2,
+            "Product": 2,
+            "Transactions": [
+                8,
+                9,
+                10
+            ]
+        },
+        {
+            "ID": 8,
+            "AccountType": "Super Saver",
+            "OverdraftLimit": "0.00",
+            "Balance": "1021.91",
+            "FirstTransaction": "2015-01-01",
+            "User": 2,
+            "Product": 1
+        }
+    ],
+    "Groups": [
+        {
+            "ID": 3,
+            "Title": "Bills",
+            "User": 2,
+            "Categories": [
+                7,
+                8
+            ]
+        },
+        {
+            "ID": 4,
+            "Title": "Spending Money",
+            "User": 2,
+            "Categories": [
+                9,
+                10
+            ]
+        }
+    ],
+    "Categories": [
+        {
+            "ID": 7,
+            "Title": "Rent",
+            "Budgeted": "500.00",
+            "Balance": "450.00",
+            "Group": 3
+        },
+        {
+            "ID": 8,
+            "Title": "Utilities",
+            "Budgeted": "50.00",
+            "Balance": "40.00",
+            "Group": 3
+        },
+        {
+            "ID": 9,
+            "Title": "Going Out",
+            "Budgeted": "100.00",
+            "Balance": "140.00",
+            "Group": 4
+        },
+        {
+            "ID": 10,
+            "Title": "Eating Out",
+            "Budgeted": "80.00",
+            "Balance": "30.00",
+            "Group": 4
+        }
+    ],
+    "RecentGains": [
+        {
+            "ID": 3,
+            "Title": "Spin Reward",
+            "Date": "2015-03-26",
+            "Description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.",
+            "Points": "25",
+            "User": 2
+        },
+        {
+            "ID": 2,
+            "Title": "Spin Reward",
+            "Date": "2015-04-01",
+            "Description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
+            "Points": "10",
+            "User": 2
+        }
+    ],
+    "RecentRewards": [
+        {
+            "ID": 2,
+            "Date": "2015-04-05",
+            "Reward": 1,
+            "User": 2
+        }
+    ],
+    "Rewards": [
+        {
+            "ID": 1,
+            "Title": "Cinema Tickets",
+            "Description": "Sed posuere consectetur est at lobortis. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum.",
+            "Cost": "300",
+            "EmailContent": "<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur blandit tempus porttitor. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>"
+        },
+        {
+            "ID": 2,
+            "Title": "Amazon Voucher",
+            "Description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Cras mattis consectetur purus sit amet fermentum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus mollis interdum. Maecenas faucibus mollis interdum.",
+            "Cost": "200",
+            "EmailContent": "<p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cras mattis consectetur purus sit amet fermentum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus mollis interdum. Maecenas faucibus mollis interdum.</p>"
+        }
+    ]
+}
