@@ -91,9 +91,11 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
+
         //Get this account's updated values from a transaction
         Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
 
@@ -103,6 +105,8 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
                 "\n" + Utility.doubleToCurrency(account.getOverdraftLimit()));
 
     }
+
+
 
     @Override
     public void transactionsLoaded(Account account, List<Transaction> transactions) {

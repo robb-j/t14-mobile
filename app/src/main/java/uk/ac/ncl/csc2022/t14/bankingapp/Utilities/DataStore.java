@@ -17,6 +17,7 @@ public class DataStore {
     private List<Reward> rewards;
     private String token;
 
+
     public static DataStore sharedInstance() {
         return sharedInstance;
     }
@@ -37,6 +38,9 @@ public class DataStore {
     public List<Reward> getRewards() {
         return rewards;
     }
+
+
+
     public void setRewards(List<Reward> rewards) {
         this.rewards = rewards;
     }

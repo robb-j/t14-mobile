@@ -40,4 +40,6 @@ public interface ServerInterface {
      * @param delegate The delegate to notify of success or failure
      */
     void loadHeatMap(HeatMapDelegate delegate);
+
+    //void logout();
 }
