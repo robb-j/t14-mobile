@@ -31,6 +31,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategoriseDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategorizeLocationDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 
 public class CategorizeActivity extends ActionBarActivity {
@@ -112,8 +113,19 @@ public class CategorizeActivity extends ActionBarActivity {
 
 
             getListData();
+            //final int LNG_LAT_REQUEST = 1;
+            CategorizeLocationDelegate cLD = new CategorizeLocationDelegate() {
+                @Override
+                public void openMap(int groupNumber) {
+                    Log.d("This is ", "working");
+                    Intent i = new Intent(getActivity(), AddTransactionLocationActivity.class);
+                    startActivityForResult(i, groupNumber);
 
-            eListAdapter = new ExpandableListAdapter(this.getActivity(), listDataHeader, listDataChild);
+                }
+            };
+
+
+            eListAdapter = new ExpandableListAdapter(this.getActivity(), listDataHeader, listDataChild, cLD);
             getActivity().setContentView(R.layout.fragment_categorize);
             expListView = (ExpandableListView) getActivity().findViewById(R.id.list);
 
@@ -175,12 +187,14 @@ public class CategorizeActivity extends ActionBarActivity {
                     }
                 }
             });
+
             Button confirmButton = (Button)this.getActivity().findViewById(R.id.confirm_categories);
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
                    List<Categorisation> sortedTransactions = new ArrayList<Categorisation>();
+
 
                     //Loop goes through all the transactions to check if they're all categorized and to attach a budget category to each one
                     for(int i=0; i<newTransactionList.size();i++)
@@ -189,13 +203,29 @@ public class CategorizeActivity extends ActionBarActivity {
                         //Is it categorized?
                         if(newTransactionList.get(i).isCategorized)
                         {
-                            //Hard coded Longitude and latitude
-                            Categorisation cat = new Categorisation(i,0,0);
-                            //the set functions in categorisation were private, I've changed them
-                            cat.setTransaction(newTransactionList.get(i).getTransaction());
-                            //use the coordinates saved when the category object was created to find the correct budget category
-                            cat.setBudgetCategory(currentUser.getAllGroups().get(newTransactionList.get(i).getCategory().getGroupCoordinate()).getCategories().get(newTransactionList.get(i).getCategory().getCategoryCoordinate()));
-                            sortedTransactions.add(cat);
+                            //Yeah it's messy like this I know
+                            if(newTransactionList.get(i).getLatitude() == 0.0 && newTransactionList.get(i).getLongitude() == 0)
+                            {
+                                Categorisation cat = new Categorisation(i);
+                                //the set functions in categorisation were private, I've changed them
+                                cat.setTransaction(newTransactionList.get(i).getTransaction());
+                                //use the coordinates saved when the category object was created to find the correct budget category
+                                cat.setBudgetCategory(currentUser.getAllGroups().get(newTransactionList.get(i).getCategory().getGroupCoordinate()).getCategories().get(newTransactionList.get(i).getCategory().getCategoryCoordinate()));
+
+                                sortedTransactions.add(cat);
+                                Log.d("The transactions are: ", cat.toString());
+                            }
+                            else {
+                                //if a location has been set, use the alternatative constructer
+                                Categorisation cat = new Categorisation(i, newTransactionList.get(i).getLatitude(), newTransactionList.get(i).getLongitude());
+                                //the set functions in categorisation were private, I've changed them
+                                cat.setTransaction(newTransactionList.get(i).getTransaction());
+                                //use the coordinates saved when the category object was created to find the correct budget category
+                                cat.setBudgetCategory(currentUser.getAllGroups().get(newTransactionList.get(i).getCategory().getGroupCoordinate()).getCategories().get(newTransactionList.get(i).getCategory().getCategoryCoordinate()));
+
+                                sortedTransactions.add(cat);
+                                Log.d("The transactions are: ", cat.toString());
+                            }
 
                         }
                         else
@@ -217,6 +247,7 @@ public class CategorizeActivity extends ActionBarActivity {
                             }
 
                             //All the transactions are categorized, go back to main activity
+
                             getActivity().finish();
                             //Intent i = new Intent(getActivity(), MainActivity.class);
                             //startActivity(i);
@@ -237,12 +268,22 @@ public class CategorizeActivity extends ActionBarActivity {
 
             return rootView;
         }
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data)
+        {
+            Log.d("The click was at ", Integer.toString(requestCode));
+            newTransactionList.get(requestCode).setLongitude(data.getExtras().getDouble("Lng"));
+            newTransactionList.get(requestCode).setLatitude(data.getExtras().getDouble("Lat"));
+
+        }
 
         public class newTransaction
         {
             private Transaction transaction;
             private category category;
             private boolean isCategorized;
+            private double latitude;
+            private double longitude;
             public void setTransaction(Transaction t)
             {
                 transaction = t;
@@ -263,6 +304,11 @@ public class CategorizeActivity extends ActionBarActivity {
             public Boolean getiscategorized(){return isCategorized;}
             public void categorize(){isCategorized=true;}
             public void uncategorize(){isCategorized=false;}
+            public void setLatitude(double lat){latitude=lat;}
+            public double getLatitude(){return latitude;}
+            public void setLongitude(double lng){longitude=lng;}
+            public double getLongitude(){return longitude;}
+
         }
 
         public class category

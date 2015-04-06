@@ -1,6 +1,8 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -118,6 +120,16 @@ public class AddTransactionLocationActivity extends ActionBarActivity {
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(15).bearing(0).tilt(0).build();
                 map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
+            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    Intent i = new Intent();
+                    i.putExtra("Lng", latLng.longitude);
+                    i.putExtra("Lat", latLng.latitude);
+                    getActivity().setResult(Activity.RESULT_OK, i);
+                    getActivity().finish();
+                }
+            });
 
         }
     }
