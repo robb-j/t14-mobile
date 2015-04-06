@@ -414,9 +414,9 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
     @Override
     public void loadATMS(ATMDelegate delegate) {
 
-        ATM atm1 = new ATM(0,"ATM #1", 0, 0, 0);
-        ATM atm2 = new ATM(1,"ATM #2", 0, 0, 0);
-        ATM atm3 = new ATM(2,"ATM #3", 0, 0, 2.5);
+        ATM atm1 = new ATM(0,"Sainsbury's", 51.141395, 0.260385, 0); //It's in Tunbridge wells
+        ATM atm2 = new ATM(1,"NatWest", 51.133236, 0.263165, 0);
+        ATM atm3 = new ATM(2,"ATM #3", 39.042601, 125.754663, 2.5);
 
         List<ATM> ATMs = new ArrayList<>();
         ATMs.add(atm1);

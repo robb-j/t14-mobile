@@ -1,18 +1,23 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.listadapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.CategorizeActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategorizeLocationDelegate;
 
 /**
  * Created by Robert Hamilton on 20/03/2015.
@@ -24,12 +29,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     private List<String> _listDataHeader;
     //The categories
     private HashMap<String, List<String>> _listDataChild;
+    private CategorizeLocationDelegate cLD;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData)
+    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData, CategorizeLocationDelegate _cLD)
     {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
+        this.cLD = _cLD;
     }
 
     @Override
@@ -88,7 +95,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
     //Returns the view for the list group header
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
+    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
 
         String headerTitle = (String) getGroup(groupPosition);
@@ -102,6 +109,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle);
+        ImageView globe = (ImageView)convertView.findViewById(R.id.location_categorize_button);
+        globe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("The group selected is: ", Integer.toString(groupPosition));
+                cLD.openMap(groupPosition);
+
+            }
+        });
 
 
         //Log.d("LDH", Integer.toString(groupPosition) + " - " + isExpanded + " " + headerTitle);

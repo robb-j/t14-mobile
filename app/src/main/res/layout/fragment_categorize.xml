@@ -8,6 +8,8 @@
     tools:context="uk.ac.ncl.csc2022.t14.bankingapp.activities.CategorizeActivity$PlaceholderFragment"
     >
 
+
+
     <TextView
         android:id="@+id/title_categorize"
         android:layout_width="match_parent"
@@ -94,5 +96,7 @@
         android:layout_marginBottom="3dp"
         android:enabled="true"
         />
+
+
 
 </RelativeLayout>
