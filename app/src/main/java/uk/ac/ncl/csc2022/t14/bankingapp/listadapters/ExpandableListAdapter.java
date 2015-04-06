@@ -27,16 +27,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     private Context _context;
     //The transactions
     private List<String> _listDataHeader;
+    private List<Boolean> listTransactionLocated;
     //The categories
     private HashMap<String, List<String>> _listDataChild;
     private CategorizeLocationDelegate cLD;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData, CategorizeLocationDelegate _cLD)
+    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listChildData, CategorizeLocationDelegate _cLD, List<Boolean> lTD)
     {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
         this.cLD = _cLD;
+        this.listTransactionLocated = lTD;
     }
 
     @Override
@@ -95,7 +97,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
     //Returns the view for the list group header
     @Override
-    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
+    public View getGroupView(final int groupPosition, boolean isExpanded,View convertView, ViewGroup parent)
     {
 
         String headerTitle = (String) getGroup(groupPosition);
@@ -109,6 +111,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle);
+        final View header = convertView;
         ImageView globe = (ImageView)convertView.findViewById(R.id.location_categorize_button);
         globe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +119,22 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
                 Log.d("The group selected is: ", Integer.toString(groupPosition));
                 cLD.openMap(groupPosition);
 
+
             }
         });
+        if(listTransactionLocated.get(groupPosition))
+        {
+            Log.d("The list is: ", listTransactionLocated.toString());
+            globe.setImageResource(R.drawable.tglobe_icon_white);
+        }
+        else
+        {
+            globe.setImageResource(R.drawable.tglobe_icon);
+        }
 
 
-        //Log.d("LDH", Integer.toString(groupPosition) + " - " + isExpanded + " " + headerTitle);
+
+
 
         return convertView;
     }
