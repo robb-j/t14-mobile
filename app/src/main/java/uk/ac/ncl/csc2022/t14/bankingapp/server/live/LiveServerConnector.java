@@ -24,7 +24,6 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.HeatMapDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerBudgetingInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
@@ -33,7 +32,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
  * An implementation of the server interfaces that connects to the live server
  * Created by Rob A on 30/03/15.
  */
-public class LiveServerConnector implements ServerInterface, ServerBudgetingInterface {
+public class LiveServerConnector implements ServerInterface {
 
     private final String DEFAULT_BASE_URL = "http://t14.veotest.co.uk/bankingapi/";
     private JSONFetcher jsonFetcher;

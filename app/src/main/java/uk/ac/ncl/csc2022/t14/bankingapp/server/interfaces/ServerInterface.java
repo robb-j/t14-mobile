@@ -1,8 +1,12 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces;
 
 import java.util.Date;
+import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 
 /**
  * Created by Sam on 17/02/2015.
@@ -10,6 +14,10 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 public interface ServerInterface {
 
 
+
+    /*
+     *      V1 - Basic Banking
+     */
 
     /**
      * @param password The characters the user has entered.
@@ -29,6 +37,49 @@ public interface ServerInterface {
      */
     void makeTransfer(Account accountA, Account accountB, double amount, TransferDelegate delegate);
 
+
+
+
+
+    /*
+     *      V2 - Budgeting & Rewards
+     */
+
+    /**
+     * @param delegate The delegate to notify with the new payments
+     */
+    void loadNewPaymentsForUser(NewPaymentsDelegate delegate);
+
+    /**
+     * @param categorizations The categorisations to make
+     * @param delegate The delegate to notify of success
+     */
+    void categorisePayments(List<Categorisation> categorizations, CategoriseDelegate delegate);
+
+    /**
+     * @param newBudget The budget to update with
+     * @param delegate The delegate to notify of success
+     */
+    void updateBudget(MonthBudget newBudget, BudgetUpdateDelegate delegate);
+
+    /**
+     * @param reward The reward chosen
+     * @param delegate The delegate to notify of success
+     */
+    void chooseReward(Reward reward, ChooseRewardDelegate delegate);
+
+    /**
+     * @param delegate The delegate to notify of success
+     */
+    void performSpin(PointSpinDelegate delegate);
+
+
+
+
+
+    /*
+     *      V3 - Location Services
+     */
     /**
      * @param delegate The delegate to notify of success or failure
      */

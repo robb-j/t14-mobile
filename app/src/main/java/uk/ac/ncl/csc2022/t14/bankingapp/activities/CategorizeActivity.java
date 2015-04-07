@@ -34,6 +34,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategoriseDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategorizeLocationDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
 public class CategorizeActivity extends ActionBarActivity {
     User currentUser;
@@ -97,7 +98,7 @@ public class CategorizeActivity extends ActionBarActivity {
         List<Boolean> listTransactionLocated = new ArrayList<Boolean>();
 
         User currentUser = DataStore.sharedInstance().getCurrentUser();
-        DummyServerConnector dSC = new DummyServerConnector();
+        ServerInterface dSC = DataStore.sharedInstance().getConnector();
 
 
 

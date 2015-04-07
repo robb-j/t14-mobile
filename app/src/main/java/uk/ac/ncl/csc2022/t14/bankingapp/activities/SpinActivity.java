@@ -2,7 +2,6 @@ package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -18,9 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerBudgetingInterface;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
 public class SpinActivity extends ActionBarActivity implements PointSpinDelegate {
 
@@ -139,7 +138,7 @@ public class SpinActivity extends ActionBarActivity implements PointSpinDelegate
                 @Override
                 public void onClick(View v) {
                     //Perform a spin
-                    ServerBudgetingInterface sbi = new DummyServerConnector();
+                    ServerInterface sbi = DataStore.sharedInstance().getConnector();
                     sbi.performSpin((PointSpinDelegate) getActivity());
                 }
             });

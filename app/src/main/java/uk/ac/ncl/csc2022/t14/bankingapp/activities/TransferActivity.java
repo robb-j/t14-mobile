@@ -188,7 +188,7 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
         }
 
         public void btnMakeTransfer(View v, Account accountTo, double amount) {
-            ServerInterface transferrer = new DummyServerConnector();
+            ServerInterface transferrer = DataStore.sharedInstance().getConnector();
 
             Account accountA = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountFromId);
             Account accountB = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountFromId);

@@ -1,11 +1,8 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -30,7 +27,6 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.HeatMapDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerBudgetingInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
@@ -38,7 +34,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
 /**
  * Created by Sam on 17/02/2015.
  */
-public class DummyServerConnector implements ServerInterface, ServerBudgetingInterface {
+public class DummyServerConnector implements ServerInterface {
 
 
     @Override
