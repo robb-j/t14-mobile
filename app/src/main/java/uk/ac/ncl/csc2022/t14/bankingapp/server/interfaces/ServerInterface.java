@@ -19,17 +19,15 @@ public interface ServerInterface {
 
     /**
      * @param month Month of transactions to load.
-     * @param token Token required to authenticate session.
      */
-    void loadTransactions(Account account, int month, int year, String token, TransactionDelegate delegate);
+    void loadTransactions(Account account, int month, int year, TransactionDelegate delegate);
 
     /**
-     * @param accFrom Account transferring from.
-     * @param accTo Account transferring to.
+     * @param accountA Account transferring from.
+     * @param accountB Account transferring to.
      * @param amount Amount to be transferred.
-     * @param token Token required to authenticate session.
      */
-    void makeTransfer(int accFrom, int accTo, double amount, String token, TransferDelegate delegate);
+    void makeTransfer(Account accountA, Account accountB, double amount, TransferDelegate delegate);
 
     /**
      * @param delegate The delegate to notify of success or failure
@@ -37,7 +35,10 @@ public interface ServerInterface {
     void loadATMS(ATMDelegate delegate);
 
     /**
+     * @param accounts The ids of the account to filter by, if empty will use them all
+     * @param start When to start filtering by, if null will default to the start of time
+     * @param end When to stop the filter, if null will default to today
      * @param delegate The delegate to notify of success or failure
      */
-    void loadHeatMap(HeatMapDelegate delegate);
+    void loadHeatMap(int[] accounts, Date start, Date end, HeatMapDelegate delegate);
 }

@@ -32,7 +32,6 @@ import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.TransactionAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
@@ -323,7 +322,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
             ServerInterface transactionLoader = new DummyServerConnector();
             Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
-            transactionLoader.loadTransactions(account, month, year, "DummyTokenThatIsReallyLong", (TransactionDelegate)getActivity());
+            transactionLoader.loadTransactions(account, month, year, (TransactionDelegate)getActivity());
 
         }
 

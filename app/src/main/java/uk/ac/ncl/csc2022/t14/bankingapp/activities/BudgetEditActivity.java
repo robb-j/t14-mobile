@@ -220,7 +220,7 @@ public class BudgetEditActivity extends ActionBarActivity {
         }
 
         public void addNewCategory(int pos) {
-            adapter.addItemAtPos(new BudgetCategory(0, "New Category", 0), pos);
+            adapter.addItemAtPos(new BudgetCategory(0, "New Category", 0, 0), pos);
         }
     }
 }
