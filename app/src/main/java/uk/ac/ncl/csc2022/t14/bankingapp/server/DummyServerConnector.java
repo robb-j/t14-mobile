@@ -421,13 +421,19 @@ public class DummyServerConnector implements ServerInterface {
     @Override
     public void loadHeatMap(int[] accounts, Date start, Date end, HeatMapDelegate delegate) {
 
-        HeatPoint hp1 = new HeatPoint(51.141395,0.260385, 1);
-        HeatPoint hp2 = new HeatPoint(51.133236,0.263165, 2);
-        HeatPoint hp3 = new HeatPoint(51.133336,0.263265, 3);
-        HeatPoint hp4 = new HeatPoint(51.133136,0.263365, 4);
-        HeatPoint hp5 = new HeatPoint(51.133236,0.263465, 5);
-        HeatPoint hp6 = new HeatPoint(51.133236,0.263665, 6);
-        HeatPoint hp7 = new HeatPoint(51.133236,0.263565, 7);
+        HeatPoint hp1 = new HeatPoint(51.141395,0.260385, 10);
+        HeatPoint hp2 = new HeatPoint(51.133236,0.263165, 20);
+        HeatPoint hp3 = new HeatPoint(51.133336,0.263265, 30);
+        HeatPoint hp4 = new HeatPoint(51.133136,0.263365, 40);
+        HeatPoint hp5 = new HeatPoint(51.133236,0.263465, 50);
+        HeatPoint hp6 = new HeatPoint(51.133236,0.263665, 60);
+        HeatPoint hp7 = new HeatPoint(51.133236,0.263565, 70);
+        HeatPoint hp8 = new HeatPoint(51.134711, 0.265076, 40);
+        HeatPoint hp9 = new HeatPoint(51.135398, 0.268144, 30);
+        HeatPoint hp10 = new HeatPoint(51.136421, 0.262351, 20);
+        HeatPoint hp11 = new HeatPoint(51.140271, 0.260462, 70);
+
+
 
         List<HeatPoint> heatPoints = new ArrayList<>();
         heatPoints.add(hp1);
@@ -437,6 +443,10 @@ public class DummyServerConnector implements ServerInterface {
         heatPoints.add(hp5);
         heatPoints.add(hp6);
         heatPoints.add(hp7);
+        heatPoints.add(hp8);
+        heatPoints.add(hp9);
+        heatPoints.add(hp10);
+        heatPoints.add(hp11);
 
         delegate.loadHeatMapPassed(heatPoints);
     }

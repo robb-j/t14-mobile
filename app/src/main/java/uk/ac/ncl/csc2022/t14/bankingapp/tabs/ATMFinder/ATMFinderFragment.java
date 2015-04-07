@@ -169,6 +169,10 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
 
 
         MapsInitializer.initialize(getActivity());
+        if(map==null)
+        {
+            Log.d("The map is the problem", "h");
+        }
 
         map.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
