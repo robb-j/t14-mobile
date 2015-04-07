@@ -158,7 +158,7 @@ public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdat
                     switch (adapter.getItemViewType(position)) {
                         case EditBudgetAdapter.TYPE_SEPARATOR:
 
-                            
+
 
                             break;
                         case EditBudgetAdapter.TYPE_ITEM:

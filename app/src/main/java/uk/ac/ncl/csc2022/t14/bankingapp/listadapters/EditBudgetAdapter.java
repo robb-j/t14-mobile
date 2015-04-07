@@ -5,7 +5,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +53,8 @@ public class EditBudgetAdapter extends BaseAdapter {
 
     public EditBudgetAdapter(Context context) {
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
     }
 
 
@@ -261,6 +267,25 @@ public class EditBudgetAdapter extends BaseAdapter {
         return groups;
     }
 
+    public void setEditText(int position, String newText) {
+        int rowType = getItemViewType(position);
+
+        switch (rowType) {
+            case TYPE_SEPARATOR:
+                ((BudgetGroup)mData.get(position)).setName(newText);
+                break;
+            case TYPE_ITEM:
+                ((BudgetCategory)mData.get(position)).setName(newText);
+        }
+    }
+
+    public void setCategoryCost(int position, double d) {
+        if (mData.get(position) instanceof BudgetCategory) {
+            BudgetCategory category = (BudgetCategory)mData.get(position);
+            category.setBudgeted(d);
+        }
+    }
+
     @Override
     public int getViewTypeCount() {
         return 4;
@@ -282,7 +307,9 @@ public class EditBudgetAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
+
+
 
 
 
@@ -296,13 +323,13 @@ public class EditBudgetAdapter extends BaseAdapter {
                 case TYPE_ITEM:
                     convertView = mInflater.inflate(R.layout.item_edit_budget, null);
 
-                    holder.textHolder1 = (TextView) convertView.findViewById(R.id.edit_budget_details);
-                    holder.textHolder2 = (TextView) convertView.findViewById(R.id.edit_budget_cost);
+                    holder.textHolder1 = (EditText) convertView.findViewById(R.id.edit_budget_details);
+                    holder.textHolder2 = (EditText) convertView.findViewById(R.id.edit_budget_cost);
 
                     break;
                 case TYPE_SEPARATOR:
                     convertView = mInflater.inflate(R.layout.item_budget_header, null);
-                    holder.textHolder1 = (TextView) convertView.findViewById(R.id.budget_separator);
+                    holder.textHolder1 = (EditText) convertView.findViewById(R.id.budget_separator);
                     holder.textHolder2 = holder.textHolder1;
 
                     break;
@@ -321,6 +348,7 @@ public class EditBudgetAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         if (rowType == TYPE_SEPARATOR) {
 
                 BudgetGroup current = (BudgetGroup) mData.get(position);
@@ -328,10 +356,6 @@ public class EditBudgetAdapter extends BaseAdapter {
         } else if (rowType == TYPE_NEW) {
             String current = (String) mData.get(position);
             holder.textHolder1.setText(current);
-            if (position == getCount() - 1) {
-                holder.textHolder1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                holder.textHolder1.setTypeface(null, Typeface.BOLD);
-            }
 
         } else if (rowType == TYPE_ITEM) {
 
@@ -345,7 +369,12 @@ public class EditBudgetAdapter extends BaseAdapter {
                 }
                 holder.textHolder2.setText(Utility.doubleToCurrency(current.getBudgeted() - current.getSpent()));
         }
+
+
+
         return convertView;
+
+
     }
 
 

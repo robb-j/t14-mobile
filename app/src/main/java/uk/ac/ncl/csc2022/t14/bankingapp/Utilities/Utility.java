@@ -43,5 +43,15 @@ public class Utility {
     }
 
 
+    public static double currencyToDouble(String s) {
+
+
+            s = s.replace("£", "");
+
+        return Double.parseDouble(s);
+
+    }
+
+
 
 }
