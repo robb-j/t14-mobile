@@ -1,8 +1,11 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 
 /**
  * Created by Sam on 17/02/2015.
@@ -40,6 +43,8 @@ public interface ServerInterface {
      * @param delegate The delegate to notify of success or failure
      */
     void loadHeatMap(HeatMapDelegate delegate);
+
+    void updateBudget(BudgetUpdateDelegate delegate, HashMap<Integer, BudgetGroup> updatedGroups, ArrayList<BudgetGroup> newGroups, ArrayList<BudgetGroup> deletedGroups);
 
     //void logout();
 }

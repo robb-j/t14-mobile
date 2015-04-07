@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -447,5 +448,12 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
         heatPoints.add(hp7);
 
         delegate.loadHeatMapPassed(heatPoints);
+    }
+
+    @Override
+    public void updateBudget(BudgetUpdateDelegate delegate, HashMap<Integer, BudgetGroup> updatedGroups, ArrayList<BudgetGroup> newGroups, ArrayList<BudgetGroup> deletedGroups) {
+
+        
+
     }
 }

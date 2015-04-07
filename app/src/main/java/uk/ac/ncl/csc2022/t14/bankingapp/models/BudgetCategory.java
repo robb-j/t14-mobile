@@ -9,6 +9,9 @@ package uk.ac.ncl.csc2022.t14.bankingapp.models;
  */
 public class BudgetCategory extends ModelObject {
 
+    public static final int TYPE_NEW = -1;
+    public static final int TYPE_REMOVED = -2;
+
     private String name;
     private double budgeted;
     private double spent;
@@ -45,5 +48,9 @@ public class BudgetCategory extends ModelObject {
     }
     private void setSpent(double spent) {
         this.spent = spent;
+    }
+
+    public void setDeleted() {
+        setId(TYPE_REMOVED);
     }
 }

@@ -2,35 +2,32 @@ package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
-import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
-import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BudgetAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.EditBudgetAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
-public class BudgetEditActivity extends ActionBarActivity {
+public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdateDelegate{
 
 
 
@@ -66,6 +63,16 @@ public class BudgetEditActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void updateBudgetPassed() {
+
+    }
+
+    @Override
+    public void updateBudgetFailed(String errMessage) {
+
     }
 
     /**
@@ -119,17 +126,18 @@ public class BudgetEditActivity extends ActionBarActivity {
          */
         public void saveBudget() {
 
-            // create a MonthBudget object (TODO: REPLACE ID)
-            MonthBudget monthBudget = DataStore.sharedInstance().getCurrentUser().getCurrentBudget();
-            // monthBudget.setNewGroups(adapter.getGroups());
-            DataStore.sharedInstance().getCurrentUser().setCurrentBudget(monthBudget);
+            // map of updates groups
+            HashMap<Integer, BudgetGroup> updatedGroups = adapter.getUpdatedGroups();
 
+            // list of groups that were deleted
+            ArrayList<BudgetGroup> deletedGroups = adapter.getDeletedGroups();
 
+            // list of new groups
+            ArrayList<BudgetGroup> newGroups = adapter.getNewGroups();
 
-            // put the information into a MonthBudget object (group and category name changes)
+            ServerInterface budgetUpdater = new DummyServerConnector();
+            // budgetUpdater.updateBudget("token", updatedGroups, newGroups, deletedGroups);
 
-
-            // pass the information to the server connector
         }
 
         public void refreshBudget(View v) {
@@ -215,12 +223,12 @@ public class BudgetEditActivity extends ActionBarActivity {
         }
 
         public void addNewGroup(int pos) {
-            adapter.addHeaderAtPos(new BudgetGroup(0, "New Group"), pos);
+            adapter.addHeaderAtPos(new BudgetGroup(BudgetGroup.TYPE_NEW, "New Group"), pos);
             adapter.addNewAtPos("+ New Category", pos + 1);
         }
 
         public void addNewCategory(int pos) {
-            adapter.addItemAtPos(new BudgetCategory(0, "New Category", 0), pos);
+            adapter.addItemAtPos(new BudgetCategory(BudgetCategory.TYPE_NEW, "New Category", 0), pos);
         }
     }
 }

@@ -12,6 +12,9 @@ import java.util.List;
  */
 public class BudgetGroup extends ModelObject {
 
+    public static final int TYPE_NEW = -1;
+    public static final int TYPE_REMOVED = -2;
+
     private String name;
     private List<BudgetCategory> categories;
 
@@ -38,5 +41,9 @@ public class BudgetGroup extends ModelObject {
     }
     private void setCategories(List<BudgetCategory> categories) {
         this.categories = categories;
+    }
+
+    public void setDeleted() {
+        setId(TYPE_REMOVED);
     }
 }
