@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -71,6 +73,14 @@ public class RewardsActivity extends ActionBarActivity implements ChooseRewardDe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Update the user's current points to their most recent value
+        TextView curPoints = (TextView) findViewById(R.id.textView_currentPoints);
+        curPoints.setText("Current Points: " + DataStore.sharedInstance().getCurrentUser().getPoints());
     }
 
     @Override
@@ -149,6 +159,20 @@ public class RewardsActivity extends ActionBarActivity implements ChooseRewardDe
             for (Reward r : rewards) {
                 names.add(r.getName() +" "+ r.getCost());
             }
+
+            // Display the user's current points
+            TextView curPoints = (TextView) rootView.findViewById(R.id.textView_currentPoints);
+            curPoints.setText("Current Points: " + DataStore.sharedInstance().getCurrentUser().getPoints());
+
+            // Make the spin button lead to the spin activity
+            Button spinButton = (Button) rootView.findViewById(R.id.btn_goto_spin);
+            spinButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), SpinActivity.class);
+                    startActivity(i);
+                }
+            });
 
             // Set this list of reward names to be displayed in the fragment
             adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, names);
