@@ -47,12 +47,14 @@ import java.util.Date;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.HeatMapDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -108,7 +110,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
     GoogleMap map;
     MapView mapView;
     SupportMapFragment mapFragment;
-    DummyServerConnector dSC = new DummyServerConnector();
+    ServerInterface dSC = DataStore.sharedInstance().getConnector();
     List<ATM> atmlist = new ArrayList<ATM>();
     List<Marker> atmMarkers = new ArrayList<Marker>();
     Location mlocation;

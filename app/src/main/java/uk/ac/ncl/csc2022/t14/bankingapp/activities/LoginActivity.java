@@ -272,7 +272,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
 
 
                     // create the dummy server connector
-                    DummyServerConnector dummy = new DummyServerConnector();
+                    ServerInterface dummy = DataStore.sharedInstance().getConnector();
 
                     // call the login method
                     dummy.login(username, password, indices, (LoginActivity)getActivity());

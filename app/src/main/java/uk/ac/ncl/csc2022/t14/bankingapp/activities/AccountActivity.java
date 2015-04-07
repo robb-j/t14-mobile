@@ -324,7 +324,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
             progressLoadTransactions.setMessage("Please wait...");
             progressLoadTransactions.show();
 
-            ServerInterface transactionLoader = new DummyServerConnector();
+            ServerInterface transactionLoader = DataStore.sharedInstance().getConnector();
             Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
             transactionLoader.loadTransactions(account, month, year, (TransactionDelegate)getActivity());
 

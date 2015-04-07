@@ -31,9 +31,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
 public class AddTransactionLocationActivity extends ActionBarActivity {
 
@@ -84,7 +86,7 @@ public class AddTransactionLocationActivity extends ActionBarActivity {
         MapView mapView;
         SupportMapFragment mapFragment;
         MarkerOptions mO = new MarkerOptions();
-        DummyServerConnector dSC = new DummyServerConnector();
+        ServerInterface dSC = DataStore.sharedInstance().getConnector();
 
 
         public PlaceholderFragment() {
