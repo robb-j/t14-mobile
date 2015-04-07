@@ -3,6 +3,7 @@ package uk.ac.ncl.csc2022.t14.bankingapp.server;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -319,7 +320,7 @@ public class DummyServerConnector implements ServerInterface {
     }
 
     @Override
-    public void updateBudget(MonthBudget newBudget, BudgetUpdateDelegate delegate) {
+    public void updateBudget(HashMap<Integer, BudgetGroup> updatedGroups, ArrayList<BudgetGroup> newGroups, ArrayList<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate) {
 
         // Get the token from the data store
         String token = DataStore.sharedInstance().getToken();
@@ -328,7 +329,8 @@ public class DummyServerConnector implements ServerInterface {
         if (token.equals("DummyTokenThatIsReallyLong"))
         {
             // Update the user's budget
-            DataStore.sharedInstance().getCurrentUser().setCurrentBudget(newBudget);
+
+
             // Notify delegate that completion was successful
             delegate.updateBudgetPassed();
         }

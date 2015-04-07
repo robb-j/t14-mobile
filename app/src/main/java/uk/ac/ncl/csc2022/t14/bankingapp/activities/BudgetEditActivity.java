@@ -29,8 +29,11 @@ import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.EditBudgetAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
-public class BudgetEditActivity extends ActionBarActivity {
+public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdateDelegate {
 
 
 
@@ -68,13 +71,22 @@ public class BudgetEditActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void updateBudgetPassed() {
+
+    }
+
+    @Override
+    public void updateBudgetFailed(String errMessage) {
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
 
         EditBudgetAdapter adapter = null;
-        MonthBudget newBudget = new MonthBudget(1);
 
         public PlaceholderFragment() {
         }
@@ -119,17 +131,8 @@ public class BudgetEditActivity extends ActionBarActivity {
          */
         public void saveBudget() {
 
-            // create a MonthBudget object (TODO: REPLACE ID)
-            MonthBudget monthBudget = DataStore.sharedInstance().getCurrentUser().getCurrentBudget();
-            // monthBudget.setNewGroups(adapter.getGroups());
-            DataStore.sharedInstance().getCurrentUser().setCurrentBudget(monthBudget);
-
-
-
-            // put the information into a MonthBudget object (group and category name changes)
-
-
-            // pass the information to the server connector
+            ServerInterface budgetUpdater = new DummyServerConnector();
+            budgetUpdater.updateBudget(adapter.getUpdatedGroups(), adapter.getNewGroups(), adapter.getDeletedGroups(), (BudgetUpdateDelegate)getActivity());
         }
 
         public void refreshBudget(View v) {
@@ -154,6 +157,8 @@ public class BudgetEditActivity extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     switch (adapter.getItemViewType(position)) {
                         case EditBudgetAdapter.TYPE_SEPARATOR:
+
+                            
 
                             break;
                         case EditBudgetAdapter.TYPE_ITEM:

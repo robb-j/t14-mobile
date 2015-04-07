@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -312,6 +313,8 @@ public class EditBudgetAdapter extends BaseAdapter {
                     break;
                 case TYPE_DELETED:
                     convertView = mInflater.inflate(R.layout.empty_layout, null);
+                    LinearLayout layout = (LinearLayout)convertView.findViewById(R.id.layout_empty);
+                    layout.setVisibility(View.INVISIBLE);
                     break;
             }
             convertView.setTag(holder);

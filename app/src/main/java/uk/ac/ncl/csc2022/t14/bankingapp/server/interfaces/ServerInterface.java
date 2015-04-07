@@ -1,9 +1,12 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
@@ -56,11 +59,7 @@ public interface ServerInterface {
      */
     void categorisePayments(List<Categorisation> categorizations, CategoriseDelegate delegate);
 
-    /**
-     * @param newBudget The budget to update with
-     * @param delegate The delegate to notify of success
-     */
-    void updateBudget(MonthBudget newBudget, BudgetUpdateDelegate delegate);
+    void updateBudget(HashMap<Integer, BudgetGroup> updatedGroups, ArrayList<BudgetGroup> newGroups, ArrayList<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate);
 
     /**
      * @param reward The reward chosen

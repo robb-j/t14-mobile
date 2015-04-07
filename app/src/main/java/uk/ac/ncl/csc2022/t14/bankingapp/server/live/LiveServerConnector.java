@@ -6,11 +6,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
@@ -205,7 +207,7 @@ public class LiveServerConnector implements ServerInterface {
     }
 
     @Override
-    public void updateBudget(MonthBudget newBudget, BudgetUpdateDelegate delegate) {
+    public void updateBudget(HashMap<Integer, BudgetGroup> updatedGroups, ArrayList<BudgetGroup> newGroups, ArrayList<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate) {
 
     }
 
