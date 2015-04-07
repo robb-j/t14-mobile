@@ -22,6 +22,8 @@ public class JSONFetcher {
 
     public static final String TEST_MODE_BASEURL = "TestMode";
 
+
+
     public JSONFetcher(String baseUrl) {
 
         super();
@@ -53,22 +55,26 @@ public class JSONFetcher {
         }
     }
 
-
     private JSONObject getLocalJSON(String file) {
 
         // Work out the url
         String dir = System.getProperty("user.dir");
-        String path = dir + "/roboelectric-tests/src/test/assets/test.json";
+        String path = dir + "/roboelectric-tests/src/test/assets/" + file + ".json";
         String json = "";
 
         try {
+
+            // Open the file
             InputStream is = new FileInputStream(path);
             byte[] buffer = new byte[is.available()];
             is.read(buffer);
 
+
+            // Read a string in
             json = new String(buffer, "UTF-8");
             is.close();
 
+            // Return a JSON object
             return new JSONObject(json);
         }
         catch (IOException e) {}

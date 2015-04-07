@@ -72,7 +72,7 @@ public class JSONFetcherTest extends InstrumentationTestCase implements JSONTask
     @Test
     public void testGettingJSONFile() {
 
-        testFetcher.performFetch("TestFile", null, this);
+        testFetcher.performFetch("test", null, this);
 
 
         // Test the callback

@@ -1,0 +1,18 @@
+{
+    "ATMs": [
+        {
+            "ID": 1,
+            "Title": "Citi Bank",
+            "Cost": "3.50",
+            "Latitude": "53.38697",
+            "Longitude": "-1.4776"
+        },
+        {
+            "ID": 2,
+            "Title": "Tesco Bank",
+            "Cost": "1.50",
+            "Latitude": "53.388477",
+            "Longitude": "-1.478485"
+        }
+    ]
+}

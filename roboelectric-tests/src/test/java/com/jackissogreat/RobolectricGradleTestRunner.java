@@ -40,11 +40,9 @@ public class RobolectricGradleTestRunner extends RobolectricTestRunner {
         File current = new File(userDir);
         String prefix;
         if (new File(current, appModuleName).exists()) {
-            System.out.println("Probably running on AndroidStudio");
             prefix = "./" + appModuleName;
         }
         else if (new File(current.getParentFile(), appModuleName).exists()) {
-            System.out.println("Probably running on Console");
             prefix = "../" + appModuleName;
         }
         else {

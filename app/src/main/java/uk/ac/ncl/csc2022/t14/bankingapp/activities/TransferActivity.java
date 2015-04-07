@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -190,7 +189,11 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
 
         public void btnMakeTransfer(View v, Account accountTo, double amount) {
             ServerInterface transferrer = new DummyServerConnector();
-            transferrer.makeTransfer(accountFromId,accountTo.getId(), amount, "correctToken", (TransferDelegate) this.getActivity());
+
+            Account accountA = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountFromId);
+            Account accountB = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountFromId);
+
+            transferrer.makeTransfer(accountA, accountB, amount, (TransferDelegate) this.getActivity());
         }
     }
 }

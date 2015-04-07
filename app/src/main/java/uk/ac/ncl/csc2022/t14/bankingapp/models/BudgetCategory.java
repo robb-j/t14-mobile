@@ -22,11 +22,11 @@ public class BudgetCategory extends ModelObject {
      * @param name A friendly name for this BudgetCategory
      * @param budgeted The amount of money budgeted for this category
      */
-    public BudgetCategory(int id, String name, double budgeted) {
+    public BudgetCategory(int id, String name, double budgeted, double spent) {
         super(id);
         setName(name);
         setBudgeted(budgeted);
-        setSpent(0);
+        setSpent(spent);
     }
 
     public String getName() {
@@ -46,7 +46,7 @@ public class BudgetCategory extends ModelObject {
     public double getSpent() {
         return spent;
     }
-    private void setSpent(double spent) {
+    public void setSpent(double spent) {
         this.spent = spent;
     }
 

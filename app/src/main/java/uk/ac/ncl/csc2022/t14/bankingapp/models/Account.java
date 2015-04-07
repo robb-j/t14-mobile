@@ -39,6 +39,14 @@ public class Account extends ModelObject implements Parcelable {
         setTransactions(new ArrayList<Transaction>());
     }
 
+    public Account(int id, String name, double balance, double overdraftLimit) {
+        super(id);
+        setName(name);
+        setBalance(balance);
+        setOverdraftLimit(overdraftLimit);
+        setTransactions(new ArrayList<Transaction>());
+    }
+
     public String getName() {
         return name;
     }
@@ -63,7 +71,7 @@ public class Account extends ModelObject implements Parcelable {
     public Product getProduct() {
         return product;
     }
-    private void setProduct(Product product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 
