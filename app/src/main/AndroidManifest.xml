@@ -21,6 +21,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:name="uk.ac.ncl.csc2022.t14.bankingapp.Utilities.myApplication"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".activities.MainActivity"

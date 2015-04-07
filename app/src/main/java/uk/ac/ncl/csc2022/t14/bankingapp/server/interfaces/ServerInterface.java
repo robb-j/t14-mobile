@@ -40,5 +40,11 @@ public interface ServerInterface {
      * @param end When to stop the filter, if null will default to today
      * @param delegate The delegate to notify of success or failure
      */
+
     void loadHeatMap(int[] accounts, Date start, Date end, HeatMapDelegate delegate);
+	
+	/**
+	 * Logs the user out
+	 */
+    void logout();
 }

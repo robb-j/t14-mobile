@@ -52,6 +52,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
  * Use the {@link ATMFinderFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+//This is going to have to pull double duty as the Heatmap as well, otherwise it will just take ages to load a new map each time
 public class ATMFinderFragment extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

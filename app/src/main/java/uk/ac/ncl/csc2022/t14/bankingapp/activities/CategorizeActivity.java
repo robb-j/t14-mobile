@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.security.acl.Group;
@@ -93,6 +94,8 @@ public class CategorizeActivity extends ActionBarActivity {
         List<String> categoryNameList = new ArrayList<String>();
         View currentView;
 
+        List<Boolean> listTransactionLocated = new ArrayList<Boolean>();
+
         User currentUser = DataStore.sharedInstance().getCurrentUser();
         DummyServerConnector dSC = new DummyServerConnector();
 
@@ -117,15 +120,21 @@ public class CategorizeActivity extends ActionBarActivity {
             CategorizeLocationDelegate cLD = new CategorizeLocationDelegate() {
                 @Override
                 public void openMap(int groupNumber) {
-                    Log.d("This is ", "working");
+
                     Intent i = new Intent(getActivity(), AddTransactionLocationActivity.class);
                     startActivityForResult(i, groupNumber);
+
+                }
+
+                @Override
+                public void locationConfirmed(int groupNumber, View view) {
+
 
                 }
             };
 
 
-            eListAdapter = new ExpandableListAdapter(this.getActivity(), listDataHeader, listDataChild, cLD);
+            eListAdapter = new ExpandableListAdapter(this.getActivity(), listDataHeader, listDataChild, cLD, listTransactionLocated);
             getActivity().setContentView(R.layout.fragment_categorize);
             expListView = (ExpandableListView) getActivity().findViewById(R.id.list);
 
@@ -274,7 +283,8 @@ public class CategorizeActivity extends ActionBarActivity {
             Log.d("The click was at ", Integer.toString(requestCode));
             newTransactionList.get(requestCode).setLongitude(data.getExtras().getDouble("Lng"));
             newTransactionList.get(requestCode).setLatitude(data.getExtras().getDouble("Lat"));
-
+            listTransactionLocated.set(requestCode, true);
+            eListAdapter.notifyDataSetChanged();
         }
 
         public class newTransaction
@@ -374,6 +384,7 @@ public class CategorizeActivity extends ActionBarActivity {
             {
                 listDataChild.put(newTransactionList.get(i).getTransaction().getPayee(), categoryNameList);
                 listDataHeader.add(newTransactionList.get(i).getTransaction().getPayee());
+                listTransactionLocated.add(false);
             }
 
 

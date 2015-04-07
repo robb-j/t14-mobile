@@ -61,6 +61,8 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         fragmentManager = getSupportFragmentManager();
     }
 
+    
+
     /**
      * An Adapter to create the different tab fragments
      */
@@ -97,6 +99,8 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         public int getCount() {
             return tabs;
         }
+
+
 
 
         @Override

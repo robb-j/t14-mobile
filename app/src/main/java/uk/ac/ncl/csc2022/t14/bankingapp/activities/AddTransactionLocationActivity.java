@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,6 +51,8 @@ public class AddTransactionLocationActivity extends ActionBarActivity {
     }
 
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -80,6 +83,7 @@ public class AddTransactionLocationActivity extends ActionBarActivity {
         GoogleMap map;
         MapView mapView;
         SupportMapFragment mapFragment;
+        MarkerOptions mO = new MarkerOptions();
         DummyServerConnector dSC = new DummyServerConnector();
 
 
@@ -122,16 +126,28 @@ public class AddTransactionLocationActivity extends ActionBarActivity {
             }
             map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
-                public void onMapClick(LatLng latLng) {
-                    Intent i = new Intent();
-                    i.putExtra("Lng", latLng.longitude);
-                    i.putExtra("Lat", latLng.latitude);
-                    getActivity().setResult(Activity.RESULT_OK, i);
-                    getActivity().finish();
+                public void onMapClick(final LatLng latLng) {
+                    mO.position(latLng);
+                    map.addMarker(mO);
+                    Button confirm = (Button)getActivity().findViewById(R.id.confirm_location_button);
+                    confirm.setVisibility(View.VISIBLE);
+                    confirm.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent();
+                            i.putExtra("Lng", latLng.longitude);
+                            i.putExtra("Lat", latLng.latitude);
+                            getActivity().setResult(Activity.RESULT_OK, i);
+                            getActivity().finish();
+
+                        }
+                    });
+
                 }
             });
 
         }
+
     }
 
 }
