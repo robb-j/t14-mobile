@@ -1,5 +1,7 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;

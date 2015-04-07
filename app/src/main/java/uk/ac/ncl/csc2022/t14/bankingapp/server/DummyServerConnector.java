@@ -1,5 +1,7 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -423,13 +425,13 @@ public class DummyServerConnector implements ServerInterface, ServerBudgetingInt
     @Override
     public void loadHeatMap(int[] accounts, Date start, Date end, HeatMapDelegate delegate) {
 
-        HeatPoint hp1 = new HeatPoint(1,1,1);
-        HeatPoint hp2 = new HeatPoint(2,2,1);
-        HeatPoint hp3 = new HeatPoint(3,3,1);
-        HeatPoint hp4 = new HeatPoint(4,4,1);
-        HeatPoint hp5 = new HeatPoint(5,5,1);
-        HeatPoint hp6 = new HeatPoint(6,6,1);
-        HeatPoint hp7 = new HeatPoint(7,7,1);
+        HeatPoint hp1 = new HeatPoint(51.141395,0.260385, 1);
+        HeatPoint hp2 = new HeatPoint(51.133236,0.263165, 2);
+        HeatPoint hp3 = new HeatPoint(51.133336,0.263265, 3);
+        HeatPoint hp4 = new HeatPoint(51.133136,0.263365, 4);
+        HeatPoint hp5 = new HeatPoint(51.133236,0.263465, 5);
+        HeatPoint hp6 = new HeatPoint(51.133236,0.263665, 6);
+        HeatPoint hp7 = new HeatPoint(51.133236,0.263565, 7);
 
         List<HeatPoint> heatPoints = new ArrayList<>();
         heatPoints.add(hp1);

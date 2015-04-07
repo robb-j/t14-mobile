@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         fragmentManager = getSupportFragmentManager();
     }
 
-    
+
 
     /**
      * An Adapter to create the different tab fragments

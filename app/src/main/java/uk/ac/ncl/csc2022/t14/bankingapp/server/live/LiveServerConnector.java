@@ -308,4 +308,11 @@ public class LiveServerConnector implements ServerInterface, ServerBudgetingInte
 
         jsonFetcher.performFetch("loadATMs", params, taskDelegate);
     }
+
+    @Override
+    public void logout()
+    {
+
+    }
+
 }

@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -33,16 +35,24 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.maps.android.heatmaps.HeatmapTileProvider;
+import com.google.maps.android.heatmaps.WeightedLatLng;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.HeatMapDelegate;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,10 +98,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
 
 
     }
@@ -104,8 +111,9 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
     DummyServerConnector dSC = new DummyServerConnector();
     List<ATM> atmlist = new ArrayList<ATM>();
     List<Marker> atmMarkers = new ArrayList<Marker>();
-
-
+    Location mlocation;
+    TileOverlay mOverlay;
+    Boolean ATMorHEATMAP; //true for ATM, false for Heatmap
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -129,7 +137,9 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
 
         }
         mapFragment = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
-
+        focusMapOnUser();
+        getATMs();
+        ATMorHEATMAP=true;
 
 
 
@@ -161,13 +171,26 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
         map.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
+        mlocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+
+
+
         //set the location of the user
-        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-        if(location != null)
+
+        if(mlocation != null)
         {
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),13));
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(15).bearing(0).tilt(0).build();
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mlocation.getLatitude(), mlocation.getLongitude()),13));
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(mlocation.getLatitude(), mlocation.getLongitude())).zoom(15).bearing(0).tilt(0).build();
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
+
+    }
+
+    public void getATMs()
+    {
+        if(mOverlay!=null)
+        {
+            mOverlay.remove();
         }
         ATMDelegate aD = new ATMDelegate() {
             @Override
@@ -181,12 +204,48 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
             }
 
             @Override
-            public void loadATMsFailed(String errMessage) {
+            public void loadATMsFailed(String errMessage)
+            {
+
 
             }
         };
         dSC.loadATMS(aD);
     }
+
+    public void getHeatmap()
+    {
+        map.clear();
+        List<HeatPoint> transactionLocations;
+        int[] accounts = new int[]{1}; //why do I need this?
+        Calendar cal = Calendar.getInstance();
+        Date today = cal.getTime();
+        cal.add(Calendar.MONTH, -1);
+        Date monthAgo = cal.getTime();
+
+        HeatMapDelegate hMD = new HeatMapDelegate() {
+            @Override
+            public void loadHeatMapPassed(List<HeatPoint> allHeatPoints) {
+                List<WeightedLatLng> wLatLngs = new ArrayList<WeightedLatLng>();
+                for(int i = 0; i<allHeatPoints.size();i++)
+                {
+                    WeightedLatLng w = new WeightedLatLng(new LatLng(allHeatPoints.get(i).getLatitude(), allHeatPoints.get(i).getLongitude()), allHeatPoints.get(i).getRadius());
+                    wLatLngs.add(w);
+
+                }
+                HeatmapTileProvider mProvider = new HeatmapTileProvider.Builder().weightedData(wLatLngs).build();
+                mOverlay = map.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+            }
+
+            @Override
+            public void loadHeatMapFailed(String errMessage) {
+
+            }
+        };
+        dSC.loadHeatMap(accounts, today, monthAgo, hMD);
+
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -218,6 +277,28 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
         super.onResume();
         mapFragment = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
         focusMapOnUser();
+        final Button switchView = (Button)getActivity().findViewById(R.id.change_atm_heatmap_button);
+        switchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                if(ATMorHEATMAP)
+                {
+                    getHeatmap();
+                    switchView.setText("Display nearby ATMs");
+                    ATMorHEATMAP = false;
+                }
+                else
+                {
+                    getATMs();
+                    switchView.setText("Display Transaction Heat-Map");
+                    ATMorHEATMAP=true;
+                }
+
+
+            }
+        });
+
 
 
     }
