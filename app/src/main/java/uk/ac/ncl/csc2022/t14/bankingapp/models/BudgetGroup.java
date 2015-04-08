@@ -29,6 +29,10 @@ public class BudgetGroup extends ModelObject {
         categories = new ArrayList<>();
     }
 
+    public BudgetGroup(BudgetGroup budgetGroup) {
+        budgetGroup = new BudgetGroup(getId(), getName());
+    }
+
     public String getName() {
         return name;
     }
@@ -45,5 +49,10 @@ public class BudgetGroup extends ModelObject {
 
     public void setDeleted() {
         setId(TYPE_REMOVED);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return this;
     }
 }

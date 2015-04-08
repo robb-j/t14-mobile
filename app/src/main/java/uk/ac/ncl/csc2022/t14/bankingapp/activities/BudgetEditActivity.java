@@ -1,34 +1,25 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
-import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
-import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BudgetAdapter;
-import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.EditBudgetAdapter;
+import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BudgetEditAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
@@ -86,9 +77,34 @@ public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdat
      */
     public static class PlaceholderFragment extends Fragment {
 
-        EditBudgetAdapter adapter = null;
+        private BudgetEditAdapter adapter = null;
+        RecyclerView recyclerView;
+        ArrayList<BudgetGroup> tempGroups = new ArrayList<>();
+
 
         public PlaceholderFragment() {
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+
+            for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
+                BudgetGroup tempGroup = new BudgetGroup(group.getId(), group.getName());
+                for (BudgetCategory category : group.getCategories()) {
+                    tempGroup.getCategories().add(category);
+                }
+
+                tempGroups.add(tempGroup);
+            }
+
+            adapter = new BudgetEditAdapter(getActivity(), tempGroups);
+
+            recyclerView.setAdapter(adapter);
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
         }
 
         @Override
@@ -96,11 +112,15 @@ public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdat
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_budget_edit, container, false);
 
-            refreshBudget(rootView);
+            recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_edit_budget);
+
+
+
 
             // Setting up buttons
             Button btnCancel = (Button) rootView.findViewById(R.id.btn_cancel);
             Button btnSave = (Button)rootView.findViewById(R.id.btn_save);
+            TextView textNewGroup = (TextView)rootView.findViewById(R.id.text_new_group);
 
             btnCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,6 +141,12 @@ public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdat
                 }
             });
 
+            textNewGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapter.addItem(new BudgetGroup(BudgetGroup.TYPE_NEW, "New Group"));
+                }
+            });
 
 
             return rootView;
@@ -133,99 +159,6 @@ public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdat
 
             ServerInterface budgetUpdater = new DummyServerConnector();
             budgetUpdater.updateBudget(adapter.getUpdatedGroups(), adapter.getNewGroups(), adapter.getDeletedGroups(), (BudgetUpdateDelegate)getActivity());
-        }
-
-        public void refreshBudget(View v) {
-
-        /* List of budget groups and categories. */
-            final ListView listBudgets = (ListView)v.findViewById(R.id.list_edit_budget);
-
-            adapter = new EditBudgetAdapter(getActivity());
-
-            for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
-                adapter.addSectionHeaderItem(group);
-                for (BudgetCategory category : group.getCategories()) {
-                    adapter.addItem(category);
-                }
-                adapter.addNewItem("+ New Category");
-            }
-            adapter.addNewItem("+ New Group");
-
-            listBudgets.setAdapter(adapter);
-            listBudgets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    switch (adapter.getItemViewType(position)) {
-                        case EditBudgetAdapter.TYPE_SEPARATOR:
-
-
-
-                            break;
-                        case EditBudgetAdapter.TYPE_ITEM:
-
-                            break;
-                        case EditBudgetAdapter.TYPE_NEW:
-                            // if new group
-                            if (position == adapter.getCount()-1) {
-                                addNewGroup(position);
-                            } else {
-                                addNewCategory(position);
-                            }
-
-                            break;
-                    }
-
-                }
-            });
-            listBudgets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                    switch (adapter.getItemViewType(position)) {
-                        case EditBudgetAdapter.TYPE_SEPARATOR:
-                            AlertDialog.Builder builderSep = new AlertDialog.Builder(getActivity())
-                                    .setMessage("Are you sure you want to delete the group: " + ((BudgetGroup) adapter.getItem(position)).getName() + "?")
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            adapter.removeItem(position);
-                                        }
-                                    })
-                                    .setNegativeButton("No", null);
-
-                            AlertDialog alertSep = builderSep.create(); // create one
-
-                            alertSep.show(); //display it
-                            break;
-                        case EditBudgetAdapter.TYPE_ITEM:
-                            AlertDialog.Builder builderItem = new AlertDialog.Builder(getActivity())
-                                    .setMessage("Are you sure you want to delete the category: " + ((BudgetCategory) adapter.getItem(position)).getName() + "?")
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            adapter.removeItem(position);
-                                        }
-                                    })
-                                    .setNegativeButton("No", null);
-
-                            AlertDialog alertItem = builderItem.create(); // create one
-
-                            alertItem.show(); //display it
-                            break;
-                    }
-
-                    return false;
-                }
-            });
-        }
-
-        public void addNewGroup(int pos) {
-            adapter.addHeaderAtPos(new BudgetGroup(0, "New Group"), pos);
-            adapter.addNewAtPos("+ New Category", pos + 1);
-        }
-
-        public void addNewCategory(int pos) {
-            adapter.addItemAtPos(new BudgetCategory(0, "New Category", 0, 0), pos);
         }
     }
 }

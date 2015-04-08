@@ -107,7 +107,7 @@ public class BudgetAdapter extends BaseAdapter{
             } else {
                 holder.textViewBudgetCost.setTextColor(Color.rgb(100,0,0));
             }
-            holder.textViewBudgetCost.setText(Utility.doubleToCurrency(current.getBudgeted() - current.getSpent()));
+            holder.textViewBudgetCost.setText(Utility.doubleToCurrency(current.getBudgeted() - current.getSpent()) + " / " + (Utility.doubleToCurrency(current.getBudgeted())));
         }
 
 
