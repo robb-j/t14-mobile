@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
@@ -15,7 +16,6 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
@@ -24,6 +24,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategoriseDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ChooseRewardDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.HeatMapDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LogoutDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
@@ -60,6 +61,8 @@ public class LiveServerConnector implements ServerInterface {
 
         return params;
     }
+
+
 
 
     /*
@@ -149,6 +152,31 @@ public class LiveServerConnector implements ServerInterface {
         jsonFetcher.performFetch("makeTransfer", params, taskDelegate);
     }
 
+    @Override
+    public void logout(final LogoutDelegate delegate) {
+
+        List<NameValuePair> params = baseParams();
+
+
+        JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
+            @Override
+            public void taskCompleted(boolean success, String message, JSONObject json) {
+
+                if (success && responseParser.parseLogout(json)) {
+
+                    delegate.logoutPassed();
+                }
+                else {
+
+                    delegate.logoutFailed(message);
+                }
+            }
+        };
+
+        jsonFetcher.performFetch("logout", params, taskDelegate);
+    }
+
+
 
 
     /*
@@ -207,8 +235,13 @@ public class LiveServerConnector implements ServerInterface {
     }
 
     @Override
-    public void updateBudget(HashMap<Integer, BudgetGroup> updatedGroups, ArrayList<BudgetGroup> newGroups, ArrayList<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate) {
+    public void updateBudget(Map<Integer, BudgetGroup> updatedGroups, List<BudgetGroup> newGroups, List<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate) {
 
+        // Params
+
+        // Delegate
+
+        // Called
     }
 
     @Override
@@ -259,6 +292,7 @@ public class LiveServerConnector implements ServerInterface {
 
 
 
+
     /*
         V3
      */
@@ -272,7 +306,7 @@ public class LiveServerConnector implements ServerInterface {
             public void taskCompleted(boolean success, String message, JSONObject json) {
 
                 List<HeatPoint> allPoints = new ArrayList<>();
-                if (success) {
+                if (success && responseParser.parseLoadHeatPoints(json, allPoints)) {
 
                     delegate.loadHeatMapPassed(allPoints);
                 }
@@ -283,7 +317,7 @@ public class LiveServerConnector implements ServerInterface {
             }
         };
 
-        jsonFetcher.performFetch("loadHeatPoints", params, taskDelegate);
+        jsonFetcher.performFetch("loadHeatMap", params, taskDelegate);
     }
 
     @Override
@@ -308,12 +342,6 @@ public class LiveServerConnector implements ServerInterface {
         };
 
         jsonFetcher.performFetch("loadATMs", params, taskDelegate);
-    }
-
-    @Override
-    public void logout()
-    {
-
     }
 
 }

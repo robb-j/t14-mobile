@@ -18,10 +18,12 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.RewardTaken;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategoriseDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ChooseRewardDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.HeatMapDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LogoutDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
@@ -40,7 +42,9 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
@@ -247,6 +251,35 @@ public class LiveConnectorTest {
         testConnector.makeTransfer(a, b, 100, delegate);
     }
 
+    @Test
+    public void testLogoutResponse() {
+
+        // Create a delegate to test the response
+        LogoutDelegate delegate = new LogoutDelegate() {
+            @Override
+            public void logoutPassed() {
+
+            }
+
+            @Override
+            public void logoutFailed(String message) {
+
+                fail(message);
+            }
+        };
+
+
+        // Call the method
+        testConnector.logout(delegate);
+
+
+        // Make sure the data was unset
+        assertNull(DataStore.sharedInstance().getCurrentUser());
+        assertNull(DataStore.sharedInstance().getToken());
+        assertEquals(0, DataStore.sharedInstance().getProducts().size());
+        assertEquals(0, DataStore.sharedInstance().getRewards().size());
+    }
+
 
 
 
@@ -328,7 +361,29 @@ public class LiveConnectorTest {
     @Test
     public void testUpdateBudgetResponse() {
 
-        // TODO
+        // Create test params
+        Map<Integer, BudgetGroup> updatedGroups = new HashMap<>();
+        List<BudgetGroup> newGroups = new ArrayList<>();
+        List<BudgetGroup> deletedGroups = new ArrayList<>();
+
+
+        // Create delegate to test response
+        BudgetUpdateDelegate delegate = new BudgetUpdateDelegate() {
+            @Override
+            public void updateBudgetPassed() {
+
+                // Check budgets have changed
+            }
+
+            @Override
+            public void updateBudgetFailed(String errMessage) {
+
+            }
+        };
+
+
+        testConnector.updateBudget(updatedGroups, newGroups, deletedGroups, delegate);
+
     }
 
     @Test
@@ -431,6 +486,7 @@ public class LiveConnectorTest {
         testConnector.loadATMS(delegate);
     }
 
+    @Test
     public void testLoadHeatMapResponse() {
 
         // Create test params
@@ -446,7 +502,16 @@ public class LiveConnectorTest {
             @Override
             public void loadHeatMapPassed(List<HeatPoint> allHeatPoints) {
 
+                // Test the response
                 assertNotNull(allHeatPoints);
+                assertEquals(4, allHeatPoints.size());
+
+
+                // Test a heat point
+                HeatPoint point = allHeatPoints.get(0);
+                assertEquals(53.438055, point.getLatitude(), 0.0000001);
+                assertEquals(-1.357008, point.getLongitude(), 0.0000001);
+                assertEquals(20, point.getRadius());
             }
 
             @Override

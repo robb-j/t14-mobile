@@ -1,0 +1,28 @@
+{
+    "heatMapPoints": [
+        {
+            "Latitude": 53.438055,
+            "Longitude": -1.357008,
+            "Amount": -9.99,
+            "Radius": 20
+        },
+        {
+            "Latitude": 0,
+            "Longitude": 0,
+            "Amount": -40.99,
+            "Radius": 20
+        },
+        {
+            "Latitude": 53.422802,
+            "Longitude": -1.410212,
+            "Amount": 19.99,
+            "Radius": 20
+        },
+        {
+            "Latitude": 0,
+            "Longitude": 0,
+            "Amount": -10,
+            "Radius": 20
+        }
+    ]
+}

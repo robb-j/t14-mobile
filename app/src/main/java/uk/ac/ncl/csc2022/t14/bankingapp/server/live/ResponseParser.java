@@ -177,6 +177,16 @@ public class ResponseParser {
         return false;
     }
 
+    public boolean parseLogout(JSONObject responseJson) {
+
+
+        DataStore.sharedInstance().setCurrentUser(null);
+        DataStore.sharedInstance().setToken(null);
+        DataStore.sharedInstance().setRewards(new ArrayList<Reward>());
+        DataStore.sharedInstance().setProducts(new ArrayList<Product>());
+
+        return true;
+    }
 
 
 
@@ -310,9 +320,10 @@ public class ResponseParser {
         try {
 
             // Parse the points
-            JSONArray allPointJson = responseJson.getJSONArray("HeatPoints");
+            JSONArray allPointJson = responseJson.getJSONArray("heatMapPoints");
             for (int i = 0; i < allPointJson.length(); i++) {
 
+                allHeatPoints.add(mp.parseHeatPoint(allPointJson.getJSONObject(i)));
             }
 
             return true;
