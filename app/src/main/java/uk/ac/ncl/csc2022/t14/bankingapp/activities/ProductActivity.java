@@ -1,9 +1,12 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,9 +34,12 @@ public class ProductActivity extends ActionBarActivity {
         product = getIntent().getExtras().getParcelable("product");
 
 
-        // Hide the action bar. -----DON'T TOUCH THIS-----
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
+        getSupportActionBar().setCustomView(customNav, lp);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
     }
 
     @Override
