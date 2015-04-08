@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
@@ -34,14 +35,15 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
 
     private LayoutInflater inflater;
     List<BudgetGroup> groups = Collections.emptyList();
+    List<BudgetGroup> originalGroups = Collections.emptyList();
     Context context;
-    private boolean categoriesBeenAdded = false;
 
 
-    public BudgetEditAdapter(Context context, List<BudgetGroup> groups) {
+    public BudgetEditAdapter(Context context, List<BudgetGroup> groups, List<BudgetGroup> originalGroups) {
         inflater = LayoutInflater.from(context);
 
         this.groups = groups;
+        this.originalGroups = originalGroups;
         this.context = context;
     }
 
@@ -133,14 +135,17 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
     }
 
     public ArrayList<BudgetGroup> getDeletedGroups() {
-        ArrayList<BudgetGroup> deletedGroups = (ArrayList)DataStore.sharedInstance().getCurrentUser().getAllGroups();
-        for (BudgetGroup group : groups) {
-            for (BudgetGroup newGroup : deletedGroups) {
+        ArrayList<BudgetGroup> deletedGroups = (ArrayList)originalGroups;
+        for (Iterator<BudgetGroup> iterator = deletedGroups.iterator(); iterator.hasNext();) {
+            BudgetGroup group = iterator.next();
+            for (BudgetGroup newGroup : groups) {
                 if (newGroup.getId() == group.getId()) {
                     deletedGroups.remove(newGroup);
                 }
             }
+
         }
+
 
         return deletedGroups;
     }

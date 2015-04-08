@@ -91,6 +91,7 @@ public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdat
         private BudgetEditAdapter adapter = null;
         RecyclerView recyclerView;
         ArrayList<BudgetGroup> tempGroups = new ArrayList<>();
+        ArrayList<BudgetGroup> originalGroups = new ArrayList<>();
 
 
         public PlaceholderFragment() {
@@ -100,16 +101,21 @@ public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdat
         public void onResume() {
             super.onResume();
 
+
+
             for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
                 BudgetGroup tempGroup = new BudgetGroup(group.getId(), group.getName());
+                BudgetGroup originalGroup = new BudgetGroup(group.getId(), group.getName());
                 for (BudgetCategory category : group.getCategories()) {
                     tempGroup.getCategories().add(category);
+                    originalGroup.getCategories().add(category);
                 }
 
+                originalGroups.add(originalGroup);
                 tempGroups.add(tempGroup);
             }
 
-            adapter = new BudgetEditAdapter(getActivity(), tempGroups);
+            adapter = new BudgetEditAdapter(getActivity(), tempGroups, originalGroups);
 
             recyclerView.setAdapter(adapter);
 
