@@ -1,17 +1,16 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.MonthBudget;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 
 /**
+ *
  * Created by Sam on 17/02/2015.
  */
 public interface ServerInterface {
@@ -40,6 +39,10 @@ public interface ServerInterface {
      */
     void makeTransfer(Account accountA, Account accountB, double amount, TransferDelegate delegate);
 
+    /**
+     * Logs the user out
+     */
+    void logout(LogoutDelegate delegate);
 
 
 
@@ -59,7 +62,13 @@ public interface ServerInterface {
      */
     void categorisePayments(List<Categorisation> categorizations, CategoriseDelegate delegate);
 
-    void updateBudget(HashMap<Integer, BudgetGroup> updatedGroups, ArrayList<BudgetGroup> newGroups, ArrayList<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate);
+    /**
+     * @param updatedGroups A Map of groups that have been updated (id to group)
+     * @param newGroups A List of groups that were added
+     * @param deletedGroups A List of groups that were removed
+     * @param delegate The delegate to notify of success
+     */
+    void updateBudget(Map<Integer, BudgetGroup> updatedGroups, List<BudgetGroup> newGroups, List<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate);
 
     /**
      * @param reward The reward chosen
@@ -92,9 +101,4 @@ public interface ServerInterface {
      */
 
     void loadHeatMap(int[] accounts, Date start, Date end, HeatMapDelegate delegate);
-	
-	/**
-	 * Logs the user out
-	 */
-    void logout();
 }

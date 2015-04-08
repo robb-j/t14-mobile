@@ -48,7 +48,7 @@ public class JSONFetcher {
         else {
 
             // Use JSONAsyncTask
-            JSONAsyncTask task = new JSONAsyncTask( path, postData, delegate );
+            JSONAsyncTask task = new JSONAsyncTask( baseUrl + path, postData, delegate );
 
             // Execute the task
             // ...
@@ -60,7 +60,6 @@ public class JSONFetcher {
         // Work out the url
         String dir = System.getProperty("user.dir");
         String path = dir + "/roboelectric-tests/src/test/assets/" + file + ".json";
-        String json = "";
 
         try {
 
@@ -71,7 +70,7 @@ public class JSONFetcher {
 
 
             // Read a string in
-            json = new String(buffer, "UTF-8");
+            String json = new String(buffer, "UTF-8");
             is.close();
 
             // Return a JSON object

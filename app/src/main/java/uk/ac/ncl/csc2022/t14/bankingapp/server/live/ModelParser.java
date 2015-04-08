@@ -17,6 +17,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.PointGain;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
@@ -233,5 +234,17 @@ public class ModelParser {
 
         // Create ATM from properties
         return new ATM(id, name, lat, lon, cost);
+    }
+
+    public HeatPoint parseHeatPoint(JSONObject json) throws  JSONException {
+
+        // Get properties
+        double lat = json.getDouble("Latitude");
+        double lon = json.getDouble("Longitude");
+        int radius = json.getInt("Radius");
+
+
+        // Get HeatPoint from properties
+        return new HeatPoint(lat, lon, radius);
     }
 }

@@ -25,6 +25,7 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
 
     private String url;
     private List<NameValuePair> data;
+    private int responseStatus;
     private JSONTaskDelegate delegate;
     private JSONObject jsonResponse;
 
@@ -63,24 +64,24 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
 
 
             // Get the status code of the request, to see what happened
-            int status = response.getStatusLine().getStatusCode();
+            responseStatus = response.getStatusLine().getStatusCode();
 
 
             // If it was successful, attempt to get JSON from it
-            if (status == 200) {
+            if (responseStatus == 200 || responseStatus == 400) {
 
                 HttpEntity entity = response.getEntity();
                 String data = EntityUtils.toString(entity);
                 jsonResponse = new JSONObject(data);
+            }
+
+            if (responseStatus == 200) {
+
                 return true;
             }
         }
-        catch (JSONException e) {
-
-        }
-        catch (IOException e) {
-
-        }
+        catch (JSONException e) {}
+        catch (IOException e) {}
 
         return false;
     }
@@ -89,8 +90,37 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
 
-        // When we're finished, notify our delegate
-        delegate.taskCompleted(result, "passed", jsonResponse);
+        if (responseStatus == 200 && result == true) {
 
+            // If it passed pass that onto the delegate
+            delegate.taskCompleted(result, "passed", jsonResponse);
+        }
+        else if (responseStatus == 400 && jsonResponse != null) {
+
+            // Try to get an error from the json response
+            String error = "Server Error";
+
+            try {
+
+                // Try to find keys Reason & Error
+                if (jsonResponse.has("Reason")) {
+
+                    error = jsonResponse.getString("Reason");
+                }
+                else if (jsonResponse.has("Error")) {
+
+                    error = jsonResponse.getString("Error");
+                }
+            }
+            catch (JSONException e) {}
+
+            // Inform the delegate
+            delegate.taskCompleted(false, error, null);
+        }
+        else {
+
+            // Otherwise, something failed
+            delegate.taskCompleted(false, "Server Error", null);
+        }
     }
 }

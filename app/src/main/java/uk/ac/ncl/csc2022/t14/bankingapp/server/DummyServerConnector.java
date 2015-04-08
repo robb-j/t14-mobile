@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
@@ -26,6 +27,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategoriseDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ChooseRewardDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.HeatMapDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LogoutDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
@@ -320,7 +322,7 @@ public class DummyServerConnector implements ServerInterface {
     }
 
     @Override
-    public void updateBudget(HashMap<Integer, BudgetGroup> updatedGroups, ArrayList<BudgetGroup> newGroups, ArrayList<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate) {
+    public void updateBudget(Map<Integer, BudgetGroup> updatedGroups, List<BudgetGroup> newGroups, List<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate) {
 
         // Get the token from the data store
         String token = DataStore.sharedInstance().getToken();
@@ -454,7 +456,7 @@ public class DummyServerConnector implements ServerInterface {
     }
 
     @Override
-    public void logout() {
+    public void logout(LogoutDelegate delegate) {
         
     }
 
