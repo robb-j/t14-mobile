@@ -68,18 +68,22 @@ public class ModelParser {
         return user;
     }
 
-    public Account parseAccount(JSONObject json) throws JSONException, ParseException {
+    public Account parseAccount(JSONObject json) throws JSONException {
 
         // Get properties
         int id = json.getInt("ID");
         String name = json.getString("AccountType");
         double balance = json.getDouble("Balance");
         double overdraft = json.getDouble("OverdraftLimit");
-        Date firstTran = parseDate(json.getString("FirstTransaction"));
 
         // Create Account from properties
         Account account = new Account(id , name, balance, overdraft);
-        account.setFirstTransaction(firstTran);
+
+        try {
+            Date firstTran = parseDate(json.getString("FirstTransaction"));
+            account.setFirstTransaction(firstTran);
+        }
+        catch (ParseException e) {};
         return account;
     }
 

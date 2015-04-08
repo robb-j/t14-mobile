@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Random;
 
 /**
  * An Intermediate object that creates JSONAsyncTasks to get JSON from a live server
@@ -19,6 +20,7 @@ public class JSONFetcher {
 
     private String baseUrl;
     private boolean isTesting;
+    private Random numberGenerator;
 
     public static final String TEST_MODE_BASEURL = "TestMode";
 
@@ -29,6 +31,7 @@ public class JSONFetcher {
         super();
         this.baseUrl = baseUrl;
         this.isTesting = baseUrl.equals(TEST_MODE_BASEURL);
+        this.numberGenerator = new Random();
     }
 
     public boolean isTesting() {
@@ -47,14 +50,13 @@ public class JSONFetcher {
         }
         else {
 
-            // Use JSONAsyncTask
-            JSONAsyncTask task = new JSONAsyncTask( baseUrl + path, postData, delegate );
+            // Concat the url, add a random number to evade caching
+            int random = numberGenerator.nextInt();
+            String url = baseUrl + path + "?n=" + random;
+
+            // Create & execute a JSONAsyncTask
+            JSONAsyncTask task = new JSONAsyncTask( url, postData, delegate );
             task.execute();
-
-            String url = baseUrl + path;
-
-            // Execute the task
-            // ...
         }
     }
 

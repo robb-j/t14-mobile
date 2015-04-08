@@ -49,7 +49,7 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
 
 
         // Allow breakpoints in background thread (for doInBackground) Debug only
-        android.os.Debug.waitForDebugger();
+        //android.os.Debug.waitForDebugger();
     }
 
     @Override
