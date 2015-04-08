@@ -50,7 +50,7 @@ public class LogoutButton extends Button implements LogoutDelegate {
 
     @Override
     public void logoutFailed(String message) {
-        Toast.makeText(getContext(), "Logout failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Logout failed with error: " + message, Toast.LENGTH_SHORT).show();
         Log.d("TEST", "LOGOUT FAILED");
     }
 }

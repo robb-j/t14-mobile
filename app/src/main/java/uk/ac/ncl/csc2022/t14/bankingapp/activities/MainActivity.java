@@ -70,6 +70,10 @@ public class MainActivity extends ActionBarActivity implements BudgetingFragment
         fragmentManager = getSupportFragmentManager();
     }
 
+    @Override
+    public void onBackPressed() {
+        findViewById(R.id.btn_logout).callOnClick();
+    }
 
 
     /**
