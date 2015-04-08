@@ -49,6 +49,9 @@ public class JSONFetcher {
 
             // Use JSONAsyncTask
             JSONAsyncTask task = new JSONAsyncTask( baseUrl + path, postData, delegate );
+            task.execute();
+
+            String url = baseUrl + path;
 
             // Execute the task
             // ...

@@ -37,7 +37,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
  */
 public class LiveServerConnector implements ServerInterface {
 
-    private final String DEFAULT_BASE_URL = "http://t14.veotest.co.uk/bankingapi/";
+    private final String DEFAULT_BASE_URL = "http://t14.veotest.co.uk/bankapi/";
     private JSONFetcher jsonFetcher;
     private ResponseParser responseParser;
 

@@ -121,6 +121,11 @@ public class ResponseParser {
 
             return false;
         }
+
+        catch (ParseException e) {
+
+            return false;
+        }
     }
 
     public boolean parseLoadTransactions(JSONObject responseJson, Account account, List<Transaction> allTransactions) {

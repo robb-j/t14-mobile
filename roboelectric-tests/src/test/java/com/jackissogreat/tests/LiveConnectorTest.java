@@ -150,6 +150,14 @@ public class LiveConnectorTest {
         assertEquals(user.getRecentRewards().size(), 1);
 
 
+        // Test An Account
+        Account account = user.getAccounts().get(0);
+        assertEquals(7, account.getId());
+        assertEquals("Student Account", account.getName());
+        assertEquals(131.97, account.getBalance(), 0.0001);
+        assertNotNull(account.getFirstTransaction());
+
+
         // Test A Group
         BudgetGroup testGroup = user.getAllGroups().get(0);
         assertNotNull(testGroup);

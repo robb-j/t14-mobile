@@ -8,6 +8,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class Account extends ModelObject implements Parcelable {
     private double overdraftLimit;
     private List<Transaction> transactions;
     private Product product;
+    private Date firstTransaction;
 
 
     /**
@@ -80,6 +82,13 @@ public class Account extends ModelObject implements Parcelable {
     }
     private void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public Date getFirstTransaction() {
+        return firstTransaction;
+    }
+    public void setFirstTransaction(Date date) {
+        firstTransaction = date;
     }
 
     protected Account(Parcel in) {
