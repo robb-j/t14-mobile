@@ -20,8 +20,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -201,7 +199,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
             passwordChars[2].setHint(addSuffixToNumber(indices[2]));
 
             TextView username = (TextView)rootView.findViewById(R.id.edit_username);
-            TextViewFocus(username);
+            textViewFocus(username);
 
 
 
@@ -246,9 +244,9 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         }
 
 
-            public void TextViewFocus(TextView TV)
+            public void textViewFocus(TextView textView)
             {
-                TV.requestFocus();
+                textView.requestFocus();
 
                 this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
