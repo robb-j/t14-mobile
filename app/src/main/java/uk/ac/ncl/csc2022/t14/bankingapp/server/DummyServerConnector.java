@@ -333,7 +333,8 @@ public class DummyServerConnector implements ServerInterface {
         if (token.equals("DummyTokenThatIsReallyLong"))
         {
             // Update the user's budget
-
+            DataStore.sharedInstance().getCurrentUser().getAllGroups().clear();
+            DataStore.sharedInstance().getCurrentUser().getAllGroups().addAll(newGroups);
 
             // Notify delegate that completion was successful
             delegate.updateBudgetPassed();

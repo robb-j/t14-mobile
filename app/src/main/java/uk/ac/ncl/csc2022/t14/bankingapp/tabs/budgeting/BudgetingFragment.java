@@ -88,6 +88,12 @@ public class BudgetingFragment extends Fragment{
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        refreshBudgets(getView());
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
