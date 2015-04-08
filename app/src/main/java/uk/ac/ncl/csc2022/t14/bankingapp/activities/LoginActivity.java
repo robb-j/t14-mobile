@@ -31,8 +31,10 @@ import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.LiveServerConnector;
 
 public class LoginActivity extends ActionBarActivity implements LoginDelegate{
 
@@ -50,13 +52,20 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                     .commit();
         }
 
+        // set the default server connector
+        DataStore.sharedInstance().setServerConnector(new DummyServerConnector());
+
         ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
         View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
         getSupportActionBar().setCustomView(customNav, lp);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
+        // make switch connector button visible
+        findViewById(R.id.btn_switch_connector).setVisibility(View.VISIBLE);
 
+        // make logout invisible
+        findViewById(R.id.btn_logout).setVisibility(View.INVISIBLE);
 
     }
 
@@ -72,7 +81,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         resetFields();
 
         // produce error message.
-        Toast.makeText(this, errMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, errMessage, Toast.LENGTH_LONG).show();
 
     }
 
@@ -105,6 +114,17 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void btnSwitchConnector(View v) {
+        if (DataStore.sharedInstance().getConnector() instanceof DummyServerConnector) {
+            DataStore.sharedInstance().setServerConnector(new LiveServerConnector());
+            Toast.makeText(LoginActivity.this, "Connector switched to Live", Toast.LENGTH_SHORT).show();
+        } else {
+            DataStore.sharedInstance().setServerConnector(new DummyServerConnector());
+            Toast.makeText(LoginActivity.this, "Connector switched to Dummy", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     /**
      * A placeholder fragment containing a simple view.
@@ -181,6 +201,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
 
             TextView username = (TextView)rootView.findViewById(R.id.edit_username);
             TextViewFocus(username);
+
 
 
 

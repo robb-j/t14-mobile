@@ -1,5 +1,7 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server;
 
+import android.provider.ContactsContract;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -457,7 +459,20 @@ public class DummyServerConnector implements ServerInterface {
 
     @Override
     public void logout(LogoutDelegate delegate) {
-        
+        try {
+            DataStore.sharedInstance().setCurrentUser(null);
+            DataStore.sharedInstance().setToken(null);
+            DataStore.sharedInstance().setProducts(new ArrayList<Product>());
+            DataStore.sharedInstance().setRewards(new ArrayList<Reward>());
+
+
+        } catch (Exception e){
+            delegate.logoutFailed("error: " + e.getLocalizedMessage());
+            return;
+        }
+
+        delegate.logoutPassed();
+
     }
 
 }

@@ -7,8 +7,9 @@
     android:gravity="center_vertical"
     android:layout_gravity="fill_horizontal">
 
-
-    <Button
+<!--
+    <uk.ac.ncl.csc2022.t14.bankingapp.Utilities.LogoutButton
+        class="com.android.notepad.NoteEditor$MyEditText"
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,14 +17,29 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"/>
+        android:layout_marginEnd="20dp"
+        />-->
+
+    <view
+        class="uk.ac.ncl.csc2022.t14.bankingapp.Utilities.LogoutButton"
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        />
 
     <Button
         android:id="@+id/btn_switch_connector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Switch"
-        android:layout_toLeftOf="@+id/btn_logout"
-        android:layout_toStartOf="@+id/btn_logout"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible"
+        android:onClick="btnSwitchConnector"/>
 
 </RelativeLayout>
