@@ -78,7 +78,8 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
     @Override
     public void loginFailed(String errMessage) {
 
-        resetFields();
+        // reset activity
+        findViewById(R.id.btn_logout).callOnClick();
 
         // produce error message.
         Toast.makeText(this, errMessage, Toast.LENGTH_LONG).show();

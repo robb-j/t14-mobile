@@ -25,8 +25,7 @@ public class LogoutButton extends Button implements LogoutDelegate {
             public void onClick(View v) {
 
                 DataStore.sharedInstance().getConnector().logout(LogoutButton.this);
-                Log.d("TEST", "ON CLICK");
-                Toast.makeText(getContext(), "On click", Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "logout button: ON CLICK");
             }
         });
     }
