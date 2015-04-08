@@ -7,6 +7,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.LiveServerConnector;
 
 /**
  * A Singleton object for getting things from the server
@@ -33,6 +34,7 @@ public class DataStore {
     /** Make the constructor private to enforce the singleton */
     private DataStore() {
         serverConnector = new DummyServerConnector();
+        //serverConnector = new LiveServerConnector();
     }
 
 

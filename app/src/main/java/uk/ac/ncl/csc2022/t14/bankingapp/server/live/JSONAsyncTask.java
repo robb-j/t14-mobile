@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -47,6 +46,8 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
+        android.os.Debug.waitForDebugger();
     }
 
     @Override
@@ -71,8 +72,8 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
             if (responseStatus == 200 || responseStatus == 400) {
 
                 HttpEntity entity = response.getEntity();
-                String data = EntityUtils.toString(entity);
-                jsonResponse = new JSONObject(data);
+                String rawResponse = EntityUtils.toString(entity);
+                jsonResponse = new JSONObject(rawResponse);
             }
 
             if (responseStatus == 200) {
