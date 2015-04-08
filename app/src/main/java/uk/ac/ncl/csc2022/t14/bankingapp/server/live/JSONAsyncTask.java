@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * An AsyncTask that connects to a live server & attempts to read a JSON file from it
+ * An AsyncTask that connects to a live server & attempts to read a JSON response from a POST request
  * Created by Rob A on 02/04/15.
  */
 public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
@@ -47,6 +47,8 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
     protected void onPreExecute() {
         super.onPreExecute();
 
+
+        // Allow breakpoints in background thread (for doInBackground) Debug only
         android.os.Debug.waitForDebugger();
     }
 
@@ -68,7 +70,7 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
             responseStatus = response.getStatusLine().getStatusCode();
 
 
-            // If it was successful, attempt to get JSON from it
+            // If it was successful or deliberate error, attempt to get JSON from it
             if (responseStatus == 200 || responseStatus == 400) {
 
                 HttpEntity entity = response.getEntity();
@@ -76,6 +78,7 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
                 jsonResponse = new JSONObject(rawResponse);
             }
 
+            // If it was a success, return true
             if (responseStatus == 200) {
 
                 return true;
@@ -84,6 +87,8 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
         catch (JSONException e) {}
         catch (IOException e) {}
 
+
+        // Anything other than a success was a failure
         return false;
     }
 
@@ -91,7 +96,8 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
 
-        if (responseStatus == 200 && result == true) {
+
+        if (responseStatus == 200 && result) {
 
             // If it passed pass that onto the delegate
             delegate.taskCompleted(result, "passed", jsonResponse);
@@ -103,7 +109,7 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
 
             try {
 
-                // Try to find keys Reason & Error
+                // Try to find keys 'Reason' & 'Error'
                 if (jsonResponse.has("Reason")) {
 
                     error = jsonResponse.getString("Reason");
