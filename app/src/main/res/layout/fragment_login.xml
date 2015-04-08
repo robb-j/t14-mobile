@@ -69,23 +69,13 @@
                 android:gravity="center"/>
         </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Invalid login details."
-        android:id="@+id/text_login_error"
-        android:layout_below="@id/layout_indices"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textColor="#bb0000"
-        android:visibility="invisible" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Login"
             android:id="@+id/btn_login"
-            android:layout_below="@id/text_login_error"
+            android:layout_below="@id/layout_indices"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:textSize="20sp"

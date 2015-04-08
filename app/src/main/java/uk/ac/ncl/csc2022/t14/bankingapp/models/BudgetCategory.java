@@ -32,14 +32,14 @@ public class BudgetCategory extends ModelObject {
     public String getName() {
         return name;
     }
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
     public double getBudgeted() {
         return budgeted;
     }
-    private void setBudgeted(double budgeted) {
+    public void setBudgeted(double budgeted) {
         this.budgeted = budgeted;
     }
 

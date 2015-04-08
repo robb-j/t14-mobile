@@ -25,6 +25,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -79,9 +81,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         resetFields();
 
         // produce error message.
-        TextView errMessageDisplay = (TextView)findViewById(R.id.text_login_error);
-        errMessageDisplay.setVisibility(View.VISIBLE);
-        errMessageDisplay.setText(errMessage);
+        Toast.makeText(this, errMessage, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -251,7 +251,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                     final TextView password1 = (TextView)getView().findViewById(R.id.password_char_1);
                     final TextView password2 = (TextView)getView().findViewById(R.id.password_char_2);
                     final TextView password3 = (TextView)getView().findViewById(R.id.password_char_3);
-                    String username;
+                    String username = null;
 
 
                     try {
