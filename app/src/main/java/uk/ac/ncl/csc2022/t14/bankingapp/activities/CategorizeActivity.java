@@ -285,11 +285,17 @@ public class CategorizeActivity extends ActionBarActivity {
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data)
         {
-            Log.d("The click was at ", Integer.toString(requestCode));
-            newTransactionList.get(requestCode).setLongitude(data.getExtras().getDouble("Lng"));
-            newTransactionList.get(requestCode).setLatitude(data.getExtras().getDouble("Lat"));
-            listTransactionLocated.set(requestCode, true);
-            eListAdapter.notifyDataSetChanged();
+            try {
+                Log.d("The click was at ", Integer.toString(requestCode));
+                newTransactionList.get(requestCode).setLongitude(data.getExtras().getDouble("Lng"));
+                newTransactionList.get(requestCode).setLatitude(data.getExtras().getDouble("Lat"));
+                listTransactionLocated.set(requestCode, true);
+                eListAdapter.notifyDataSetChanged();
+            }
+            catch(NullPointerException e)
+            {
+
+            }
         }
 
         public class newTransaction
