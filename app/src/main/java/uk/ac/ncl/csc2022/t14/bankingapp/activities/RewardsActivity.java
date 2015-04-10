@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -78,11 +80,22 @@ public class RewardsActivity extends ActionBarActivity implements ChooseRewardDe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        //Update the user's current points
+        TextView currentPoints = (TextView) findViewById(R.id.textView_currentPoints);
+        currentPoints.setText("Current Points: " + DataStore.sharedInstance().getCurrentUser().getPoints());
+    }
+
+    @Override
     public void chooseRewardPassed() {
         // Display a message at the top of the screen telling a user their reward selection was successful
         TextView passMsg = (TextView) findViewById(R.id.textView_selectionResponse);
         passMsg.setTextColor(Color.parseColor("#22B14C")); // Default green was pretty obnoxious, this is green but not blinding
         passMsg.setText("Reward successfully acquired");
+        //Update user's current points
+        TextView currentPoints = (TextView) findViewById(R.id.textView_currentPoints);
+        currentPoints.setText("Current Points: " + DataStore.sharedInstance().getCurrentUser().getPoints());
     }
 
     @Override
@@ -161,7 +174,28 @@ public class RewardsActivity extends ActionBarActivity implements ChooseRewardDe
             // Display the dialog above whenever an item in the list view is clicked
             rewardsView.setOnItemClickListener(mMessageClickedHandler);
 
-            return rootView;
+            // Display the user's current points
+            TextView currentPoints = (TextView) rootView.findViewById(R.id.textView_currentPoints);
+            currentPoints.setText("Current Points: " + DataStore.sharedInstance().getCurrentUser().getPoints());
+
+            // Set up the spin button to take the user to the spinner view
+            Button btnGoToSpin = (Button) rootView.findViewById(R.id.btn_goto_spin);
+
+            btnGoToSpin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goToSpin(v);
+                }
+            });
+
+        return rootView;
         }
+
+        public void goToSpin(View v) {
+            //Start a spin activity
+            Intent i = new Intent(getActivity(), SpinActivity.class);
+            startActivity(i);
+        }
+
     }
 }

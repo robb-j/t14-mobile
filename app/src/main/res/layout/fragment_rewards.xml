@@ -21,7 +21,9 @@
         android:id="@+id/listView_rewards"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView_selectionResponse" />
+        android:layout_below="@+id/textView_selectionResponse"
+        android:paddingBottom="220px"
+        android:layout_alignBottom="@+id/textView_currentPoints" />
 
     <TextView
         android:layout_width="wrap_content"
