@@ -139,6 +139,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
 
         }
         mapFragment = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
+        map = mapFragment.getMap();
         focusMapOnUser();
         getATMs();
         ATMorHEATMAP=true;
@@ -164,15 +165,13 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
             Log.d("hello", "null");
             mapFragment = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
         }
+        Log.d("Map", mapFragment.getMap().toString());
 
         map = mapFragment.getMap();
 
 
         MapsInitializer.initialize(getActivity());
-        if(map==null)
-        {
-            Log.d("The map is the problem", "h");
-        }
+
 
         map.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);

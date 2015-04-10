@@ -138,6 +138,8 @@ public class AddTransactionLocationActivity extends ActionBarActivity {
             map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(final LatLng latLng) {
+                    map.clear();
+
                     mO.position(latLng);
                     map.addMarker(mO);
                     Button confirm = (Button)getActivity().findViewById(R.id.confirm_location_button);
