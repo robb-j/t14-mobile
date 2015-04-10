@@ -64,14 +64,14 @@
             android:value="@integer/google_play_services_version"/>-->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBZSLhYJBvent7RLKDpmki_Mrb-0Bu5nUk"
+            android:value="AIzaSyBdD5GBWEDhQ8uExbXoD_xzPsUpRWMqGYM"
             />
 
         <!-- API KEYS:
             SAM: AIzaSyATeC04zSBKAxo8BWIjZnibZsrOxi_MZuE
             ROB H: AIzaSyBZSLhYJBvent7RLKDpmki_Mrb-0Bu5nUk
             ROB A:
-            JACK:
+            JACK: AIzaSyBdD5GBWEDhQ8uExbXoD_xzPsUpRWMqGYM
             -->
 
         <activity
