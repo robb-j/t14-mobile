@@ -77,7 +77,8 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
     public void loginFailed(String errMessage) {
 
         // reset activity
-        findViewById(R.id.btn_logout).callOnClick();
+        resetFields();
+        // findViewById(R.id.btn_logout).callOnClick();
 
         // produce error message.
         Toast.makeText(this, errMessage, Toast.LENGTH_LONG).show();
@@ -85,10 +86,10 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
     }
 
     public void resetFields() {
-        final TextView username = (TextView)findViewById(R.id.edit_username);
-        final TextView password1 = (TextView)findViewById(R.id.password_char_1);
-        final TextView password2 = (TextView)findViewById(R.id.password_char_2);
-        final TextView password3 = (TextView)findViewById(R.id.password_char_3);
+        ((EditText)findViewById(R.id.edit_username)).setText("");
+        ((EditText)findViewById(R.id.password_char_1)).setText("");
+        ((EditText)findViewById(R.id.password_char_2)).setText("");
+        ((EditText)findViewById(R.id.password_char_3)).setText("");
     }
 
 
@@ -270,11 +271,8 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
                         password[0] = password1.getText().charAt(0);
                         password[1] = password2.getText().charAt(0);
                         password[2] = password3.getText().charAt(0);
-                    } catch (NullPointerException e) {
-                        ((LoginActivity)getActivity()).loginFailed("Field(s) left blank");
-                        return;
-                    }  catch (IndexOutOfBoundsException e) {
-                        ((LoginActivity)getActivity()).loginFailed("Field(s) left blank");
+                    } catch (Exception e) {
+                        ((LoginActivity) getActivity()).loginFailed("Field(s) left blank");
                         return;
                     }
 
@@ -282,7 +280,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
 
 
 
-                    // create the dummy server connector
+                    // refer to the server connector
                     ServerInterface dummy = DataStore.sharedInstance().getConnector();
 
                     // call the login method
