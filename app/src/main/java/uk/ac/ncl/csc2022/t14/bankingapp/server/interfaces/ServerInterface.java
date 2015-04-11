@@ -63,12 +63,10 @@ public interface ServerInterface {
     void categorisePayments(List<Categorisation> categorizations, CategoriseDelegate delegate);
 
     /**
-     * @param updatedGroups A Map of groups that have been updated (id to group)
-     * @param newGroups A List of groups that were added
-     * @param deletedGroups A List of groups that were removed
+     * @param newBudget The user's new budget
      * @param delegate The delegate to notify of success
      */
-    void updateBudget(Map<Integer, BudgetGroup> updatedGroups, List<BudgetGroup> newGroups, List<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate);
+    void updateBudget(List<BudgetGroup> newBudget, BudgetUpdateDelegate delegate);
 
     /**
      * @param reward The reward chosen

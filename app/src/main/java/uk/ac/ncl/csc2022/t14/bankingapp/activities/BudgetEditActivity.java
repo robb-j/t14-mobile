@@ -175,7 +175,7 @@ public class BudgetEditActivity extends ActionBarActivity implements BudgetUpdat
         public void saveBudget() {
 
             ServerInterface budgetUpdater = new DummyServerConnector();
-            budgetUpdater.updateBudget(adapter.getUpdatedGroups(), adapter.getNewGroups(), adapter.getDeletedGroups(), (BudgetUpdateDelegate)getActivity());
+            budgetUpdater.updateBudget(adapter.getAllGroups(), (BudgetUpdateDelegate)getActivity());
         }
     }
 }

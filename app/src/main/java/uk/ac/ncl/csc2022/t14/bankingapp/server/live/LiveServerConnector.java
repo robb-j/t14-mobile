@@ -254,7 +254,7 @@ public class LiveServerConnector implements ServerInterface {
     }
 
     @Override
-    public void updateBudget(Map<Integer, BudgetGroup> updatedGroups, List<BudgetGroup> newGroups, List<BudgetGroup> deletedGroups, final BudgetUpdateDelegate delegate) {
+    public void updateBudget(List<BudgetGroup> newBudget, final BudgetUpdateDelegate delegate) {
 
         // Params
         List<NameValuePair> params = baseParams();

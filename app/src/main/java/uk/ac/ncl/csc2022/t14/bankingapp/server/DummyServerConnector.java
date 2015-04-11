@@ -324,7 +324,7 @@ public class DummyServerConnector implements ServerInterface {
     }
 
     @Override
-    public void updateBudget(Map<Integer, BudgetGroup> updatedGroups, List<BudgetGroup> newGroups, List<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate) {
+    public void updateBudget(List<BudgetGroup> newBudget, BudgetUpdateDelegate delegate) {
 
         // Get the token from the data store
         String token = DataStore.sharedInstance().getToken();
@@ -334,7 +334,7 @@ public class DummyServerConnector implements ServerInterface {
         {
             // Update the user's budget
             DataStore.sharedInstance().getCurrentUser().getAllGroups().clear();
-            DataStore.sharedInstance().getCurrentUser().getAllGroups().addAll(newGroups);
+            DataStore.sharedInstance().getCurrentUser().getAllGroups().addAll(newBudget);
 
             // Notify delegate that completion was successful
             delegate.updateBudgetPassed();

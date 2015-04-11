@@ -162,6 +162,10 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
         return groups;
     }
 
+    public List<BudgetGroup> getAllGroups() {
+        return groups;
+    }
+
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
