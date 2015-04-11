@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +52,7 @@ public class LiveServerConnector implements ServerInterface {
         jsonFetcher = new JSONFetcher(baseUrl);
     }
 
+    /** Creates the params needed for all POSTs (except login) */
     private List<NameValuePair> baseParams() {
 
         List<NameValuePair> params = new ArrayList<>();
@@ -71,11 +71,14 @@ public class LiveServerConnector implements ServerInterface {
     @Override
     public void login(String username, char[] password, int[] indices, final LoginDelegate delegate) {
 
+        // Fail if there aren't 3 indecies
         if (indices.length != 3) {
 
             delegate.loginFailed("Password not entered correctly");
         }
 
+
+        // Create the parameters
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("username", username));
         params.add(new BasicNameValuePair("password", new String(password)));
@@ -83,6 +86,8 @@ public class LiveServerConnector implements ServerInterface {
         params.add(new BasicNameValuePair("index2", "" + indices[1]));
         params.add(new BasicNameValuePair("index3", "" + indices[2]));
 
+
+        // Create the delegate to respond to the fetch
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
@@ -98,18 +103,22 @@ public class LiveServerConnector implements ServerInterface {
             }
         };
 
+
+        // Perform the fetch
         jsonFetcher.performFetch("login", params, taskDelegate);
     }
 
     @Override
     public void loadTransactions(final Account account, int month, int year, final TransactionDelegate delegate) {
 
+        // Create the POST params
         List<NameValuePair> params = baseParams();
         params.add(new BasicNameValuePair("month", "" + month));
         params.add(new BasicNameValuePair("year", "" + year));
         params.add(new BasicNameValuePair("accountID", "" + account.getId()));
 
 
+        // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
@@ -125,17 +134,22 @@ public class LiveServerConnector implements ServerInterface {
             }
         };
 
+
+        // Fetch the json
         jsonFetcher.performFetch("loadTransactions", params, taskDelegate);
     }
 
     @Override
     public void makeTransfer(final Account accountA, final Account accountB, final double amount, final TransferDelegate delegate) {
 
+        // Create the POST params
         List<NameValuePair> params = baseParams();
         params.add(new BasicNameValuePair("accountAID", "" + accountA.getId()));
         params.add(new BasicNameValuePair("accountBID", "" + accountB.getId()));
         params.add(new BasicNameValuePair("amount", "" + amount));
 
+
+        // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
@@ -149,15 +163,19 @@ public class LiveServerConnector implements ServerInterface {
             }
         };
 
+
+        // Fetch the json
         jsonFetcher.performFetch("makeTransfer", params, taskDelegate);
     }
 
     @Override
     public void logout(final LogoutDelegate delegate) {
 
+        // Create the params for a POST request
         List<NameValuePair> params = baseParams();
 
 
+        // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
@@ -173,6 +191,8 @@ public class LiveServerConnector implements ServerInterface {
             }
         };
 
+
+        // Fetch the json
         jsonFetcher.performFetch("logout", params, taskDelegate);
     }
 
@@ -220,14 +240,13 @@ public class LiveServerConnector implements ServerInterface {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
 
-                Boolean hasSpin = new Boolean(false);
-                if (success && responseParser.parseCategorisation(json, hasSpin)) {
+            if (success && responseParser.parseCategorisation(json)) {
 
-                    delegate.categorisationPassed(hasSpin);
-                }
-                else {
-                    delegate.categorisationFailed(message);
-                }
+                delegate.categorisationPassed(false);
+            }
+            else {
+                delegate.categorisationFailed(message);
+            }
             }
         };
 
@@ -235,13 +254,31 @@ public class LiveServerConnector implements ServerInterface {
     }
 
     @Override
-    public void updateBudget(Map<Integer, BudgetGroup> updatedGroups, List<BudgetGroup> newGroups, List<BudgetGroup> deletedGroups, BudgetUpdateDelegate delegate) {
+    public void updateBudget(Map<Integer, BudgetGroup> updatedGroups, List<BudgetGroup> newGroups, List<BudgetGroup> deletedGroups, final BudgetUpdateDelegate delegate) {
 
         // Params
+        List<NameValuePair> params = baseParams();
+
 
         // Delegate
+        JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
+            @Override
+            public void taskCompleted(boolean success, String message, JSONObject json) {
 
-        // Called
+                if (success && responseParser.parseUpdateBudget(json)) {
+
+                    delegate.updateBudgetPassed();
+                }
+                else {
+
+                    delegate.updateBudgetFailed(message);
+                }
+            }
+        };
+
+
+        // Call the fetcher
+        jsonFetcher.performFetch("updateBudget", params, taskDelegate);
     }
 
     @Override

@@ -1,3 +1,44 @@
 {
-    "Message": "Budget Updated"
+    "Groups": [
+        {
+            "ID": 3,
+            "Title": "Bills",
+            "User": 2,
+            "Categories": [
+                7
+            ]
+        },
+        {
+            "ID": 4,
+            "Title": "Spending Money",
+            "User": 2,
+            "Categories": [
+                9,
+                10
+            ]
+        }
+    ],
+    "Categories": [
+        {
+            "ID": 7,
+            "Title": "Rent",
+            "Budgeted": "500.00",
+            "Balance": "450.00",
+            "Group": 3
+        },
+        {
+            "ID": 9,
+            "Title": "Going Out",
+            "Budgeted": "100.00",
+            "Balance": "110.03",
+            "Group": 4
+        },
+        {
+            "ID": 10,
+            "Title": "Eating Out",
+            "Budgeted": "80.00",
+            "Balance": "30.00",
+            "Group": 4
+        }
+    ]
 }

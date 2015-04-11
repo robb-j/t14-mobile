@@ -78,10 +78,11 @@ public class ResponseParser {
 
             // Categories
             JSONArray allCategoryJson = responseJson.getJSONArray("Categories");
-            List<BudgetCategory> allCategories = new ArrayList<>();
+            Map<Integer, BudgetCategory> allCategories = new HashMap<>();
             for (int i = 0; i < allCategoryJson.length(); i++) {
 
-                allCategories.add(mp.parseCategory(allCategoryJson.getJSONObject(i)));
+                BudgetCategory category = mp.parseCategory(allCategoryJson.getJSONObject(i));
+                allCategories.put(category.getId(), category);
             }
 
 
@@ -217,7 +218,7 @@ public class ResponseParser {
         return false;
     }
 
-    public boolean parseCategorisation(JSONObject responseJson, Boolean hasSpin) {
+    public boolean parseCategorisation(JSONObject responseJson) {
 
         try {
 
@@ -290,6 +291,47 @@ public class ResponseParser {
         }
     }
 
+    public boolean parseUpdateBudget(JSONObject responseJson) {
+
+        try {
+
+
+            // Get the categroy & group json
+            JSONArray groupsJson = responseJson.getJSONArray("Groups");
+            JSONArray categoriesJson = responseJson.getJSONArray("Categories");
+
+
+            // Create a Map to store all the categoies, by id
+            Map<Integer, BudgetCategory> allCategories = new HashMap<>();
+
+
+            // Parse the categories into the Map
+            for (int i = 0; i < categoriesJson.length(); i++) {
+
+                BudgetCategory category = mp.parseCategory(categoriesJson.getJSONObject(i));
+                allCategories.put(category.getId(), category);
+            }
+
+
+            // Parse the groups & use the map to fill their relation
+            List<BudgetGroup> allGroups = new ArrayList<>();
+            for (int i = 0; i < groupsJson.length(); i++) {
+
+                BudgetGroup group = mp.parseGroup(groupsJson.getJSONObject(i), allCategories);
+                allGroups.add(group);
+            }
+
+            // Set the groups back onto the User
+            DataStore.sharedInstance().getCurrentUser().setAllGroups(allGroups);
+
+
+            return true;
+        }
+        catch (JSONException e) {
+
+            return false;
+        }
+    }
 
 
 
@@ -333,5 +375,7 @@ public class ResponseParser {
             return false;
         }
     }
+
+
 
 }

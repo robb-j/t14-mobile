@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
@@ -147,7 +148,7 @@ public class ModelParser {
         return new BudgetCategory(id, name, budgeted, spent);
     }
 
-    public BudgetGroup parseGroup(JSONObject json, List<BudgetCategory> allCategories) throws JSONException {
+    public BudgetGroup parseGroup(JSONObject json, Map<Integer, BudgetCategory> allCategories) throws JSONException {
 
         // Get properties
         int id = json.getInt("ID");
@@ -164,12 +165,9 @@ public class ModelParser {
 
             int childId = childIdJson.getInt(i);
 
-            for (BudgetCategory c : allCategories) {
+            if (allCategories.containsKey(childId)) {
 
-                if (c.getId() == childId) {
-
-                    group.getCategories().add(c);
-                }
+                group.getCategories().add(allCategories.get(childId));
             }
         }
 

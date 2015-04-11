@@ -132,7 +132,7 @@ public class User extends ModelObject {
     public List<BudgetGroup> getAllGroups() {
         return allGroups;
     }
-    private void setAllGroups(List<BudgetGroup> allGroups) {
+    public void setAllGroups(List<BudgetGroup> allGroups) {
         this.allGroups = allGroups;
     }
 

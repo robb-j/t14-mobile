@@ -390,8 +390,36 @@ public class LiveConnectorTest {
         };
 
 
+        // Call the method
         testConnector.updateBudget(updatedGroups, newGroups, deletedGroups, delegate);
 
+
+        // Test the groups were added to the user
+        User user = DataStore.sharedInstance().getCurrentUser();
+        assertEquals(2, user.getAllGroups().size());
+
+
+
+        // Get the first Group & Category to test
+        BudgetGroup group1 = user.getAllGroups().get(0);
+        BudgetCategory category = group1.getCategories().get(0);
+
+
+        // Test the right number of categorise were parsed
+        assertEquals(1, group1.getCategories().size());
+        assertEquals(2, user.getAllGroups().get(1).getCategories().size());
+
+
+        // Test the Group's id & title were set
+        assertEquals(3, group1.getId());
+        assertEquals("Bills", group1.getName());
+
+
+        // Test the Category's id, name, budgeted & balance were parsed
+        assertEquals(7, category.getId());
+        assertEquals("Rent", category.getName());
+        assertEquals(500.00, category.getBudgeted(), 0.0001);
+        assertEquals(450.00, category.getSpent(), 0.0001);
     }
 
     @Test
