@@ -218,16 +218,6 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
 
 
-
-
-
-
-
-
-            // refreshMonth();
-
-
-
             /* Set up the buttons */
             Button btnMakeTransfer = (Button) rootView.findViewById(R.id.btn_make_transfer);
             Button btnSelectMonth = (Button)rootView.findViewById(R.id.btn_select_month);
@@ -329,7 +319,7 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
             ServerInterface transactionLoader = DataStore.sharedInstance().getConnector();
             Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
-            transactionLoader.loadTransactions(account, month, year, (TransactionDelegate)getActivity());
+            transactionLoader.loadTransactions(account, month+1, year, (TransactionDelegate)getActivity());
 
         }
 
