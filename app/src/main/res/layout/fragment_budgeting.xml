@@ -32,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/new_transaction"
-                android:maxWidth="16dp"
-                android:maxHeight="16dp"
+                android:maxWidth="20dp"
+                android:maxHeight="20dp"
                 android:adjustViewBounds="true"
                 android:layout_marginRight="10dp"/>
 

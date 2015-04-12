@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -176,13 +177,20 @@ public class BudgetingFragment extends Fragment{
     public void checkForNewTransactions(View v) {
 
         LinearLayout layout = (LinearLayout) v.findViewById(R.id.layout_new_transactions);
+        TextView textUnspent = (TextView) v.findViewById(R.id.text_budget_unspent);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)textUnspent.getLayoutParams();
 
         if (DataStore.sharedInstance().getCurrentUser().getNumNewPayments() > 0) {
             layout.setVisibility(View.VISIBLE);
             TextView textView = (TextView) v.findViewById(R.id.text_new_transactions);
             textView.setText(DataStore.sharedInstance().getCurrentUser().getNumNewPayments() + " New Transactions");
+
+
+            layoutParams.addRule(RelativeLayout.BELOW, layout.getId());
+
         } else {
             layout.setVisibility(View.INVISIBLE);
+            layoutParams.addRule(RelativeLayout.BELOW, R.id.title_budgeting);
         }
     }
 

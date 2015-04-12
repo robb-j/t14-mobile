@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,9 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
     @Override
     public void transferPassed(Account accFrom, Account accTo, double amount) {
         // If a successful transfer has been made then return to the account view
+        Toast.makeText(this, "Transfer Successful", Toast.LENGTH_LONG).show();
         this.finish();
+
     }
 
     @Override

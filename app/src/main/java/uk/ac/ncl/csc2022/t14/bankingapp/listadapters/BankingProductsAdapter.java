@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
@@ -57,11 +58,24 @@ public class BankingProductsAdapter extends RecyclerView.Adapter<BankingProducts
         holder.name.setText(current.getTitle());
         holder.description.setText(current.getContent());
 
+        for (Account account : DataStore.sharedInstance().getCurrentUser().getAccounts()) {
+            if (account.getProduct() != null) {
+                if (account.getProduct().getId() == current.getId()) {
+                    removeItem(position);
+                }
+            }
+        }
+
     }
 
     @Override
     public int getItemCount() {
         return products.size();
+    }
+
+    private void removeItem(int position) {
+        products.remove(position);
+        notifyItemRemoved(position);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
