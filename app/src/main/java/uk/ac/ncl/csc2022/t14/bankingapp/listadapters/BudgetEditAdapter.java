@@ -179,13 +179,6 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
             editGroup = (EditText)itemView.findViewById(R.id.edit_budget_group);
             layoutCategories = (LinearLayout)itemView.findViewById(R.id.layout_budget_categories);
 
-
-
-
-
-
-
-
             textNewCat = (TextView)itemView.findViewById(R.id.text_new_category);
             editGroup.setOnLongClickListener(this);
             textNewCat.setOnClickListener(this);
