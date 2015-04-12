@@ -177,23 +177,15 @@ public class BudgetingFragment extends Fragment{
 
         LinearLayout layout = (LinearLayout) v.findViewById(R.id.layout_new_transactions);
 
-        if (numNewTransactions() > 0) {
+        if (DataStore.sharedInstance().getCurrentUser().getNumNewPayments() > 0) {
             layout.setVisibility(View.VISIBLE);
             TextView textView = (TextView) v.findViewById(R.id.text_new_transactions);
-            textView.setText(numNewTransactions() + " New Transactions");
+            textView.setText(DataStore.sharedInstance().getCurrentUser().getNumNewPayments() + " New Transactions");
         } else {
             layout.setVisibility(View.INVISIBLE);
         }
     }
 
-    /**
-     * Returns the number of new transactions that have not yet been categorised.
-     * @return Number of new transactions.
-     */
-    public int numNewTransactions() {
-        /* This needs implementing */
-        return 2;
-    }
 
     /**
      * Returns the total unspent of the user's budget.
