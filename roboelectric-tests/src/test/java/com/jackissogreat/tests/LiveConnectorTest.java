@@ -370,9 +370,7 @@ public class LiveConnectorTest {
     public void testUpdateBudgetResponse() {
 
         // Create test params
-        Map<Integer, BudgetGroup> updatedGroups = new HashMap<>();
-        List<BudgetGroup> newGroups = new ArrayList<>();
-        List<BudgetGroup> deletedGroups = new ArrayList<>();
+        List<BudgetGroup> groups = new ArrayList<>();
 
 
         // Create delegate to test response
@@ -391,7 +389,7 @@ public class LiveConnectorTest {
 
 
         // Call the method
-        testConnector.updateBudget(updatedGroups, newGroups, deletedGroups, delegate);
+        testConnector.updateBudget(groups, delegate);
 
 
         // Test the groups were added to the user
