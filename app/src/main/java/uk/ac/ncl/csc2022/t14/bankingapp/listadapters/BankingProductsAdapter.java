@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class BankingProductsAdapter extends RecyclerView.Adapter<BankingProducts
         Product current = products.get(position);
 
         holder.name.setText(current.getTitle());
-        holder.description.setText(current.getContent());
+        holder.description.setText(Html.fromHtml(current.getContent()));
 
         for (Account account : DataStore.sharedInstance().getCurrentUser().getAccounts()) {
             if (account.getProduct() != null) {

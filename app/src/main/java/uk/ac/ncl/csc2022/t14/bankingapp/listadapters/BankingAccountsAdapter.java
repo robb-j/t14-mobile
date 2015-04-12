@@ -4,20 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.AccountActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 
 /**
  * Created by Sam on 12/04/2015.
@@ -32,6 +36,10 @@ public class BankingAccountsAdapter extends RecyclerView.Adapter<BankingAccounts
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.accounts = accounts;
+
+        for (Product product : DataStore.sharedInstance().getProducts()) {
+            Log.d("PRODUCTS", "id: " + product.getId() + ". name: " + product.getTitle());
+        }
     }
 
     @Override
@@ -56,6 +64,20 @@ public class BankingAccountsAdapter extends RecyclerView.Adapter<BankingAccounts
         } else {
             holder.balance.setTextColor(Color.rgb(0,120,0));
         }
+
+        holder.image.setImageResource(R.drawable.piggy_bank);
+
+        if (current.getProduct() != null) {
+            if (current.getProduct().getId() == DataStore.sharedInstance().getProducts().get(0).getId()) {
+                holder.image.setImageResource(R.drawable.student);
+            } else if (current.getProduct().getId() == DataStore.sharedInstance().getProducts().get(1).getId()) {
+                holder.image.setImageResource(R.drawable.piggy_bank);
+            } else if (current.getProduct().getId() == DataStore.sharedInstance().getProducts().get(2).getId()) {
+                holder.image.setImageResource(R.drawable.isa);
+            }
+        }
+
+
     }
 
     @Override

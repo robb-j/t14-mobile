@@ -10,7 +10,6 @@
         android:id="@+id/image_banking_account"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:background="@color/black"
         />
 
     <TextView
