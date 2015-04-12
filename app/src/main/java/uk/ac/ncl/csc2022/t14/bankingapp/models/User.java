@@ -160,7 +160,7 @@ public class User extends ModelObject {
     public int getNumNewPayments() {
         return numNewPayments;
     }
-    private void setNumNewPayments(int numNewPayments) {
+    public void setNumNewPayments(int numNewPayments) {
         this.numNewPayments = numNewPayments;
     }
 

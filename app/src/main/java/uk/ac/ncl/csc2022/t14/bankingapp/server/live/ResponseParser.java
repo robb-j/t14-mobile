@@ -49,6 +49,7 @@ public class ResponseParser {
 
             // Parse the user
             User user = mp.parseUser(responseJson.getJSONObject("User"));
+            user.setNumNewPayments(responseJson.getInt("NumNewPayments"));
 
 
             // Products
@@ -277,9 +278,12 @@ public class ResponseParser {
         try {
 
             // Parse the number of points
-            int numPoints = responseJson.getInt("points");
+            int numPoints = responseJson.getInt("newPoints");
+            int totPoints = responseJson.getInt("totalPoints");
+            int totSpins =  responseJson.getInt("currentSpins");
             User user = DataStore.sharedInstance().getCurrentUser();
-            user.setPoints(numPoints);
+            user.setPoints(totPoints);
+            user.setNumberOfSpins(totSpins);
 
 
             // Return it

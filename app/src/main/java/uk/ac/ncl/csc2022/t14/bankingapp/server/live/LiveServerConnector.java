@@ -313,10 +313,10 @@ public class LiveServerConnector implements ServerInterface {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
 
-                int numSpins = responseParser.parsePerformSpin(json);
-                if (success && numSpins > 0) {
+                int numPoints = responseParser.parsePerformSpin(json);
+                if (success && numPoints > 0) {
 
-                    delegate.spinPassed(numSpins);
+                    delegate.spinPassed(numPoints);
                 }
                 else {
                     delegate.spinFailed(message);

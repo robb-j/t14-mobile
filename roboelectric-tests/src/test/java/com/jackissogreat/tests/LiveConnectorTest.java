@@ -137,12 +137,13 @@ public class LiveConnectorTest {
 
 
         // Test the User's properties
-        assertEquals(user.getId(), 2);
-        assertEquals(user.getUsername(), "geoff");
-        assertEquals(user.getFirstName(), "Geoff");
-        assertEquals(user.getLastName(), "Butcher");
-        assertEquals(user.getNumberOfSpins(), 3);
-        assertEquals(user.getPoints(), 450);
+        assertEquals(2, user.getId());
+        assertEquals("geoff", user.getUsername());
+        assertEquals("Geoff", user.getFirstName());
+        assertEquals("Butcher", user.getLastName());
+        assertEquals(3, user.getNumberOfSpins());
+        assertEquals(450, user.getPoints());
+        assertEquals(2, user.getNumNewPayments());
 
         assertEquals(user.getAccounts().size(), 2);
         assertEquals(user.getAllGroups().size(), 2);
@@ -482,7 +483,8 @@ public class LiveConnectorTest {
 
         // Test the user's points was updated
         User user = DataStore.sharedInstance().getCurrentUser();
-        assertEquals(20, user.getPoints());
+        assertEquals(170, user.getPoints());
+        assertEquals(18, user.getNumberOfSpins());
     }
 
 
