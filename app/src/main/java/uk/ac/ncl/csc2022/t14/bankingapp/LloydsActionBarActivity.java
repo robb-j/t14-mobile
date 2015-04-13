@@ -1,7 +1,5 @@
 package uk.ac.ncl.csc2022.t14.bankingapp;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -22,6 +20,5 @@ public class LloydsActionBarActivity extends ActionBarActivity {
         View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
         getSupportActionBar().setCustomView(customNav, lp);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
     }
 }
