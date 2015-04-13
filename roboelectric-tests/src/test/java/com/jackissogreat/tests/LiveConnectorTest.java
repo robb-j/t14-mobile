@@ -118,14 +118,20 @@ public class LiveConnectorTest {
 
 
         List<Product> products = DataStore.sharedInstance().getProducts();
+        List<Product> newProds = DataStore.sharedInstance().getNewProducts();
         List<Reward> rewards = DataStore.sharedInstance().getRewards();
 
 
         // Test Products
-        assertEquals(products.size(), 1);
-        assertEquals(products.get(0).getId(), 3);
-        assertEquals(products.get(0).getTitle(), "ISA Plan");
+        assertEquals(products.size(), 3);
+        assertEquals(1, products.get(0).getId());
+        assertEquals("Savings Account", products.get(0).getTitle());
         assertNotNull(products.get(0).getContent());
+
+
+        // Test New Products
+        assertEquals(1, newProds.size());
+        assertEquals(3, newProds.get(0).getId());
 
 
         // Test Rewards
@@ -157,6 +163,8 @@ public class LiveConnectorTest {
         assertEquals("Student Account", account.getName());
         assertEquals(131.97, account.getBalance(), 0.0001);
         assertNotNull(account.getFirstTransaction());
+        assertNotNull(account.getProduct());
+        assertEquals(2, account.getProduct().getId());
 
 
         // Test A Group

@@ -69,7 +69,7 @@ public class ModelParser {
         return user;
     }
 
-    public Account parseAccount(JSONObject json) throws JSONException {
+    public Account parseAccount(JSONObject json, Map<Integer, Product> allProducts) throws JSONException {
 
         // Get properties
         int id = json.getInt("ID");
@@ -79,6 +79,8 @@ public class ModelParser {
 
         // Create Account from properties
         Account account = new Account(id , name, balance, overdraft);
+
+        account.setProduct(allProducts.get(json.getInt("Product")));
 
         try {
             Date firstTran = parseDate(json.getString("FirstTransaction"));

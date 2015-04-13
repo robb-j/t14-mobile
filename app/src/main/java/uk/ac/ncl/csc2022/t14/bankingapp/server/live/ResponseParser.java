@@ -53,11 +53,20 @@ public class ResponseParser {
 
 
             // Products
-            JSONArray newProdsJson = responseJson.getJSONArray("NewProducts");
-            List<Product> allProducts = new ArrayList<>();
-            for (int i = 0; i < newProdsJson.length(); i++) {
+            JSONArray prodsJson = responseJson.getJSONArray("AllProducts");
+            Map<Integer, Product> allProducts = new HashMap<>();
+            for (int i = 0; i < prodsJson .length(); i++) {
 
-                allProducts.add(mp.parseProduct(newProdsJson.getJSONObject(i)));
+                Product p = mp.parseProduct(prodsJson.getJSONObject(i));
+                allProducts.put(p.getId(), p);
+            }
+
+            // New Products
+            JSONArray newProdJson = responseJson.getJSONArray("NewProducts");
+            List<Product> newProducts = new ArrayList<>();
+            for (int i = 0; i < newProdJson.length(); i++) {
+
+                newProducts.add(allProducts.get(newProdJson.getInt(i)));
             }
 
             // Rewards
@@ -73,7 +82,7 @@ public class ResponseParser {
             JSONArray allAccountsJson = responseJson.getJSONArray("Accounts");
             for (int i = 0; i < allAccountsJson.length(); i++) {
 
-                user.getAccounts().add(mp.parseAccount(allAccountsJson.getJSONObject(i)));
+                user.getAccounts().add(mp.parseAccount(allAccountsJson.getJSONObject(i), allProducts));
             }
 
 
@@ -111,9 +120,11 @@ public class ResponseParser {
             }
 
 
+
             // Return by giving data to the DataStore
             DataStore.sharedInstance().setCurrentUser(user);
-            DataStore.sharedInstance().setProducts(allProducts);
+            DataStore.sharedInstance().setProducts(new ArrayList<>(allProducts.values()));
+            DataStore.sharedInstance().setNewProducts(newProducts);
             DataStore.sharedInstance().setRewards(allRewards);
             DataStore.sharedInstance().setToken(token);
 

@@ -18,6 +18,7 @@ public class DataStore {
     private static final DataStore sharedInstance = new DataStore();
     private User currentUser;
     private List<Product> products;
+    private List<Product> newProducts;
     private List<Reward> rewards;
     private String token;
     private ServerInterface serverConnector;
@@ -50,11 +51,18 @@ public class DataStore {
 
 
 
-    // The Products available to the User
+    // All Products
     public void setProducts(List<Product> product) {
         products = product;
     }
     public List<Product> getProducts() {return products;}
+
+
+    // The new Products available to the User
+    public void setNewProducts(List<Product> product) {
+        newProducts = product;
+    }
+    public List<Product> getNewProducts() {return newProducts;}
 
 
 
