@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.ExpandableListAdapter;
@@ -38,7 +39,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategorizeLocationDele
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
-public class CategorizeActivity extends ActionBarActivity {
+public class CategorizeActivity extends LloydsActionBarActivity {
     User currentUser;
 
 
@@ -51,13 +52,6 @@ public class CategorizeActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
-        getSupportActionBar().setCustomView(customNav, lp);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
     }
 
 

@@ -29,6 +29,7 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.List;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
@@ -39,7 +40,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 
-public class AccountActivity extends ActionBarActivity implements TransactionDelegate {
+public class AccountActivity extends LloydsActionBarActivity implements TransactionDelegate {
 
     private static int accountId;
     private static ProgressDialog progressLoadTransactions;
@@ -61,13 +62,6 @@ public class AccountActivity extends ActionBarActivity implements TransactionDel
 
         month = Calendar.getInstance().get(Calendar.MONTH);
         year = Calendar.getInstance().get(Calendar.YEAR);
-
-
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
-        getSupportActionBar().setCustomView(customNav, lp);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
     }
 
 

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
@@ -33,7 +34,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
 
-public class TransferActivity extends ActionBarActivity implements TransferDelegate {
+public class TransferActivity extends LloydsActionBarActivity implements TransferDelegate {
 
     private static int accountFromId;
     private static Spinner spinner;
@@ -48,12 +49,6 @@ public class TransferActivity extends ActionBarActivity implements TransferDeleg
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
-        getSupportActionBar().setCustomView(customNav, lp);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
         // Receives the accountFrom and user that were passed through to this activity
         accountFromId = getIntent().getExtras().getInt("accountId");

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
@@ -33,7 +34,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ChooseRewardDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
-public class RewardsActivity extends ActionBarActivity implements ChooseRewardDelegate{
+public class RewardsActivity extends LloydsActionBarActivity implements ChooseRewardDelegate{
 
 
     private static ArrayAdapter<String> adapter;
@@ -47,12 +48,6 @@ public class RewardsActivity extends ActionBarActivity implements ChooseRewardDe
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
-        getSupportActionBar().setCustomView(customNav, lp);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
     }
 
