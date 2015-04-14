@@ -135,9 +135,18 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Perform a spin
-                    ServerInterface sbi = DataStore.sharedInstance().getConnector();
-                    sbi.performSpin((PointSpinDelegate) getActivity());
+
+                    // Fail if the user has no spins
+                    if (DataStore.sharedInstance().getCurrentUser().getNumberOfSpins() < 1) {
+                        TextView failMsg = (TextView) rootView.findViewById(R.id.textView_spinErrMessage);
+                        failMsg.setTextColor(Color.parseColor("#ED1C24")); // Red but not blindingly so
+                        failMsg.setText("No spins remaining");
+                    }
+                    else {
+                        // Else perform a spin
+                        ServerInterface sbi = DataStore.sharedInstance().getConnector();
+                        sbi.performSpin((PointSpinDelegate) getActivity());
+                    }
                 }
             });
 
