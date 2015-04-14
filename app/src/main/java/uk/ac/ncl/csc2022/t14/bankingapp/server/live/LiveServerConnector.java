@@ -88,7 +88,7 @@ public class LiveServerConnector implements ServerInterface {
     @Override
     public void login(String username, char[] password, int[] indices, final LoginDelegate delegate) {
         addLoadingSpinner("Logging in", "Please wait...");
-        // Fail if there aren't 3 indecies
+        // Fail if there aren't 3 indices
         if (indices.length != 3) {
 
             delegate.loginFailed("Password not entered correctly");
@@ -440,16 +440,19 @@ public class LiveServerConnector implements ServerInterface {
 
                 removeLoadingSpinner();
 
-                int numPoints = responseParser.parsePerformSpin(json);
-                if (success && numPoints > 0) {
+                if (success) {
+                    int numPoints = responseParser.parsePerformSpin(json);
 
-                    delegate.spinPassed(numPoints);
-                }
-                else {
+                    if (numPoints > 0) {
 
-                    message = responseParser.parseErrorOrDefault(message);
-                    delegate.spinFailed(message);
+                        delegate.spinPassed(numPoints);
+                        return;
+                    }
                 }
+                
+                message = responseParser.parseErrorOrDefault(message);
+                delegate.spinFailed(message);
+
             }
         };
 
@@ -465,15 +468,11 @@ public class LiveServerConnector implements ServerInterface {
     @Override
     public void loadHeatMap(int[] accounts, Date start, Date end, final HeatMapDelegate delegate) {
 
-        addLoadingSpinner("Fetching Transaction Details", "Please wait...");
-
         List<NameValuePair> params = baseParams();
 
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
-
-                removeLoadingSpinner();
 
                 List<HeatPoint> allPoints = new ArrayList<>();
                 if (success && responseParser.parseLoadHeatPoints(json, allPoints)) {
@@ -494,15 +493,11 @@ public class LiveServerConnector implements ServerInterface {
     @Override
     public void loadATMS(final ATMDelegate delegate) {
 
-        addLoadingSpinner("Fetching ATM locations", "Please wait...");
-
         List<NameValuePair> params = baseParams();
 
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
-
-                removeLoadingSpinner();
 
                 List<ATM> allAtms = new ArrayList<>();
                 if (success && responseParser.parseLoadATMs(json, allAtms)) {
