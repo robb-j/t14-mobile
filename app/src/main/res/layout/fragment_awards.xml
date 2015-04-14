@@ -25,23 +25,6 @@
         android:layout_marginTop="10dp"
         >
 
-        <ImageView
-            android:contentDescription="new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/account_image"
-            android:maxWidth="16dp"
-            android:maxHeight="16dp"
-            android:adjustViewBounds="true"
-            android:layout_marginRight="10dp"/>
-
-        <TextView
-            android:id="@+id/claim_reward"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Claim your Reward!"/>
-
     </LinearLayout>
 
     <TextView
@@ -50,9 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_current_points"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
         android:text="Current Points"
-        />
+        android:layout_marginBottom="10dp" />
 
 
     <ImageView
@@ -110,4 +92,26 @@
         android:layout_alignParentLeft="true"
         android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spin!"
+        android:id="@+id/btn_goto_spin"
+        android:layout_marginRight="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_alignTop="@+id/title_awards"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rewards"
+        android:id="@+id/btn_goto_rewards"
+        android:layout_alignTop="@+id/title_awards"
+        android:layout_toLeftOf="@+id/text_current_points"
+        android:layout_toStartOf="@+id/text_current_points"
+        android:layout_marginRight="28dp"
+        android:layout_marginEnd="28dp" />
 </RelativeLayout>

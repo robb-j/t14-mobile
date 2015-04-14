@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.RewardsActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.SpinActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.PointsListAdapter;
@@ -104,7 +106,7 @@ public class AwardsFragment extends Fragment{
         recentPoints = currentUser.getRecentPoints();
         refreshawards(rootView);
         refreshpoints(rootView);
-        TextView claimRewards = (TextView)rootView.findViewById(R.id.claim_reward);
+        Button claimRewards = (Button)rootView.findViewById(R.id.btn_goto_rewards);
         claimRewards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -114,9 +116,23 @@ public class AwardsFragment extends Fragment{
             }
         });
 
+        // Set up the spin button to take the user to the spinner view
+        Button btnGoToSpin = (Button) rootView.findViewById(R.id.btn_goto_spin);
+
+        btnGoToSpin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToSpin(v);
+            }
+        });
         return rootView;
 
+    }
 
+    public void goToSpin(View v) {
+        //Start a spin activity
+        Intent i = new Intent(getActivity(), SpinActivity.class);
+        startActivity(i);
     }
 
     public void refreshawards(View v)

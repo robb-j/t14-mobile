@@ -389,6 +389,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
             {
                 listDataChild.put(newTransactionList.get(i).getTransaction().getPayee(), categoryNameList);
                 listDataHeader.add(newTransactionList.get(i).getTransaction().getPayee());
+                Log.d("Hello", listDataHeader.toString());
                 listTransactionLocated.add(false);
             }
 

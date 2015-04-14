@@ -65,6 +65,11 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
     @Override
     public void spinPassed(int numPoints) {
 
+
+        // Update amount of spins remaining on the spin button
+        Button btn = (Button) findViewById(R.id.btn_spin);
+        btn.setText("Spin! (" + DataStore.sharedInstance().getCurrentUser().getNumberOfSpins() + ")");
+
         // Retrieve the spin wheel and set an animation for it
         ImageView animTarget = (ImageView) findViewById(R.id.imageView_spinWheel);
         Animation animation = null;
@@ -76,19 +81,19 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
                 break;
 
             case 20:
-                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin2);
-                break;
-
-            case 30:
-                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin3);
-                break;
-
-            case 40:
                 animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin4);
                 break;
 
+            case 30:
+                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin7);
+                break;
+
+            case 40:
+                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin10);
+                break;
+
             case 50:
-                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin5);
+                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin3);
                 break;
 
             case 60:
@@ -96,19 +101,19 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
                 break;
 
             case 70:
-                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin7);
-                break;
-
-            case 80:
-                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin8);
-                break;
-
-            case 90:
                 animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin9);
                 break;
 
+            case 80:
+                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin2);
+                break;
+
+            case 90:
+                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin5);
+                break;
+
             case 100:
-                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin10);
+                animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin8);
                 break;
         }
 
@@ -137,7 +142,9 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.fragment_spin, container, false);
 
+            // Display amount of spins remaining on the spin button
             Button btn = (Button) rootView.findViewById(R.id.btn_spin);
+            btn.setText("Spin! (" + DataStore.sharedInstance().getCurrentUser().getNumberOfSpins() + ")");
 
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override

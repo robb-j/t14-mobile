@@ -173,23 +173,7 @@ public class RewardsActivity extends LloydsActionBarActivity implements ChooseRe
             TextView currentPoints = (TextView) rootView.findViewById(R.id.textView_currentPoints);
             currentPoints.setText("Current Points: " + DataStore.sharedInstance().getCurrentUser().getPoints());
 
-            // Set up the spin button to take the user to the spinner view
-            Button btnGoToSpin = (Button) rootView.findViewById(R.id.btn_goto_spin);
-
-            btnGoToSpin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    goToSpin(v);
-                }
-            });
-
         return rootView;
-        }
-
-        public void goToSpin(View v) {
-            //Start a spin activity
-            Intent i = new Intent(getActivity(), SpinActivity.class);
-            startActivity(i);
         }
 
     }

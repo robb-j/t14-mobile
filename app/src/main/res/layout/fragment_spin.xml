@@ -13,7 +13,8 @@
         android:text="Spin!"
         android:id="@+id/btn_spin"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:width="150dp" />
 
     <ImageView
         android:layout_width="wrap_content"

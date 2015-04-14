@@ -157,7 +157,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
 
     }
     public void focusMapOnUser()
-    {
+    {return;/*
 
         //Zooming camera to user-position
         if(mapFragment==null)
@@ -189,10 +189,10 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
 
-    }
+    */}
 
     public void getATMs()
-    {
+    {return;/*
         if(mOverlay!=null)
         {
             mOverlay.remove();
@@ -216,10 +216,10 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
             }
         };
         dSC.loadATMS(aD);
-    }
+    */}
 
     public void getHeatmap()
-    {
+    {return;/*
         map.clear();
         List<HeatPoint> transactionLocations;
         int[] accounts = new int[]{1}; //why do I need this?
@@ -249,7 +249,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
         };
         dSC.loadHeatMap(accounts, today, monthAgo, hMD);
 
-    }
+    */}
 
 
     // TODO: Rename method, update argument and hook method into UI event
