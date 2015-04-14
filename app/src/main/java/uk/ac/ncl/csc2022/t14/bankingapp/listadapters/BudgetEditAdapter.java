@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,17 +61,14 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
+        // reset the categories
         holder.layoutCategories.removeAllViews();
 
         final BudgetGroup current = groups.get(position);
 
+        /*
         for (BudgetCategory category : current.getCategories()) {
 
 
@@ -104,7 +104,7 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
 
         holder.editGroup.setText(current.getName());
         holder.textNewCat.setText("+ New Category");
-
+*/
 
     }
 
@@ -120,7 +120,7 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
 
     public void addItem(BudgetGroup group) {
         groups.add(group);
-        notifyItemInserted(getItemCount()-1);
+        notifyItemInserted(getItemCount() - 1);
     }
 
     public ArrayList<BudgetGroup> getNewGroups() {
@@ -162,6 +162,10 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
         return groups;
     }
 
+    public void addNewCategory(int position, BudgetCategory category) {
+
+    }
+
     public List<BudgetGroup> getAllGroups() {
         return groups;
     }
@@ -178,6 +182,24 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
 
             editGroup = (EditText)itemView.findViewById(R.id.edit_budget_group);
             layoutCategories = (LinearLayout)itemView.findViewById(R.id.layout_budget_categories);
+
+            editGroup.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    editGroup.setText(s);
+                    Log.d("TEST", "After text changed: " + s);
+                }
+            });
 
             textNewCat = (TextView)itemView.findViewById(R.id.text_new_category);
             editGroup.setOnLongClickListener(this);

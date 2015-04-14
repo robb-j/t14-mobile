@@ -14,6 +14,9 @@ public class BudgetGroup extends ModelObject {
 
     public static final int TYPE_NEW = -1;
     public static final int TYPE_REMOVED = -2;
+    private enum Mode { UNCHANGED, REMOVED, EDITED, NEW }
+
+    Mode mode = Mode.UNCHANGED;
 
     private String name;
     private List<BudgetCategory> categories;
@@ -27,6 +30,7 @@ public class BudgetGroup extends ModelObject {
         super(id);
         setName(name);
         categories = new ArrayList<>();
+        setMode(Mode.UNCHANGED);
     }
 
     public BudgetGroup(BudgetGroup budgetGroup) {
@@ -47,8 +51,17 @@ public class BudgetGroup extends ModelObject {
         this.categories = categories;
     }
 
+    public Mode getMode() {
+        return mode;
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
     public void setDeleted() {
         setId(TYPE_REMOVED);
+        setMode(Mode.REMOVED);
     }
 
     @Override

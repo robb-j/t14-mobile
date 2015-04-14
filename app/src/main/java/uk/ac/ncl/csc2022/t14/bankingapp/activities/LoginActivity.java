@@ -54,8 +54,6 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
         // set the default server connector
         DataStore.sharedInstance().setServerConnector(new DummyServerConnector());
 
-
-
         // make switch connector button visible
         findViewById(R.id.btn_switch_connector).setVisibility(View.VISIBLE);
 
@@ -75,7 +73,6 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
 
         // reset activity
         resetFields();
-        // findViewById(R.id.btn_logout).callOnClick();
 
         // produce error message.
         Toast.makeText(this, errMessage, Toast.LENGTH_LONG).show();
@@ -83,7 +80,6 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
     }
 
     public void resetFields() {
-        ((EditText)findViewById(R.id.edit_username)).setText("");
         ((EditText)findViewById(R.id.password_char_1)).setText("");
         ((EditText)findViewById(R.id.password_char_2)).setText("");
         ((EditText)findViewById(R.id.password_char_3)).setText("");
@@ -95,21 +91,6 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void btnSwitchConnector(View v) {

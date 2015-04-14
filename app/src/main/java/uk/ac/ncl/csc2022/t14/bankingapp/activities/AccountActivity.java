@@ -43,7 +43,6 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 public class AccountActivity extends LloydsActionBarActivity implements TransactionDelegate {
 
     private static int accountId;
-    private static ProgressDialog progressLoadTransactions;
     private TransactionAdapter adapter;
     private static int month, year;
 
@@ -72,20 +71,6 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
     @Override
@@ -106,8 +91,6 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
 
     @Override
     public void transactionsLoaded(Account account, List<Transaction> transactions) {
-
-        progressLoadTransactions.dismiss();
 
         final ListView listTransactions = (ListView)findViewById(R.id.list_transactions);
         final TextView errorNoTransactions = (TextView)findViewById(R.id.text_error_no_transactions);
@@ -171,8 +154,6 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
 
     @Override
     public void transactionsLoadFailed(String errMessage) {
-
-        progressLoadTransactions.dismiss();
 
         TextView errorNoTransactions = (TextView)findViewById(R.id.text_error_no_transactions);
 
@@ -306,10 +287,6 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
         }
 
         public void refreshMonth() {
-            progressLoadTransactions = new ProgressDialog(getActivity());
-            progressLoadTransactions.setTitle("Loading Transactions");
-            progressLoadTransactions.setMessage("Please wait...");
-            progressLoadTransactions.show();
 
             ServerInterface transactionLoader = DataStore.sharedInstance().getConnector();
             Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
