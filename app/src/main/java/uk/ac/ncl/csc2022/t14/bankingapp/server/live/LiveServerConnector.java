@@ -401,7 +401,7 @@ public class LiveServerConnector implements ServerInterface {
         addLoadingSpinner("Choosing Reward", "Please wait...");
 
         List<NameValuePair> params = baseParams();
-        params.add(new BasicNameValuePair("key", "value"));
+        params.add(new BasicNameValuePair("rewardID", "" + reward.getId()));
 
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
