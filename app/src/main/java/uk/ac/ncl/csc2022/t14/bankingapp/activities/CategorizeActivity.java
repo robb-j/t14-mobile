@@ -336,12 +336,44 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                 @Override
                 public void newPaymentsLoaded(List<Transaction> transactions)
                 {
-                    for(int i = 0; i<transactions.size();i++)
+                    for(int k = 0; k<transactions.size();k++)
                     {
                         newTransaction nT = new newTransaction();
-                        nT.setTransaction(transactions.get(i));
+                        nT.setTransaction(transactions.get(k));
                         newTransactionList.add(nT);
                     }
+                    //adding the possible categories, might add an option to add your own
+                    for(int i=0;i<currentUser.getAllGroups().size();i++)
+                    {
+                        for(int j=0;j<currentUser.getAllGroups().get(i).getCategories().size();j++)
+                        {
+                            category cat = new category();
+                            cat.setCategory(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
+                            cat.setCategoryCoordinate(j);
+                            cat.setGroupCoordinate(i);
+                            categories.add(cat);
+                            categoryNameList.add(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
+                        }
+                    }
+
+
+
+                    //Will use a for loop when I get proper transactions
+                    for(int i=0; i<newTransactionList.size(); i++)
+                    {
+                        listDataChild.put(newTransactionList.get(i).getTransaction().getPayee(), categoryNameList);
+                        listDataHeader.add(newTransactionList.get(i).getTransaction().getPayee());
+                        Log.d("Hello", listDataHeader.toString());
+                        listTransactionLocated.add(false);
+                    }
+                    try {
+                        eListAdapter.notifyDataSetChanged();
+                    }
+                    catch(NullPointerException e)
+                    {
+
+                    }
+
                 }
 
                 @Override
@@ -353,30 +385,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
 
             dSC.loadNewPaymentsForUser(nPD);
 
-            //adding the possible categories, might add an option to add your own
-            for(int i=0;i<currentUser.getAllGroups().size();i++)
-            {
-                for(int j=0;j<currentUser.getAllGroups().get(i).getCategories().size();j++)
-                {
-                    category cat = new category();
-                    cat.setCategory(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
-                    cat.setCategoryCoordinate(j);
-                    cat.setGroupCoordinate(i);
-                    categories.add(cat);
-                    categoryNameList.add(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
-                }
-            }
 
-
-
-            //Will use a for loop when I get proper transactions
-            for(int i=0; i<newTransactionList.size(); i++)
-            {
-                listDataChild.put(newTransactionList.get(i).getTransaction().getPayee(), categoryNameList);
-                listDataHeader.add(newTransactionList.get(i).getTransaction().getPayee());
-                Log.d("Hello", listDataHeader.toString());
-                listTransactionLocated.add(false);
-            }
 
 
         }
