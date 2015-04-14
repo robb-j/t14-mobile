@@ -7,6 +7,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.BankingApp;
+
 /**
  * Created by Sam on 13/04/2015.
  */
@@ -20,5 +22,6 @@ public class LloydsActionBarActivity extends ActionBarActivity {
         View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
         getSupportActionBar().setCustomView(customNav, lp);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
+        BankingApp.setContext(this);
     }
 }
