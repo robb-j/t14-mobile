@@ -1,5 +1,7 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.live;
 
+import android.app.ProgressDialog;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -7,11 +9,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
@@ -39,6 +41,7 @@ public class LiveServerConnector implements ServerInterface {
     private final String DEFAULT_BASE_URL = "http://t14.veotest.co.uk/bankapi/";
     private JSONFetcher jsonFetcher;
     private ResponseParser responseParser;
+    private ProgressDialog loadingSpinner;
 
 
     public LiveServerConnector() {
@@ -60,6 +63,14 @@ public class LiveServerConnector implements ServerInterface {
         params.add(new BasicNameValuePair("token", DataStore.sharedInstance().getToken()));
 
         return params;
+    }
+
+    private void addLoadingSpinner(String title, String message) {
+
+    }
+
+    private void removeLoadingSpinner() {
+
     }
 
 
@@ -268,6 +279,66 @@ public class LiveServerConnector implements ServerInterface {
 
         // Params
         List<NameValuePair> params = baseParams();
+
+        String paramBase = "groups";
+
+        // Loop through groups
+        for (int i = 0; i < newBudget.size(); i++) {
+
+            BudgetGroup group = newBudget.get(i);
+            String groupBase = paramBase + "[" + i + "]";
+
+            // Add group params
+            String mode = "";
+
+            // If delete
+            if (false) {
+
+                params.add(new BasicNameValuePair(groupBase + "[mode]", "delete"));
+                params.add(new BasicNameValuePair(groupBase + "[id]", "" + group.getId()));
+            }
+
+            // If editing
+            if (false) {
+
+                params.add(new BasicNameValuePair(groupBase + "[id]", "" + group.getId()));
+                params.add(new BasicNameValuePair(groupBase + "[mode]", "edit"));
+            }
+
+            // If creating
+            if (false) {
+
+                params.add(new BasicNameValuePair(groupBase + "[mode]", "create"));
+            }
+
+            // If not deleting
+            if (false) {
+
+                // Loop through the categories
+                for (int j = 0; j < group.getCategories().size(); j++) {
+
+                    BudgetCategory categroy = group.getCategories().get(j);
+
+                    String categoryBase = groupBase + "[" + j + "]";
+
+                    // If deleting
+                    if (false) {
+
+                        params.add(new BasicNameValuePair("", ""));
+                    }
+
+                    // If creating
+                    if (false) {
+
+                    }
+
+                    // If editing
+                    if (false) {
+
+                    }
+                }
+            }
+        }
 
 
         // Delegate
