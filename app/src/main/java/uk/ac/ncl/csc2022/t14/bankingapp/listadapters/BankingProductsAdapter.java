@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,13 @@ public class BankingProductsAdapter extends RecyclerView.Adapter<BankingProducts
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.products = products;
+
+        for (Product product : DataStore.sharedInstance().getProducts()) {
+            Log.d("PRODUCTS", "getProducts() id: " + product.getId() + ". name: " + product.getTitle());
+        }
+        for (Product product : products) {
+            Log.d("PRODUCTS", "products id: " + product.getId() + ". name: " + product.getTitle());
+        }
     }
 
     @Override
@@ -65,6 +73,37 @@ public class BankingProductsAdapter extends RecyclerView.Adapter<BankingProducts
                     removeItem(position);
                 }
             }
+        }
+
+        int studentID = 0, savingsID = 0, isaID = 0, freezeID = 0;
+
+        for (Product product : DataStore.sharedInstance().getProducts()) {
+            switch (product.getTitle()) {
+                case "Savings Account":
+                    savingsID = product.getId();
+                    break;
+                case "ISA Account":
+                    isaID = product.getId();
+                    break;
+                case "Student Account":
+                    studentID = product.getId();
+                    break;
+                case "Freeze Account":
+                    freezeID = product.getId();
+                    break;
+            }
+        }
+
+        if (current.getId() == studentID) {
+            holder.image.setImageResource(R.drawable.student);
+        } else if (current.getId() == savingsID) {
+            holder.image.setImageResource(R.drawable.piggy_bank);
+        } else if (current.getId() == isaID) {
+            holder.image.setImageResource(R.drawable.isa);
+        } else if (current.getId() == freezeID) {
+            holder.image.setImageResource(R.drawable.snowflake);
+        } else {
+            holder.image.setImageResource(R.drawable.account_image);
         }
 
     }

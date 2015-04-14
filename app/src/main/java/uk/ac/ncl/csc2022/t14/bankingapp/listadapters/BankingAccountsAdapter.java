@@ -37,9 +37,7 @@ public class BankingAccountsAdapter extends RecyclerView.Adapter<BankingAccounts
         this.context = context;
         this.accounts = accounts;
 
-        for (Product product : DataStore.sharedInstance().getProducts()) {
-            Log.d("PRODUCTS", "id: " + product.getId() + ". name: " + product.getTitle());
-        }
+
     }
 
     @Override
@@ -65,16 +63,34 @@ public class BankingAccountsAdapter extends RecyclerView.Adapter<BankingAccounts
             holder.balance.setTextColor(Color.rgb(0,120,0));
         }
 
-        holder.image.setImageResource(R.drawable.piggy_bank);
+        int studentID = 0, savingsID = 0, isaID = 0;
+
+        for (Product product : DataStore.sharedInstance().getProducts()) {
+            switch (product.getTitle()) {
+                case "Savings Account":
+                    savingsID = product.getId();
+                    break;
+                case "ISA Account":
+                    isaID = product.getId();
+                    break;
+                case "Student Account":
+                    studentID = product.getId();
+                    break;
+            }
+        }
+
 
         if (current.getProduct() != null) {
-            if (current.getProduct().getId() == DataStore.sharedInstance().getProducts().get(0).getId()) {
+            if (current.getProduct().getId() == studentID) {
                 holder.image.setImageResource(R.drawable.student);
-            } else if (current.getProduct().getId() == DataStore.sharedInstance().getProducts().get(1).getId()) {
+            } else if (current.getProduct().getId() == savingsID) {
                 holder.image.setImageResource(R.drawable.piggy_bank);
-            } else if (current.getProduct().getId() == DataStore.sharedInstance().getProducts().get(2).getId()) {
+            } else if (current.getProduct().getId() == isaID) {
                 holder.image.setImageResource(R.drawable.isa);
             }
+        } else {
+            // default image
+            holder.image.setImageResource(R.drawable.account_image);
         }
 
 

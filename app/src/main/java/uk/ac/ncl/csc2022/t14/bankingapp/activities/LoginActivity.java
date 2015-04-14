@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
@@ -34,7 +35,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.LiveServerConnector;
 
-public class LoginActivity extends ActionBarActivity implements LoginDelegate{
+public class LoginActivity extends LloydsActionBarActivity implements LoginDelegate{
 
     private static char[] password = new char[3];
     private static int[] indices = new int[3];
@@ -53,11 +54,7 @@ public class LoginActivity extends ActionBarActivity implements LoginDelegate{
         // set the default server connector
         DataStore.sharedInstance().setServerConnector(new DummyServerConnector());
 
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
-        getSupportActionBar().setCustomView(customNav, lp);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
 
         // make switch connector button visible
         findViewById(R.id.btn_switch_connector).setVisibility(View.VISIBLE);

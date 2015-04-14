@@ -15,6 +15,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BankingAccountsAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BankingProductsAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.MyLinearLayoutManager;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.LiveServerConnector;
 
 /**
  * A Fragment to show the user their accounts
@@ -45,7 +46,12 @@ public class BankingFragment extends Fragment {
         super.onResume();
 
         accountsAdapter = new BankingAccountsAdapter(getActivity(), DataStore.sharedInstance().getCurrentUser().getAccounts());
-        productsAdapter = new BankingProductsAdapter(getActivity(), DataStore.sharedInstance().getProducts());
+        if (DataStore.sharedInstance().getConnector() instanceof LiveServerConnector) {
+            productsAdapter = new BankingProductsAdapter(getActivity(), DataStore.sharedInstance().getNewProducts());
+        } else {
+            productsAdapter = new BankingProductsAdapter(getActivity(), DataStore.sharedInstance().getProducts());
+        }
+
 
         accountRecyclerView.setAdapter(accountsAdapter);
         productRecyclerView.setAdapter(productsAdapter);

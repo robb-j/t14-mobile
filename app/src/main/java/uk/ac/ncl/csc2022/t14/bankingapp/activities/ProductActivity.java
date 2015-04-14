@@ -15,10 +15,11 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.TextView;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 
-public class ProductActivity extends ActionBarActivity {
+public class ProductActivity extends LloydsActionBarActivity {
 
     private static Product product;
 
@@ -32,13 +33,6 @@ public class ProductActivity extends ActionBarActivity {
                     .commit();
         }
         product = getIntent().getExtras().getParcelable("product");
-
-
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
-        getSupportActionBar().setCustomView(customNav, lp);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
     }
 

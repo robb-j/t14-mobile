@@ -17,6 +17,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
@@ -32,7 +33,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
 /**
  *
  */
-public class MainActivity extends ActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener, AwardsFragment.OnFragmentInteractionListener, ATMFinderFragment.OnFragmentInteractionListener{
+public class MainActivity extends LloydsActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener, AwardsFragment.OnFragmentInteractionListener, ATMFinderFragment.OnFragmentInteractionListener{
 
     private static int tabs = 4;
 
