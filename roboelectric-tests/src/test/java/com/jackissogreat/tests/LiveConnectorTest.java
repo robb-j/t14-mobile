@@ -151,10 +151,10 @@ public class LiveConnectorTest {
         assertEquals(450, user.getPoints());
         assertEquals(2, user.getNumNewPayments());
 
-        assertEquals(user.getAccounts().size(), 2);
-        assertEquals(user.getAllGroups().size(), 2);
-        assertEquals(user.getRecentPoints().size(), 2);
-        assertEquals(user.getRecentRewards().size(), 1);
+        assertEquals(2, user.getAccounts().size());
+        assertEquals(2, user.getAllGroups().size());
+        assertEquals(2, user.getRecentPoints().size());
+        assertEquals(1, user.getRecentRewards().size());
 
 
         // Test An Account
@@ -232,7 +232,6 @@ public class LiveConnectorTest {
 
         // Test the balance was updated
         assertEquals(131.97, account.getBalance(), 0.1);
-
 
     }
 

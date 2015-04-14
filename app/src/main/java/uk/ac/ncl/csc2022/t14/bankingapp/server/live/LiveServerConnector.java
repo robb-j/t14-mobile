@@ -92,14 +92,15 @@ public class LiveServerConnector implements ServerInterface {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
 
-                // Attempt to parse response
-                if (success && responseParser.parseLogin(json)) {
+            // Attempt to parse response
+            if (success && responseParser.parseLogin(json)) {
 
-                    delegate.loginPassed(DataStore.sharedInstance().getCurrentUser());
-                } else {
+                delegate.loginPassed(DataStore.sharedInstance().getCurrentUser());
+            } else {
 
-                    delegate.loginFailed(message);
-                }
+                message = responseParser.parseErrorOrDefault(message);
+                delegate.loginFailed(message);
+            }
             }
         };
 
@@ -123,14 +124,16 @@ public class LiveServerConnector implements ServerInterface {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
 
-                List<Transaction> transations = new ArrayList<>();
-                if (success && responseParser.parseLoadTransactions(json, account, transations)) {
+            List<Transaction> transations = new ArrayList<>();
+            if (success && responseParser.parseLoadTransactions(json, account, transations)) {
 
-                    delegate.transactionsLoaded(account, transations);
-                }
-                else {
-                    delegate.transactionsLoadFailed(message);
-                }
+                delegate.transactionsLoaded(account, transations);
+            }
+            else {
+
+                message = responseParser.parseErrorOrDefault(message);
+                delegate.transactionsLoadFailed(message);
+            }
             }
         };
 
@@ -158,6 +161,8 @@ public class LiveServerConnector implements ServerInterface {
                     delegate.transferPassed(accountA, accountB, amount);
                 }
                 else {
+
+                    message = responseParser.parseErrorOrDefault(message);
                     delegate.transferFailed(message);
                 }
             }
@@ -186,6 +191,7 @@ public class LiveServerConnector implements ServerInterface {
                 }
                 else {
 
+                    message = responseParser.parseErrorOrDefault(message);
                     delegate.logoutFailed(message);
                 }
             }
@@ -217,6 +223,8 @@ public class LiveServerConnector implements ServerInterface {
                     delegate.newPaymentsLoaded(transations);
                 }
                 else {
+
+                    message = responseParser.parseErrorOrDefault(message);
                     delegate.newPaymentsLoadFailed(message);
                 }
             }
@@ -245,6 +253,8 @@ public class LiveServerConnector implements ServerInterface {
                 delegate.categorisationPassed(false);
             }
             else {
+
+                message = responseParser.parseErrorOrDefault(message);
                 delegate.categorisationFailed(message);
             }
             }
@@ -271,6 +281,7 @@ public class LiveServerConnector implements ServerInterface {
                 }
                 else {
 
+                    message = responseParser.parseErrorOrDefault(message);
                     delegate.updateBudgetFailed(message);
                 }
             }
@@ -296,6 +307,8 @@ public class LiveServerConnector implements ServerInterface {
                     delegate.chooseRewardPassed();
                 }
                 else {
+
+                    message = responseParser.parseErrorOrDefault(message);
                     delegate.chooseRewardFailed(message);
                 }
             }
@@ -319,6 +332,8 @@ public class LiveServerConnector implements ServerInterface {
                     delegate.spinPassed(numPoints);
                 }
                 else {
+
+                    message = responseParser.parseErrorOrDefault(message);
                     delegate.spinFailed(message);
                 }
             }
@@ -349,6 +364,7 @@ public class LiveServerConnector implements ServerInterface {
                 }
                 else {
 
+                    message = responseParser.parseErrorOrDefault(message);
                     delegate.loadHeatMapFailed(message);
                 }
             }
@@ -373,6 +389,7 @@ public class LiveServerConnector implements ServerInterface {
                 }
                 else {
 
+                    message = responseParser.parseErrorOrDefault(message);
                     delegate.loadATMsFailed(message);
                 }
             }

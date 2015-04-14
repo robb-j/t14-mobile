@@ -1,15 +1,11 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.live;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
@@ -23,15 +19,24 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 
 /**
+ * An object that handles the response from a LiveServer request, converts the json to multiple model objects & sets relations
  * Created by rob on 06/04/15.
  */
 public class ResponseParser {
 
     private ModelParser mp;
+    private String parsingError = null;
 
     public ResponseParser() {
 
+        // Create a parser to convert json to ModelObjects
         mp = new ModelParser();
+        parsingError = null;
+    }
+
+    public String parseErrorOrDefault(String defaultValue) {
+
+        return parsingError != null ? parsingError : defaultValue;
     }
 
 
@@ -41,157 +46,156 @@ public class ResponseParser {
      */
     public boolean parseLogin(JSONObject responseJson) {
 
-        try {
+        JSONParser responseParser = new JSONParser(responseJson);
 
-            // Get the token
-            String token = responseJson.getString("Token");
+        // Get the token
+        String token = responseParser.getString("Token", null);
 
+        if (token == null) {
 
-            // Parse the user
-            User user = mp.parseUser(responseJson.getJSONObject("User"));
-            user.setNumNewPayments(responseJson.getInt("NumNewPayments"));
-
-
-            // Products
-            JSONArray prodsJson = responseJson.getJSONArray("AllProducts");
-            Map<Integer, Product> allProducts = new HashMap<>();
-            for (int i = 0; i < prodsJson .length(); i++) {
-
-                Product p = mp.parseProduct(prodsJson.getJSONObject(i));
-                allProducts.put(p.getId(), p);
-            }
-
-            // New Products
-            JSONArray newProdJson = responseJson.getJSONArray("NewProducts");
-            List<Product> newProducts = new ArrayList<>();
-            for (int i = 0; i < newProdJson.length(); i++) {
-
-                newProducts.add(allProducts.get(newProdJson.getInt(i)));
-            }
-
-            // Rewards
-            JSONArray allRewardsJson = responseJson.getJSONArray("Rewards");
-            List<Reward> allRewards = new ArrayList<>();
-            for (int i = 0; i < allRewardsJson.length(); i++) {
-
-                allRewards.add(mp.parseReward(allRewardsJson.getJSONObject(i)));
-            }
-
-
-            // Accounts
-            JSONArray allAccountsJson = responseJson.getJSONArray("Accounts");
-            for (int i = 0; i < allAccountsJson.length(); i++) {
-
-                user.getAccounts().add(mp.parseAccount(allAccountsJson.getJSONObject(i), allProducts));
-            }
-
-
-            // Categories
-            JSONArray allCategoryJson = responseJson.getJSONArray("Categories");
-            Map<Integer, BudgetCategory> allCategories = new HashMap<>();
-            for (int i = 0; i < allCategoryJson.length(); i++) {
-
-                BudgetCategory category = mp.parseCategory(allCategoryJson.getJSONObject(i));
-                allCategories.put(category.getId(), category);
-            }
-
-
-            // Groups
-            JSONArray allGroupsJson = responseJson.getJSONArray("Groups");
-            for (int i = 0; i < allGroupsJson.length(); i++) {
-
-                BudgetGroup group = mp.parseGroup(allGroupsJson.getJSONObject(i), allCategories);
-
-                user.getAllGroups().add(group);
-            }
-
-            // Recent Points
-            JSONArray allPointsJson = responseJson.getJSONArray("RecentGains");
-            for (int i = 0; i < allPointsJson.length(); i++) {
-
-                user.getRecentPoints().add(mp.parsePointGain(allPointsJson.getJSONObject(i)));
-            }
-
-            // Recent Rewards
-            JSONArray allRewardsTakenJson = responseJson.getJSONArray("RecentRewards");
-            for (int i = 0; i < allRewardsTakenJson.length(); i++) {
-
-                user.getRecentRewards().add(mp.parseRewardTaken(allRewardsTakenJson.getJSONObject(i), allRewards));
-            }
-
-
-
-            // Return by giving data to the DataStore
-            DataStore.sharedInstance().setCurrentUser(user);
-            DataStore.sharedInstance().setProducts(new ArrayList<>(allProducts.values()));
-            DataStore.sharedInstance().setNewProducts(newProducts);
-            DataStore.sharedInstance().setRewards(allRewards);
-            DataStore.sharedInstance().setToken(token);
-
-            return true;
-        }
-        catch (JSONException e) {
-
+            // Pass message
+            parsingError = "No Token Provided";
             return false;
         }
+
+
+        // Parse the user
+        User user = mp.parseUser(responseParser.getJSONObject("User"));
+        user.setNumNewPayments(responseParser.getInt("NumNewPayments"));
+
+
+        // Products
+        List<JSONObject> prodsJson = responseParser.getJSONObjectList("AllProducts");
+        Map<Integer, Product> allProducts = new HashMap<>();
+        for (JSONObject productParser : prodsJson) {
+
+            Product p = mp.parseProduct(productParser);
+            allProducts.put(p.getId(), p);
+        }
+
+        // New Products
+        List<Integer> newProdIds = responseParser.getIntegerList("NewProducts");
+        List<Product> newProducts = new ArrayList<>();
+        for (Integer i : newProdIds) {
+
+           newProducts.add(allProducts.get(i));
+        }
+
+        // Rewards
+        List<JSONObject> allRewardsJson = responseParser.getJSONObjectList("Rewards");
+        List<Reward> allRewards = new ArrayList<>();
+        for (JSONObject rewardJson : allRewardsJson) {
+
+            allRewards.add(mp.parseReward(rewardJson));
+        }
+
+
+        // Accounts
+        List<JSONObject> allAccountsJson = responseParser.getJSONObjectList("Accounts");
+        for (JSONObject accountJson : allAccountsJson) {
+
+            user.getAccounts().add(mp.parseAccount(accountJson, allProducts));
+        }
+
+
+        // Categories
+        List<JSONObject> allCategoryJson = responseParser.getJSONObjectList("Categories");
+        Map<Integer, BudgetCategory> allCategories = new HashMap<>();
+        for (JSONObject categroyJson : allCategoryJson) {
+
+            BudgetCategory category = mp.parseCategory(categroyJson);
+            allCategories.put(category.getId(), category);
+        }
+
+
+        // Groups
+        List<JSONObject> allGroupsJson = responseParser.getJSONObjectList("Groups");
+        for (JSONObject groupJson : allGroupsJson) {
+
+            BudgetGroup group = mp.parseGroup(groupJson, allCategories);
+            user.getAllGroups().add(group);
+        }
+
+        // Recent Points
+        List<JSONObject> allPointsJson = responseParser.getJSONObjectList("RecentGains");
+        for (JSONObject pointJson : allPointsJson) {
+
+            user.getRecentPoints().add(mp.parsePointGain(pointJson));
+        }
+
+        // Recent Rewards
+        List<JSONObject> allRewardsTakenJson = responseParser.getJSONObjectList("RecentRewards");
+        for (JSONObject rewTakenJson : allRewardsTakenJson) {
+
+            user.getRecentRewards().add(mp.parseRewardTaken(rewTakenJson, allRewards));
+        }
+
+
+
+        // Return by giving data to the DataStore
+        DataStore.sharedInstance().setCurrentUser(user);
+        DataStore.sharedInstance().setProducts(new ArrayList<>(allProducts.values()));
+        DataStore.sharedInstance().setNewProducts(newProducts);
+        DataStore.sharedInstance().setRewards(allRewards);
+        DataStore.sharedInstance().setToken(token);
+
+
+        return true;
     }
 
     public boolean parseLoadTransactions(JSONObject responseJson, Account account, List<Transaction> allTransactions) {
 
-        try {
-
-            // Update the balance
-            JSONObject accountJSON = responseJson.getJSONObject("Account");
-            account.setBalance(accountJSON.getDouble("Balance"));
+        // Create a parser from the response
+        JSONParser responseParser = new JSONParser(responseJson);
 
 
-            // Parse the transactions
-            JSONArray allTransactionsJson = responseJson.getJSONArray("Transactions");
-            for (int i = 0; i < allTransactionsJson.length(); i++) {
+        // Update the balance
+        JSONParser accountJSON = new JSONParser(responseParser.getJSONObject("Account"));
+        account.setBalance(accountJSON.getDouble("Balance"));
 
-                allTransactions.add(mp.parseTransaction(allTransactionsJson.getJSONObject(i), account));
-            }
 
-            return true;
+        // Parse the transactions
+        List<JSONObject> allTransactionsJson = responseParser.getJSONObjectList("Transactions");
+        for (JSONObject transactionJson : allTransactionsJson) {
+
+            allTransactions.add(mp.parseTransaction(transactionJson, account));
         }
-        catch (JSONException e) {
-            return false;
-        }
-        catch (ParseException e) {
-            return false;
-        }
+
+        return true;
     }
 
     public boolean parseMakeTransfer(JSONObject responseJson, Account accountA, Account accountB) {
 
-        try {
-
-            // Get both accounts
-            JSONObject fromAccountJson = responseJson.getJSONObject("payerAcc");
-            JSONObject toAccountJson = responseJson.getJSONObject("payeeAcc");
-
-            int fromId = fromAccountJson.getInt("ID");
-            int toID = toAccountJson.getInt("ID");
+        // Create a parser from the response
+        JSONParser responseParser = new JSONParser(responseJson);
 
 
-            // Check the IDs
-            if (accountA.getId() == fromId && accountB.getId() == toID) {
+        // Get both accounts
+        JSONParser fromAccountJson = new JSONParser(responseParser.getJSONObject("payerAcc"));
+        JSONParser toAccountJson = new JSONParser(responseParser.getJSONObject("payeeAcc"));
+
+        int fromId = fromAccountJson.getInt("ID");
+        int toID = toAccountJson.getInt("ID");
 
 
-                // Update their balances
-                accountA.setBalance(fromAccountJson.getDouble("Balance"));
-                accountB.setBalance(toAccountJson.getDouble("Balance"));
+        // Check the IDs
+        if (accountA.getId() == fromId && accountB.getId() == toID && fromId > 0 && toID > 0) {
 
-                return true;
-            }
+
+            // Update their balances
+            accountA.setBalance(fromAccountJson.getDouble("Balance"));
+            accountB.setBalance(toAccountJson.getDouble("Balance"));
+
+            return true;
         }
-        catch (JSONException e) {}
-
         return false;
     }
 
     public boolean parseLogout(JSONObject responseJson) {
 
+        JSONParser responseParser = new JSONParser(responseJson);
+
+        parsingError = responseParser.getString("Message", null);
 
         DataStore.sharedInstance().setCurrentUser(null);
         DataStore.sharedInstance().setToken(null);
@@ -208,144 +212,130 @@ public class ResponseParser {
      */
     public boolean parseNewPayments(JSONObject responseJson, List<Transaction> allTransactions) {
 
-        try {
-
-            // Get all the User's Accounts
-            List<Account> allAccounts = DataStore.sharedInstance().getCurrentUser().getAccounts();
+        // Create a parser from the response
+        JSONParser responseParser = new JSONParser(responseJson);
 
 
-            // Get & parse the Transactions
-            JSONArray allTransactionJson = responseJson.getJSONArray("transactions");
-            for (int i = 0; i < allTransactionJson.length(); i++) {
+        // Get all the User's Accounts
+        List<Account> allAccounts = DataStore.sharedInstance().getCurrentUser().getAccounts();
 
-                allTransactions.add(mp.parseTransaction(allTransactionJson.getJSONObject(i), allAccounts));
-            }
 
-            return true;
+        // Get & parse the Transactions
+        List<JSONObject> allTransactionJson = responseParser.getJSONObjectList("transactions");
+        for (JSONObject transactionJson : allTransactionJson) {
+
+            allTransactions.add(mp.parseTransaction(transactionJson, allAccounts));
         }
-        catch (JSONException e) {}
-        catch (ParseException e) {}
-        catch (Exception e) {}
 
-        return false;
+
+        return true;
     }
 
     public boolean parseCategorisation(JSONObject responseJson) {
 
-        try {
+        // Create a parser from the response
+        JSONParser responseParser = new JSONParser(responseJson);
 
-            // Gather up the User's Categories for updating
-            Map<Integer, BudgetCategory> allCategories = new HashMap<>();
-            for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
 
-                for (BudgetCategory category : group.getCategories()) {
+        // Gather up the User's Categories for updating
+        Map<Integer, BudgetCategory> allCategories = new HashMap<>();
+        for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
 
-                    allCategories.put(category.getId(), category);
-                }
+            for (BudgetCategory category : group.getCategories()) {
+
+                allCategories.put(category.getId(), category);
             }
-
-
-            // Get & parse the JSON
-            JSONArray changedJson = responseJson.getJSONArray("changedCategorys");
-
-            for (int i = 0; i < changedJson.length(); i++) {
-
-                JSONObject changeJson = changedJson.getJSONObject(i);
-                BudgetCategory cat = allCategories.get(changeJson.getInt("ID"));
-                cat.setSpent(changeJson.getDouble("Balance"));
-            }
-
-            return true;
         }
-        catch (JSONException e) {
 
-            return false;
+
+        // Get & parse the JSON
+        List<JSONObject> changedCatJson = responseParser.getJSONObjectList("changedCategorys");
+
+        for (JSONObject categoryJson : changedCatJson) {
+
+            JSONParser parser = new JSONParser(categoryJson);
+
+            BudgetCategory cat = allCategories.get(parser.getInt("ID"));
+            cat.setSpent(parser.getDouble("Balance"));
         }
+
+        return true;
+
     }
 
     public boolean parseChooseReward(JSONObject responseJson) {
 
-        try {
-
-            // Get the RewardTaken json
-            JSONObject takenJson = responseJson.getJSONObject("rewardTaken");
+        // Create a parser from the response
+        JSONParser responseParser = new JSONParser(responseJson);
 
 
-            // Parse it
-            List<Reward> rewards = DataStore.sharedInstance().getRewards();
-            User user = DataStore.sharedInstance().getCurrentUser();
-            user.getRecentRewards().add(mp.parseRewardTaken(takenJson, rewards));
+        // Get the RewardTaken json
+        JSONObject takenJson = responseParser.getJSONObject("rewardTaken");
 
-            return true;
-        }
-        catch (JSONException e) {
 
-            return false;
-        }
+        // Parse it
+        List<Reward> rewards = DataStore.sharedInstance().getRewards();
+        User user = DataStore.sharedInstance().getCurrentUser();
+        user.getRecentRewards().add(mp.parseRewardTaken(takenJson, rewards));
+
+        return true;
     }
 
     public int parsePerformSpin(JSONObject responseJson) {
 
-        try {
-
-            // Parse the number of points
-            int numPoints = responseJson.getInt("newPoints");
-            int totPoints = responseJson.getInt("totalPoints");
-            int totSpins =  responseJson.getInt("currentSpins");
-            User user = DataStore.sharedInstance().getCurrentUser();
-            user.setPoints(totPoints);
-            user.setNumberOfSpins(totSpins);
+        // Create a parser from the response
+        JSONParser responseParser = new JSONParser(responseJson);
 
 
-            // Return it
-            return numPoints;
-        }
-        catch (JSONException e) {
+        // Parse the number of points
+        int numPoints = responseParser.getInt("newPoints", -1);
+        int totPoints = responseParser.getInt("totalPoints");
+        int totSpins =  responseParser.getInt("currentSpins");
+        User user = DataStore.sharedInstance().getCurrentUser();
+        user.setPoints(totPoints);
+        user.setNumberOfSpins(totSpins);
 
-            return -1;
-        }
+
+        // Return it
+        return numPoints;
     }
 
     public boolean parseUpdateBudget(JSONObject responseJson) {
 
-        try {
+        // Create a parser from the response
+        JSONParser responseParser = new JSONParser(responseJson);
 
 
-            // Get the categroy & group json
-            JSONArray groupsJson = responseJson.getJSONArray("Groups");
-            JSONArray categoriesJson = responseJson.getJSONArray("Categories");
+        // Get the categroy & group json
+        List<JSONObject> allGroupsJson = responseParser.getJSONObjectList("Groups");
+        List<JSONObject> allCategoriesJson = responseParser.getJSONObjectList("Categories");
 
 
-            // Create a Map to store all the categoies, by id
-            Map<Integer, BudgetCategory> allCategories = new HashMap<>();
+        // Create a Map to store all the categoies, by id
+        Map<Integer, BudgetCategory> allCategories = new HashMap<>();
 
 
-            // Parse the categories into the Map
-            for (int i = 0; i < categoriesJson.length(); i++) {
+        // Parse the categories into the Map
+        for (JSONObject categoryJson : allCategoriesJson) {
 
-                BudgetCategory category = mp.parseCategory(categoriesJson.getJSONObject(i));
-                allCategories.put(category.getId(), category);
-            }
-
-
-            // Parse the groups & use the map to fill their relation
-            List<BudgetGroup> allGroups = new ArrayList<>();
-            for (int i = 0; i < groupsJson.length(); i++) {
-
-                BudgetGroup group = mp.parseGroup(groupsJson.getJSONObject(i), allCategories);
-                allGroups.add(group);
-            }
-
-            // Set the groups back onto the User
-            DataStore.sharedInstance().getCurrentUser().setAllGroups(allGroups);
-
-
-            return true;
+            BudgetCategory category = mp.parseCategory(categoryJson);
+            allCategories.put(category.getId(), category);
         }
-        catch (JSONException e) {
 
-            return false;
+
+        // Parse the groups & use the map to fill their relation
+        List<BudgetGroup> allGroups = new ArrayList<>();
+        for (JSONObject groupJson : allGroupsJson) {
+
+            BudgetGroup group = mp.parseGroup(groupJson, allCategories);
+            allGroups.add(group);
         }
+
+        // Set the groups back onto the User
+        DataStore.sharedInstance().getCurrentUser().setAllGroups(allGroups);
+
+
+        return true;
     }
 
 
@@ -355,40 +345,34 @@ public class ResponseParser {
      */
     public boolean parseLoadATMs(JSONObject responseJson, List<ATM> allAtms) {
 
-        try {
+        // Create a parser from the response
+        JSONParser responseParser = new JSONParser(responseJson);
 
-            // Parse the ATMs
-            JSONArray allATMJson = responseJson.getJSONArray("ATMs");
-            for (int i = 0; i < allATMJson.length(); i++) {
 
-                allAtms.add(mp.parseATM(allATMJson.getJSONObject(i)));
-            }
+        // Parse the ATMs
+        List<JSONObject> allATMsJson = responseParser.getJSONObjectList("ATMs");
+        for (JSONObject atmJson : allATMsJson) {
 
-            return true;
+            allAtms.add(mp.parseATM(atmJson));
         }
-        catch (JSONException e) {
 
-            return false;
-        }
+        return true;
     }
 
     public boolean parseLoadHeatPoints(JSONObject responseJson, List<HeatPoint> allHeatPoints) {
 
-        try {
+        // Create a parser from the response
+        JSONParser responseParser = new JSONParser(responseJson);
 
-            // Parse the points
-            JSONArray allPointJson = responseJson.getJSONArray("heatMapPoints");
-            for (int i = 0; i < allPointJson.length(); i++) {
 
-                allHeatPoints.add(mp.parseHeatPoint(allPointJson.getJSONObject(i)));
-            }
+        // Parse the points
+        List<JSONObject> allPointJson = responseParser.getJSONObjectList("heatMapPoints");
+        for (JSONObject pointJson : allPointJson) {
 
-            return true;
+            allHeatPoints.add(mp.parseHeatPoint(pointJson));
         }
-        catch (JSONException e) {
 
-            return false;
-        }
+        return true;
     }
 
 

@@ -1,19 +1,12 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.live;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
@@ -32,30 +25,22 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
  */
 public class ModelParser {
 
-    /*
-        Utilties
-     */
-    public Date parseDate(String rawDate) throws ParseException {
-
-        // Format & parse the date
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
-        return format.parse(rawDate);
-    }
-
-
 
 
     /*
         V1 Parser
      */
-    public User parseUser(JSONObject json) throws JSONException {
+    public User parseUser(JSONObject json) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
 
         // Get properties
-        int id = json.getInt("ID");
-        String username = json.getString("Username");
-        String first = json.getString("FirstName");
-        String last = json.getString("LastName");
-        String dob = json.getString("DOB");
+        int id = parser.getInt("ID");
+        String username = parser.getString("Username", "Username");
+        String first = parser.getString("FirstName", "First Name");
+        String last = parser.getString("LastName", "Last Name");
+        String dob = parser.getString("DOB", "DOB");
 
 
         // Create the user
@@ -63,68 +48,66 @@ public class ModelParser {
 
 
         // Add extra properties
-        user.setNumberOfSpins(json.getInt("NumberOfSpins"));
-        user.setPoints(json.getInt("Points"));
+        user.setNumberOfSpins(parser.getInt("NumberOfSpins"));
+        user.setPoints(parser.getInt("Points"));
 
         return user;
     }
 
-    public Account parseAccount(JSONObject json, Map<Integer, Product> allProducts) throws JSONException {
+    public Account parseAccount(JSONObject json, Map<Integer, Product> allProducts) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
+
 
         // Get properties
-        int id = json.getInt("ID");
-        String name = json.getString("AccountType");
-        double balance = json.getDouble("Balance");
-        double overdraft = json.getDouble("OverdraftLimit");
+        int id = parser.getInt("ID");
+        String name = parser.getString("AccountType", "An Account");
+        double balance = parser.getDouble("Balance");
+        double overdraft = parser.getDouble("OverdraftLimit");
 
         // Create Account from properties
         Account account = new Account(id , name, balance, overdraft);
 
-        account.setProduct(allProducts.get(json.getInt("Product")));
+        account.setProduct(parser.fillRelation("Product", allProducts));
+        account.setFirstTransaction(parser.getDate("FirstTransaction"));
 
-        try {
-            Date firstTran = parseDate(json.getString("FirstTransaction"));
-            account.setFirstTransaction(firstTran);
-        }
-        catch (ParseException e) {};
         return account;
     }
 
-    public Transaction parseTransaction(JSONObject json, Account account) throws JSONException, ParseException {
+    public Transaction parseTransaction(JSONObject json, Account account) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
 
         // Get properties
-        int id = json.getInt("ID");
-        double amount = json.getDouble("Amount");
-        Date date = parseDate(json.getString("Date"));
-        String payee = json.getString("Payee");
+        int id = parser.getInt("ID");
+        double amount = parser.getDouble("Amount");
+        Date date = parser.getDate("Date");
+        String payee = parser.getString("Payee", "No Payee Set");
 
 
         // Create Transaction from properties
         return new Transaction(id, amount, date, account, payee);
     }
 
-    public Transaction parseTransaction(JSONObject json, List<Account> allAccounts) throws  JSONException, ParseException, Exception {
+    public Transaction parseTransaction(JSONObject json, List<Account> allAccounts)  {
 
-        // Get Account relation
-        int accountID = json.getInt("Account");
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
 
-        for (Account a : allAccounts) {
-
-            if (a.getId() == accountID) {
-
-                // Create with given account
-                return parseTransaction(json, a);
-            }
-        }
-        throw new Exception("Account Not Found");
+        return parseTransaction(json, parser.fillRelation("Account", allAccounts));
     }
 
-    public Product parseProduct(JSONObject json) throws JSONException {
+    public Product parseProduct(JSONObject json) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
 
         // Get properties
-        int id = json.getInt("ID");
-        String title = json.getString("Title");
-        String content = json.getString("Content");
+        int id = parser.getInt("ID");
+        String title = parser.getString("Title", "A Product");
+        String content = parser.getString("Content", "<p> Content Not Found </p>");
 
 
         // Create Product from properties
@@ -137,89 +120,92 @@ public class ModelParser {
     /*
         V2 Parser
      */
-    public BudgetCategory parseCategory(JSONObject json) throws  JSONException {
+    public BudgetCategory parseCategory(JSONObject json) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
+
 
         // Get properties
-        int id = json.getInt("ID");
-        String name = json.getString("Title");
-        double budgeted = json.getDouble("Budgeted");
-        double spent = json.getDouble("Balance");
+        int id = parser.getInt("ID");
+        String name = parser.getString("Title", "No Name Set");
+        double budgeted = parser.getDouble("Budgeted");
+        double spent = parser.getDouble("Balance");
 
 
         // Create Category from properties
         return new BudgetCategory(id, name, budgeted, spent);
     }
 
-    public BudgetGroup parseGroup(JSONObject json, Map<Integer, BudgetCategory> allCategories) throws JSONException {
+    public BudgetGroup parseGroup(JSONObject json, Map<Integer, BudgetCategory> allCategories) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
+
 
         // Get properties
-        int id = json.getInt("ID");
-        String name = json.getString("Title");
+        int id = parser.getInt("ID");
+        String name = parser.getString("Title", "No Name Set");
 
 
         // Create Group from properties
         BudgetGroup group = new BudgetGroup(id, name);
 
 
-        // Loop through and add children
-        JSONArray childIdJson = json.getJSONArray("Categories");
-        for (int i = 0; i < childIdJson.length(); i++) {
-
-            int childId = childIdJson.getInt(i);
-
-            if (allCategories.containsKey(childId)) {
-
-                group.getCategories().add(allCategories.get(childId));
-            }
-        }
+        // Fill the category relation
+        List<BudgetCategory> categories = parser.fillRelationToMany("Categories", allCategories);
+        group.getCategories().addAll(categories);
 
 
         // Return the group
         return group;
     }
 
-    public PointGain parsePointGain(JSONObject json) throws JSONException {
+    public PointGain parsePointGain(JSONObject json) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
+
 
         // Get properties
-        int id = json.getInt("ID");
-        String name = json.getString("Title");
-        String descrition = json.getString("Description");
-        int points = json.getInt("Points");
+        int id = parser.getInt("ID");
+        String name = parser.getString("Title", "No Name Given");
+        String description = parser.getString("Description", "No Description Given");
+        int points = parser.getInt("Points");
 
 
         // Create Gain from properties
-        return new PointGain(id, name, descrition, points);
+        return new PointGain(id, name, description, points);
     }
 
-    public Reward parseReward(JSONObject json) throws JSONException {
+    public Reward parseReward(JSONObject json) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
+
 
         // Get properties
-        int id = json.getInt("ID");
-        String name = json.getString("Title");
-        String description = json.getString("Description");
-        int cost = json.getInt("Cost");
+        int id = parser.getInt("ID");
+        String name = parser.getString("Title", "No Name Given");
+        String description = parser.getString("Description", "No Description Given");
+        int cost = parser.getInt("Cost");
 
 
         // Create Reward from properties
         return new Reward(id, name, description, cost);
     }
 
-    public RewardTaken parseRewardTaken(JSONObject json, List<Reward> allRewards) throws  JSONException {
+    public RewardTaken parseRewardTaken(JSONObject json, List<Reward> allRewards) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
+
 
         // Get properties
-        int id = json.getInt("ID");
-        int rewardID = json.getInt("Reward");
+        int id = parser.getInt("ID");
+        Reward reward = parser.fillRelation("Reward", allRewards);
 
-
-        // Fill relation
-        for (Reward reward : allRewards) {
-            if (reward.getId() == rewardID) {
-
-                return new RewardTaken(id, reward);
-            }
-        }
-
-        throw new JSONException("Reward Not Found");
+        return new RewardTaken(id, reward);
     }
 
 
@@ -228,26 +214,34 @@ public class ModelParser {
     /*
         V3 Parser
      */
-    public ATM parseATM(JSONObject json) throws JSONException {
+    public ATM parseATM(JSONObject json) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
+
 
         // Get properties
-        int id = json.getInt("ID");
-        String name = json.getString("Title");
-        double cost = json.getDouble("Cost");
-        double lat = json.getDouble("Latitude");
-        double lon = json.getDouble("Longitude");
+        int id = parser.getInt("ID");
+        String name = parser.getString("Title", "No Name Given");
+        double cost = parser.getDouble("Cost");
+        double lat = parser.getDouble("Latitude");
+        double lon = parser.getDouble("Longitude");
 
 
         // Create ATM from properties
         return new ATM(id, name, lat, lon, cost);
     }
 
-    public HeatPoint parseHeatPoint(JSONObject json) throws  JSONException {
+    public HeatPoint parseHeatPoint(JSONObject json) {
+
+        // Use our own parser to avoid try-catches
+        JSONParser parser = new JSONParser(json);
+
 
         // Get properties
-        double lat = json.getDouble("Latitude");
-        double lon = json.getDouble("Longitude");
-        int radius = json.getInt("Radius");
+        double lat = parser.getDouble("Latitude");
+        double lon = parser.getDouble("Longitude");
+        int radius = parser.getInt("Radius");
 
 
         // Get HeatPoint from properties
