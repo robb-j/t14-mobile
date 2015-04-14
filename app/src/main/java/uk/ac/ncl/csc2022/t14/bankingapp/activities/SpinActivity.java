@@ -60,7 +60,7 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
         ImageView animTarget = (ImageView) findViewById(R.id.imageView_spinWheel);
         Animation animation = null;
 
-        // Display the correct animation based on the points received
+        // Display the correct animation based on the points received, see res/anim
         switch (numPoints) {
             case 10:
                 animation = AnimationUtils.loadAnimation(this, R.anim.wheel_spin1);
@@ -110,6 +110,7 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
     @Override
     public void spinFailed(String errMessage) {
 
+        //Display the appropriate error message should a spin attempt fail
         TextView failMsg = (TextView) findViewById(R.id.textView_spinErrMessage);
         failMsg.setTextColor(Color.parseColor("#ED1C24")); // Red but not blindingly so
         failMsg.setText(errMessage);

@@ -76,10 +76,12 @@ public class TransferActivity extends LloydsActionBarActivity implements Transfe
         // Displayed as the dialog message
         final String dialogMessage = errMessage;
 
+        // Create a  dialog to display options should a transder attempt fail
         class failureOptionsDialogFragment extends DialogFragment {
             @Override
             public Dialog onCreateDialog(Bundle savedInstanceState) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                // Set the title and message of the dialog
                 builder.setTitle("Error Performing Transfer");
                 builder.setMessage(dialogMessage)
                         .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
@@ -97,7 +99,7 @@ public class TransferActivity extends LloydsActionBarActivity implements Transfe
             }
         }
 
-        //Display the above dialog
+        // Display the above dialog
         DialogFragment transferFailed = new failureOptionsDialogFragment();
         transferFailed.show(getFragmentManager(),"");
 
@@ -117,6 +119,8 @@ public class TransferActivity extends LloydsActionBarActivity implements Transfe
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_transfer, container, false);
+
+            // Get the user and account from the data store
             User user = DataStore.sharedInstance().getCurrentUser();
             Account accountFrom = user.getAccountForId(accountFromId);
 
@@ -129,11 +133,11 @@ public class TransferActivity extends LloydsActionBarActivity implements Transfe
             List<Account> accounts = user.getAccounts();
             List<String> accountNames = new ArrayList<String>();
 
-            for (int i = 0; i < accounts.size(); i++)
-            { // For each accountFrom the user owns
-                if ( !(accounts.get(i).getName().equals(accountFrom.getName())) )
-                { // Add the accountFrom to the list of options on the spinner
-                  // unless it is the accountFrom the transfer is being made from
+            // For each accountFrom the user owns
+            for (int i = 0; i < accounts.size(); i++) {
+                // Add the accountFrom to the list of options on the spinner
+                // unless it is the accountFrom the transfer is being made from
+                if ( !(accounts.get(i).getName().equals(accountFrom.getName())) ) {
                     accountNames.add(accounts.get(i).getName());
                 }
             }
@@ -143,6 +147,7 @@ public class TransferActivity extends LloydsActionBarActivity implements Transfe
             adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, accountNames);
             spinner.setAdapter(adapter);
 
+            // Get the transferAmount Text View from the fragment
             final TextView transferAmount = (TextView) rootView.findViewById(R.id.transferAmount);
 
             // Setting up the "make a transfer" button. See btnMakeTransfer(View v)
@@ -177,10 +182,9 @@ public class TransferActivity extends LloydsActionBarActivity implements Transfe
         }
 
         public void btnMakeTransfer(View v, Account accountTo, double amount) {
+
             ServerInterface transferrer = DataStore.sharedInstance().getConnector();
-
             Account accountA = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountFromId);
-
             transferrer.makeTransfer(accountA, accountTo, amount, (TransferDelegate) this.getActivity());
         }
     }
