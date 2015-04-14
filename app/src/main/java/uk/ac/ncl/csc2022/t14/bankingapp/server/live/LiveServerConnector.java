@@ -70,7 +70,8 @@ public class LiveServerConnector implements ServerInterface {
         loadingSpinner = new ProgressDialog(BankingApp.getContext());
         loadingSpinner.setTitle(title);
         loadingSpinner.setMessage(message);
-        loadingSpinner.show();
+        if (!loadingSpinner.isShowing())
+            loadingSpinner.show();
     }
 
     private void removeLoadingSpinner() {
@@ -206,8 +207,6 @@ public class LiveServerConnector implements ServerInterface {
     @Override
     public void logout(final LogoutDelegate delegate) {
 
-        addLoadingSpinner("Logging out", "Please wait...");
-
         // Create the params for a POST request
         List<NameValuePair> params = baseParams();
 
@@ -216,8 +215,6 @@ public class LiveServerConnector implements ServerInterface {
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
-
-                removeLoadingSpinner();
 
                 if (success && responseParser.parseLogout(json)) {
 
@@ -430,7 +427,7 @@ public class LiveServerConnector implements ServerInterface {
     @Override
     public void performSpin(final PointSpinDelegate delegate) {
 
-        addLoadingSpinner("Performing Spin", "Please wait...");
+        addLoadingSpinner("Loading", "Please wait...");
 
         List<NameValuePair> params = baseParams();
 
@@ -449,7 +446,7 @@ public class LiveServerConnector implements ServerInterface {
                         return;
                     }
                 }
-                
+
                 message = responseParser.parseErrorOrDefault(message);
                 delegate.spinFailed(message);
 
