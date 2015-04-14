@@ -162,10 +162,10 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
         //Zooming camera to user-position
         if(mapFragment==null)
         {
-            Log.d("hello", "null");
+
             mapFragment = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
         }
-        Log.d("Map", mapFragment.getMap().toString());
+
 
         map = mapFragment.getMap();
 
@@ -195,6 +195,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
     {
         if(mOverlay!=null)
         {
+            //if there are any heatspots, remove them
             mOverlay.remove();
         }
         ATMDelegate aD = new ATMDelegate() {
@@ -203,6 +204,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
                 atmlist = allATMs;
                 for(int i=0;i<atmlist.size();i++)
                 {
+                    //add all the markers given by the server
                     MarkerOptions mO = new MarkerOptions().position(new LatLng(atmlist.get(i).getLatitude(), atmlist.get(i).getLongitude())).title(atmlist.get(i).getName());
                     map.addMarker(mO);
                 }
@@ -220,9 +222,11 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
 
     public void getHeatmap()
     {
+        //clear all atms
         map.clear();
         List<HeatPoint> transactionLocations;
-        int[] accounts = new int[]{1}; //why do I need this?
+        int[] accounts = new int[]{1};
+        //show all transactions from the past month
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
         cal.add(Calendar.MONTH, -1);
@@ -234,10 +238,12 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
                 List<WeightedLatLng> wLatLngs = new ArrayList<WeightedLatLng>();
                 for(int i = 0; i<allHeatPoints.size();i++)
                 {
+                    //converting heatpoints into weighted latlngs
                     WeightedLatLng w = new WeightedLatLng(new LatLng(allHeatPoints.get(i).getLatitude(), allHeatPoints.get(i).getLongitude()), allHeatPoints.get(i).getRadius());
                     wLatLngs.add(w);
 
                 }
+                //add the heatspots
                 HeatmapTileProvider mProvider = new HeatmapTileProvider.Builder().weightedData(wLatLngs).build();
                 mOverlay = map.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
             }

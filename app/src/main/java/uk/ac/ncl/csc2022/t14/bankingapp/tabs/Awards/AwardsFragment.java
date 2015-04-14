@@ -93,19 +93,21 @@ public class AwardsFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_awards, container, false);
-
+        //inform the user of how many points they have
         TextView tV = (TextView)getActivity().findViewById(R.id.text_current_points);
         try {
             tV.setText(Integer.toString(currentUser.getPoints()) + " points");
         }
         catch(java.lang.NullPointerException e)
         {
-            //tV.setText("0");
+
         }
+        //get all recent rewards and points from the user
         recentRewards = DataStore.sharedInstance().getRewards();
         recentPoints = currentUser.getRecentPoints();
         refreshawards(rootView);
         refreshpoints(rootView);
+        //button which takes the user to the rewards page
         Button claimRewards = (Button)rootView.findViewById(R.id.btn_goto_rewards);
         claimRewards.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +139,7 @@ public class AwardsFragment extends Fragment{
 
     public void refreshawards(View v)
     {
+        //set up the awards list
         ListView listAwards = (ListView)v.findViewById(R.id.awards_list);
         AwardsAdapter aA = new AwardsAdapter(this.getActivity(), recentRewards);
         Log.d("Hello", Boolean.toString((listAwards != null)));
@@ -146,6 +149,7 @@ public class AwardsFragment extends Fragment{
     }
     public void refreshpoints(View v)
     {
+        //set up the recent points list
         ListView listPoints = (ListView)v.findViewById(R.id.points_list);
         PointsListAdapter pLA = new PointsListAdapter(this.getActivity(), recentPoints);
         listPoints.setAdapter(pLA);
