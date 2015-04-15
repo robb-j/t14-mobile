@@ -1,10 +1,6 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.net.Uri;
@@ -18,26 +14,15 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Calendar;
-
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
-import uk.ac.ncl.csc2022.t14.bankingapp.activities.BudgetEditActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.BudgetEditActivityOld;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.CategorizeActivity;
-import uk.ac.ncl.csc2022.t14.bankingapp.activities.TransferActivity;
-import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.EditBudgetActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BudgetAdapter;
-import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.TransactionAdapter;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.tabs.Awards.AwardsFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -121,7 +106,7 @@ public class BudgetingFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 // Open budget edit activity
-                Intent i = new Intent(getActivity(), BudgetEditActivity.class);
+                Intent i = new Intent(getActivity(), EditBudgetActivity.class);
                 startActivity(i);
             }
         });

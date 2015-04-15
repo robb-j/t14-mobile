@@ -387,6 +387,7 @@ public class LiveServerConnector implements ServerInterface {
         // Add the loading spinner
         addLoadingSpinner("Updating Budget", "Please wait...");
 
+
         // Params
         List<NameValuePair> params = baseParams();
 
@@ -472,7 +473,7 @@ public class LiveServerConnector implements ServerInterface {
             public void taskCompleted(boolean success, String message, JSONObject json) {
 
                 // Remove the loading spinner
-                removeLoadingSpinner();
+                //removeLoadingSpinner();
 
 
                 // Attempt to parse the response

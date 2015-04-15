@@ -64,6 +64,14 @@ public class BudgetGroup extends ModelObject {
         setMode(Mode.REMOVED);
     }
 
+    public double getBudget() {
+        double total = 0;
+        for (BudgetCategory category : getCategories()) {
+            total += category.getBudgeted();
+        }
+        return total;
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return this;

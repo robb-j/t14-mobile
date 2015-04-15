@@ -3,23 +3,18 @@ package uk.ac.ncl.csc2022.t14.bankingapp.listadapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,14 +22,13 @@ import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
-import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 
 /**
  * Created by Sam on 07/04/2015.
  */
-public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.MyViewHolder> {
+public class BudgetEditAdapterOld extends RecyclerView.Adapter<BudgetEditAdapterOld.MyViewHolder> {
 
     private LayoutInflater inflater;
     List<BudgetGroup> groups = Collections.emptyList();
@@ -42,7 +36,7 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
     Context context;
 
 
-    public BudgetEditAdapter(Context context, List<BudgetGroup> groups, List<BudgetGroup> originalGroups) {
+    public BudgetEditAdapterOld(Context context, List<BudgetGroup> groups, List<BudgetGroup> originalGroups) {
         inflater = LayoutInflater.from(context);
 
         this.groups = groups;
@@ -53,7 +47,7 @@ public class BudgetEditAdapter extends RecyclerView.Adapter<BudgetEditAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = inflater.inflate(R.layout.item_budget_edit, parent, false);
+        View view = inflater.inflate(R.layout.item_budget_edit_old, parent, false);
 
         MyViewHolder holder = new MyViewHolder(view);
 

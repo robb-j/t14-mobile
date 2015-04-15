@@ -1,0 +1,34 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="uk.ac.ncl.csc2022.t14.bankingapp.fragments.EditCategoryFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edittext_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:textSize="22dp"/>
+
+    <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_edit_categories"
+        android:layout_below="@+id/edittext_group_name"
+        android:layout_above="@+id/btn_save_group"
+        >
+    </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/btn_save_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Done"/>
+
+    </RelativeLayout>
+</FrameLayout>
