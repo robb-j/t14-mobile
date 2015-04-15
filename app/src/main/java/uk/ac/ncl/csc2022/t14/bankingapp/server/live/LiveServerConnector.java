@@ -361,11 +361,11 @@ public class LiveServerConnector implements ServerInterface {
 
 
                 // Attempt to parse the response
-                ObjectHolder<Boolean> hasNewSpin = new ObjectHolder<>();
+                ObjectHolder<Boolean> hasNewSpin = new ObjectHolder<>(false);
                 if (success && responseParser.parseCategorisation(json, hasNewSpin)) {
 
                     // If successful tell the delegate
-                    delegate.categorisationPassed(false);
+                    delegate.categorisationPassed(hasNewSpin.getValue());
                 }
                 else {
 

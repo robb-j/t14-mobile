@@ -358,6 +358,8 @@ public class LiveConnectorTest {
             public void categorisationPassed(boolean hasNewSpin) {
 
                 assertEquals(110.03, cat.getSpent(), 0.1);
+                assertTrue(hasNewSpin);
+                assertEquals(15, DataStore.sharedInstance().getCurrentUser().getNumberOfSpins());
             }
 
             @Override

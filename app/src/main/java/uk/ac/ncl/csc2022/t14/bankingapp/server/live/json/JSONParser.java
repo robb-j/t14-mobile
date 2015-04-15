@@ -64,6 +64,16 @@ public class JSONParser {
         }
     }
 
+    public boolean getBoolean(String key, boolean defaultValue) {
+
+        try {
+            return json.getBoolean(key);
+        }
+        catch (JSONException e) {
+
+            return defaultValue;
+        }
+    }
 
 
 
@@ -79,6 +89,11 @@ public class JSONParser {
     public double getDouble(String key) {
 
         return getDouble(key, 0.0);
+    }
+
+    public boolean getBoolean(String key) {
+
+        return getBoolean(key, false);
     }
 
     public JSONObject getJSONObject(String key) {

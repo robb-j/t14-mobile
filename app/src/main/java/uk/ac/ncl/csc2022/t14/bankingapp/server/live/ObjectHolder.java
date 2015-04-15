@@ -5,12 +5,32 @@ import android.support.annotation.Nullable;
 /**
  * A simple object that holders another of a given type
  * Allows for something to be passed back to the calling function without a return
- * Created by rob A on 15/04/15.
+ * Created by Rob A on 15/04/15.
  */
 public class ObjectHolder<T> {
 
     // The object being stored
     private T heldValue;
+
+
+    /**
+     * Creates an object holder with an initial value
+     * @param object The inital value
+     */
+    public ObjectHolder(T object) {
+
+        setValue(object);
+    }
+
+
+
+    /**
+     * Creates an empty Object Holder
+     */
+    public ObjectHolder() {
+
+    }
+
 
 
     /**

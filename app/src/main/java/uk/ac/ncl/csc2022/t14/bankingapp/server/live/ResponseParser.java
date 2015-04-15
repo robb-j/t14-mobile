@@ -238,7 +238,6 @@ public class ResponseParser {
         JSONParser responseParser = new JSONParser(responseJson);
 
 
-
         // Gather up the User's Categories for updating
         Map<Integer, BudgetCategory> allCategories = new HashMap<>();
         for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
@@ -259,6 +258,15 @@ public class ResponseParser {
 
             BudgetCategory cat = allCategories.get(parser.getInt("ID"));
             cat.setSpent(parser.getDouble("Balance"));
+        }
+
+
+        // Parse spin properties
+        hasNewSpin.setValue(responseParser.getBoolean("newSpin"));
+        int numSpins = responseParser.getInt("numberOfSpins", -2);
+        
+        if (numSpins > -1) {
+            DataStore.sharedInstance().getCurrentUser().setNumberOfSpins(numSpins);
         }
 
         return true;
