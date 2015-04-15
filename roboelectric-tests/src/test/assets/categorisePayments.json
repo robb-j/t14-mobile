@@ -8,17 +8,6 @@
             "Group": 4
         }
     ],
-    "changedTransactions": [
-        {
-            "ID": 8,
-            "Amount": "-9.99",
-            "Payee": "Spotify",
-            "Date": "2015-04-01",
-            "Latitude": "53.438055",
-            "Longitude": "-1.357008",
-            "IsTransfer": "0",
-            "Account": 7,
-            "Category": 9
-        }
-    ]
+    "numberOfSpins": 15,
+    "newSpin": true
 }

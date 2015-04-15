@@ -92,18 +92,15 @@ public class CategorizeActivity extends LloydsActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_categorize, container, false);
-
-
-
-
             //get the list view
 
 
             getListData();
-            //final int LNG_LAT_REQUEST = 1;
+
             CategorizeLocationDelegate cLD = new CategorizeLocationDelegate() {
                 @Override
                 public void openMap(int groupNumber) {
+                    //go to the map screen, making a note of the transaction selected(groupNumber)
 
                     Intent i = new Intent(getActivity(), AddTransactionLocationActivity.class);
                     startActivityForResult(i, groupNumber);
@@ -112,8 +109,6 @@ public class CategorizeActivity extends LloydsActionBarActivity {
 
                 @Override
                 public void locationConfirmed(int groupNumber, View view) {
-
-
                 }
             };
 
@@ -124,15 +119,14 @@ public class CategorizeActivity extends LloydsActionBarActivity {
 
 
             expListView.setAdapter(eListAdapter);
-            //I really don't know how this worked but it did
-
-
             //Set a listener for each group opening
             expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                 @Override
                 public boolean onGroupClick(ExpandableListView parent, final View Gv, int groupPosition, long id)
                 {
+                    //make a note of the view which has been opened
                     currentView = Gv;
+                    //Clear the category added to that transaction
                     listDataHeader.set(groupPosition, newTransactionList.get(groupPosition).getTransaction().getPayee());
                     newTransactionList.get(groupPosition).uncategorize();
 
@@ -152,12 +146,8 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                     //set the selected category as the transactions category
                     newTransactionList.get(groupPosition).setCategory(categories.get(childPosition));
                     newTransactionList.get(groupPosition).categorize();
-                    Log.d("Saved: ", listDataHeader.get(groupPosition));
+
                     //change the text to notify the user that their category selection has been noted
-                    //This bit can fuck up but the correct category is saved
-                    //I'm not sure why, but if you select a category, close the tab it wil crash if you try and open it again
-
-
                     listDataHeader.set(groupPosition, newTransactionList.get(groupPosition).getTransaction().getPayee() + " - " + categoryNameList.get(childPosition));
                     expListView.collapseGroup(groupPosition);
                     return false;
@@ -175,6 +165,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                     {
                         if(i!=groupPosition)
                         {
+                            //collapse all other groups if you open one
                             expListView.collapseGroup(i);
                         }
                     }
@@ -196,7 +187,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                         //Is it categorized?
                         if(newTransactionList.get(i).isCategorized)
                         {
-                            //Yeah it's messy like this I know
+                            //if the user did not set a location
                             if(newTransactionList.get(i).getLatitude() == 0.0 && newTransactionList.get(i).getLongitude() == 0)
                             {
                                 Categorisation cat = new Categorisation(i);
@@ -206,7 +197,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                                 cat.setBudgetCategory(currentUser.getAllGroups().get(newTransactionList.get(i).getCategory().getGroupCoordinate()).getCategories().get(newTransactionList.get(i).getCategory().getCategoryCoordinate()));
 
                                 sortedTransactions.add(cat);
-                                Log.d("The transactions are: ", cat.toString());
+
                             }
                             else {
                                 //if a location has been set, use the alternatative constructer
@@ -217,7 +208,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                                 cat.setBudgetCategory(currentUser.getAllGroups().get(newTransactionList.get(i).getCategory().getGroupCoordinate()).getCategories().get(newTransactionList.get(i).getCategory().getCategoryCoordinate()));
 
                                 sortedTransactions.add(cat);
-                                Log.d("The transactions are: ", cat.toString());
+
                             }
 
                         }
@@ -225,7 +216,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                         {
                             //if there are any uncategorized transactions, the user cannot confirm
                             return;
-                            //throw an error message
+
                         }
 
                     }
@@ -235,27 +226,22 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                         {
                             if(hasNewSpin)
                             {
-                                //currentUser.setNumberOfSpins(currentUser.getNumberOfSpins()+1);
-                                //Why is this private?
+
                             }
 
                             //All the transactions are categorized, go back to main activity
 
                             getActivity().finish();
-                            //Intent i = new Intent(getActivity(), MainActivity.class);
-                            //startActivity(i);
+
                         }
 
                         @Override
                         public void categorisationFailed(String errMessage)
                         {
-                            Log.d("Something went wrong...", "");
-
                         }
                     };
+                    //send the payments to the server
                     dSC.categorisePayments(sortedTransactions, cD);
-
-
                 }
             });
 
@@ -265,10 +251,11 @@ public class CategorizeActivity extends LloydsActionBarActivity {
         public void onActivityResult(int requestCode, int resultCode, Intent data)
         {
             try {
-                Log.d("The click was at ", Integer.toString(requestCode));
+                //record the position the user selected for their transaction
                 newTransactionList.get(requestCode).setLongitude(data.getExtras().getDouble("Lng"));
                 newTransactionList.get(requestCode).setLatitude(data.getExtras().getDouble("Lat"));
                 listTransactionLocated.set(requestCode, true);
+                //update the adapter to show the globe as white
                 eListAdapter.notifyDataSetChanged();
             }
             catch(NullPointerException e)
@@ -279,6 +266,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
 
         public class newTransaction
         {
+            //Transaction class which holds the transaction, the category, whether or not it has been categorized and the location if the user chooses to set one.
             private Transaction transaction;
             private category category;
             private boolean isCategorized;
@@ -313,6 +301,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
 
         public class category
         {
+            //Class which holds the category name for the list, and the coordinates of said category so the budgetcategory object can be easily found
             private int groupCoordinate;
             private int categoryCoordinate;
             private String category;
@@ -327,8 +316,11 @@ public class CategorizeActivity extends LloydsActionBarActivity {
         }
         private void getListData()
         {
+            //The list of uncategorized transactions
             newTransactionList = new ArrayList<PlaceholderFragment.newTransaction>();
+            //The budget categories for the expandable list
             listDataChild = new HashMap<String, List<String>>();
+            //The uncategorized transaction payees for the expandable list
             listDataHeader = new ArrayList<String>();
 
             //Sorting the payments when they come from the DummyServerConnector
@@ -336,47 +328,61 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                 @Override
                 public void newPaymentsLoaded(List<Transaction> transactions)
                 {
-                    for(int i = 0; i<transactions.size();i++)
+                    for(int k = 0; k<transactions.size();k++)
                     {
                         newTransaction nT = new newTransaction();
-                        nT.setTransaction(transactions.get(i));
+                        nT.setTransaction(transactions.get(k));
+                        //add all the transsactions from the server into a list
                         newTransactionList.add(nT);
                     }
+                    //adding the possible categories
+                    for(int i=0;i<currentUser.getAllGroups().size();i++)
+                    {
+                        for(int j=0;j<currentUser.getAllGroups().get(i).getCategories().size();j++)
+                        {
+                            //Make a note of the coordinates within the datastore of each category found
+                            //makes it easier when it comes to saving the categorizations
+                            category cat = new category();
+                            cat.setCategory(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
+                            cat.setCategoryCoordinate(j);
+                            cat.setGroupCoordinate(i);
+                            categories.add(cat);
+                            categoryNameList.add(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
+                        }
+                    }
+
+
+
+                    //Will use a for loop when I get proper transactions
+                    for(int i=0; i<newTransactionList.size(); i++)
+                    {
+                        //fill out the expandable list view
+                        listDataChild.put(newTransactionList.get(i).getTransaction().getPayee(), categoryNameList);
+                        listDataHeader.add(newTransactionList.get(i).getTransaction().getPayee());
+                        Log.d("Hello", listDataHeader.toString());
+                        listTransactionLocated.add(false);
+                    }
+                    try {
+                        //notify the list that there is new data
+                        eListAdapter.notifyDataSetChanged();
+                    }
+                    catch(NullPointerException e)
+                    {
+
+                    }
+
                 }
 
                 @Override
                 public void newPaymentsLoadFailed(String errMessage)
                 {
-                    //I guess just go back to the budget view?
+
                 }
             };
-
+            //load the new transactions
             dSC.loadNewPaymentsForUser(nPD);
 
-            //adding the possible categories, might add an option to add your own
-            for(int i=0;i<currentUser.getAllGroups().size();i++)
-            {
-                for(int j=0;j<currentUser.getAllGroups().get(i).getCategories().size();j++)
-                {
-                    category cat = new category();
-                    cat.setCategory(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
-                    cat.setCategoryCoordinate(j);
-                    cat.setGroupCoordinate(i);
-                    categories.add(cat);
-                    categoryNameList.add(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
-                }
-            }
 
-
-
-            //Will use a for loop when I get proper transactions
-            for(int i=0; i<newTransactionList.size(); i++)
-            {
-                listDataChild.put(newTransactionList.get(i).getTransaction().getPayee(), categoryNameList);
-                listDataHeader.add(newTransactionList.get(i).getTransaction().getPayee());
-                Log.d("Hello", listDataHeader.toString());
-                listTransactionLocated.add(false);
-            }
 
 
         }

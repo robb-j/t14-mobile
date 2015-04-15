@@ -14,7 +14,7 @@ public class BudgetGroup extends ModelObject {
 
     public static final int TYPE_NEW = -1;
     public static final int TYPE_REMOVED = -2;
-    private enum Mode { UNCHANGED, REMOVED, EDITED, NEW }
+    public enum Mode { UNCHANGED, REMOVED, EDITED, NEW }
 
     Mode mode = Mode.UNCHANGED;
 
@@ -62,6 +62,14 @@ public class BudgetGroup extends ModelObject {
     public void setDeleted() {
         setId(TYPE_REMOVED);
         setMode(Mode.REMOVED);
+    }
+
+    public double getBudget() {
+        double total = 0;
+        for (BudgetCategory category : getCategories()) {
+            total += category.getBudgeted();
+        }
+        return total;
     }
 
     @Override

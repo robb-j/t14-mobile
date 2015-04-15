@@ -17,6 +17,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONParser;
 
 /**
  * An object that handles the response from a LiveServer request, converts the json to multiple model objects & sets relations
@@ -231,7 +232,7 @@ public class ResponseParser {
         return true;
     }
 
-    public boolean parseCategorisation(JSONObject responseJson) {
+    public boolean parseCategorisation(JSONObject responseJson, ObjectHolder<Boolean> hasNewSpin) {
 
         // Create a parser from the response
         JSONParser responseParser = new JSONParser(responseJson);
@@ -259,6 +260,15 @@ public class ResponseParser {
             cat.setSpent(parser.getDouble("Balance"));
         }
 
+
+        // Parse spin properties
+        hasNewSpin.setValue(responseParser.getBoolean("newSpin"));
+        int numSpins = responseParser.getInt("numberOfSpins", -2);
+        
+        if (numSpins > -1) {
+            DataStore.sharedInstance().getCurrentUser().setNumberOfSpins(numSpins);
+        }
+
         return true;
 
     }
@@ -281,23 +291,26 @@ public class ResponseParser {
         return true;
     }
 
-    public int parsePerformSpin(JSONObject responseJson) {
+    public boolean parsePerformSpin(JSONObject responseJson, ObjectHolder<Integer> numPoints) {
 
         // Create a parser from the response
         JSONParser responseParser = new JSONParser(responseJson);
 
 
         // Parse the number of points
-        int numPoints = responseParser.getInt("newPoints", -1);
-        int totPoints = responseParser.getInt("totalPoints");
+        int newPoints = responseParser.getInt("newPoints");
+        int totalPoints = responseParser.getInt("totalPoints", -1);
         int totSpins =  responseParser.getInt("currentSpins");
         User user = DataStore.sharedInstance().getCurrentUser();
-        user.setPoints(totPoints);
+        user.setPoints(totalPoints);
         user.setNumberOfSpins(totSpins);
 
+        if (totalPoints > 0) {
 
-        // Return it
-        return numPoints;
+            numPoints.setValue(newPoints);
+            return true;
+        }
+        return false;
     }
 
     public boolean parseUpdateBudget(JSONObject responseJson) {
