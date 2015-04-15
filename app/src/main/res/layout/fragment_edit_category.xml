@@ -18,9 +18,17 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_edit_categories"
         android:layout_below="@+id/edittext_group_name"
-        android:layout_above="@+id/btn_save_group"
+        android:layout_above="@+id/text_new_category"
         >
     </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/text_new_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+ New Category"
+            android:layout_above="@+id/btn_save_group"
+            />
 
         <Button
             android:id="@+id/btn_save_group"
