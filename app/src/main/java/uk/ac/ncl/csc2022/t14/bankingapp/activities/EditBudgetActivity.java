@@ -27,7 +27,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 public class EditBudgetActivity extends LloydsActionBarActivity implements BudgetUpdateDelegate, EditGroupFragment.OnFragmentInteractionListener, EditCategoryFragment.OnFragmentInteractionListener {
 
     FragmentManager manager;
-    public static List<BudgetGroup> groups = new ArrayList<>();
+    public List<BudgetGroup> groups = new ArrayList<>();
 
     public List<BudgetGroup> getGroups() {
         return groups;

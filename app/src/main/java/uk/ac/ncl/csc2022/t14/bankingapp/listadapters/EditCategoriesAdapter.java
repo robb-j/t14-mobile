@@ -57,7 +57,8 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
 
     public void addCategory() {
         group.getCategories().add(new BudgetCategory(BudgetCategory.TYPE_NEW, "New Category", 0, 0));
-        notifyItemInserted(group.getCategories().size()-1);
+        group.getCategories().get(group.getCategories().size()-1).setMode(BudgetCategory.Mode.NEW);
+        notifyItemInserted(group.getCategories().size() - 1);
     }
 
     public BudgetGroup getGroup() {
@@ -88,8 +89,12 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (!hasFocus) {                                   // run when focus is lost
-                        EditText text = (EditText)v;
-                        group.getCategories().get(getPosition()).setName(text.getText().toString());
+                        EditText text = (EditText) v;
+                        BudgetCategory current = group.getCategories().get(getPosition());
+                        if (!current.getName().equals(text.getText().toString())) {
+                            current.setMode(BudgetCategory.Mode.EDITED);
+                        }
+                        current.setName(text.getText().toString());
                     }
                 }
             });
