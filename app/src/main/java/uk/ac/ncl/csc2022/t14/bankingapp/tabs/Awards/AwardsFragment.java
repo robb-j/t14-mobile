@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -107,28 +108,51 @@ public class AwardsFragment extends Fragment{
         recentPoints = currentUser.getRecentPoints();
         refreshawards(rootView);
         refreshpoints(rootView);
-        //button which takes the user to the rewards page
-        Button claimRewards = (Button)rootView.findViewById(R.id.btn_goto_rewards);
-        claimRewards.setOnClickListener(new View.OnClickListener() {
+
+        //Text and image views which take user to rewards view
+        TextView claimRewardsText = (TextView)rootView.findViewById(R.id.textView_goto_rewards);
+        ImageView claimRewardsImg = (ImageView)rootView.findViewById(R.id.imageView_goto_rewards);
+        claimRewardsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                Intent i = new Intent(getActivity(), RewardsActivity.class);
-                startActivity(i);
+                goToReward(v);
+            }
+        });
+        claimRewardsImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                goToReward(v);
             }
         });
 
-        // Set up the spin button to take the user to the spinner view
-        Button btnGoToSpin = (Button) rootView.findViewById(R.id.btn_goto_spin);
-
-        btnGoToSpin.setOnClickListener(new View.OnClickListener() {
+        // Text and image views which take user to spin view
+        TextView spinText = (TextView)rootView.findViewById(R.id.textView_goto_spin);
+        ImageView spinImg = (ImageView)rootView.findViewById(R.id.imageView_goto_spin);
+        spinText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 goToSpin(v);
             }
         });
+        spinImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                goToSpin(v);
+            }
+        });
+
         return rootView;
 
+    }
+
+    public void goToReward(View v) {
+        //Start a reward activity
+        Intent i = new Intent(getActivity(), RewardsActivity.class);
+        startActivity(i);
     }
 
     public void goToSpin(View v) {
