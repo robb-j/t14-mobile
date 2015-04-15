@@ -71,7 +71,7 @@ public class EditGroupFragment extends Fragment {
         }
 
 
-        adapter = new EditGroupsAdapter(getActivity(), activity.getGroups());
+        adapter = new EditGroupsAdapter(getActivity(), tempGroups);
 
         recyclerView.setAdapter(adapter);
 
