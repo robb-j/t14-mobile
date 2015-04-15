@@ -305,7 +305,7 @@ public class LiveServerConnector implements ServerInterface {
     @Override
     public void updateBudget(List<BudgetGroup> newBudget, final BudgetUpdateDelegate delegate) {
 
-        addLoadingSpinner("Updating Budget", "Please wait...");
+        // addLoadingSpinner("Updating Budget", "Please wait...");
 
         // Params
         List<NameValuePair> params = baseParams();
@@ -376,7 +376,7 @@ public class LiveServerConnector implements ServerInterface {
             @Override
             public void taskCompleted(boolean success, String message, JSONObject json) {
 
-                removeLoadingSpinner();
+                // removeLoadingSpinner();
 
                 if (success && responseParser.parseUpdateBudget(json)) {
 
