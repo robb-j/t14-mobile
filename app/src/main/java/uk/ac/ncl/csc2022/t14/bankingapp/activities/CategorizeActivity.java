@@ -30,6 +30,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.ExpandableListAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
@@ -187,8 +188,19 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                         //Is it categorized?
                         if(newTransactionList.get(i).isCategorized)
                         {
+                            //if the user has chosen not to categorize
+                            if(newTransactionList.get(i).getCategory().getCategory().equals("Don't categorize"))
+                            {
+                                Categorisation cat = new Categorisation(i);
+                                cat.setTransaction(newTransactionList.get(i).getTransaction());
+                                //pass a null budget category to indicate that the user does not want this transaction categorized
+                                BudgetCategory bC = null;
+                                cat.setBudgetCategory(bC);
+                                sortedTransactions.add(cat);
+
+                            }
                             //if the user did not set a location
-                            if(newTransactionList.get(i).getLatitude() == 0.0 && newTransactionList.get(i).getLongitude() == 0)
+                            else if(newTransactionList.get(i).getLatitude() == 0.0 && newTransactionList.get(i).getLongitude() == 0)
                             {
                                 Categorisation cat = new Categorisation(i);
                                 //the set functions in categorisation were private, I've changed them
@@ -238,6 +250,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                         @Override
                         public void categorisationFailed(String errMessage)
                         {
+                            Log.d("Failing", errMessage);
                         }
                     };
                     //send the payments to the server
@@ -350,9 +363,10 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                             categoryNameList.add(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
                         }
                     }
-
-
-
+                    category c = new category();
+                    c.setCategory("Don't categorize");
+                    categories.add(c);
+                    categoryNameList.add("Don't categorize");
                     //Will use a for loop when I get proper transactions
                     for(int i=0; i<newTransactionList.size(); i++)
                     {
@@ -362,6 +376,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                         Log.d("Hello", listDataHeader.toString());
                         listTransactionLocated.add(false);
                     }
+
                     try {
                         //notify the list that there is new data
                         eListAdapter.notifyDataSetChanged();

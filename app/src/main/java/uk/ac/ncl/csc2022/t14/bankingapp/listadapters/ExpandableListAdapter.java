@@ -27,6 +27,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     private Context _context;
     //The transactions
     private List<String> _listDataHeader;
+    //which transactions have been given a location
     private List<Boolean> listTransactionLocated;
     //The categories
     private HashMap<String, List<String>> _listDataChild;
