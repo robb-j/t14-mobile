@@ -146,6 +146,7 @@ public class EditGroupFragment extends Fragment {
 
     public void saveBudget() {
 
+
         ServerInterface budgetUpdater = DataStore.sharedInstance().getConnector();
         budgetUpdater.updateBudget(adapter.getGroups(), (BudgetUpdateDelegate)getActivity());
     }

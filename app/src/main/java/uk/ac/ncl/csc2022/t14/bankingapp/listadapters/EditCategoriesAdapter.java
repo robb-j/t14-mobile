@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
@@ -37,6 +38,7 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
 
         this.group = group;
         categories = group.getCategories();
+        removeDeleted();
     }
 
     @Override
@@ -85,6 +87,24 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
 
     public BudgetGroup getGroup() {
         return group;
+    }
+
+    public BudgetGroup addDeletedToGroup() {
+        for (BudgetCategory category : deletedCategories) {
+            group.getCategories().add(category);
+        }
+        return group;
+    }
+
+    public void removeDeleted() {
+
+        for (Iterator<BudgetCategory> iterator = categories.iterator(); iterator.hasNext();) {
+            BudgetCategory category = iterator.next();
+            if (category.getMode() == BudgetCategory.Mode.REMOVED) {
+                iterator.remove();
+                notifyDataSetChanged();
+            }
+        }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {

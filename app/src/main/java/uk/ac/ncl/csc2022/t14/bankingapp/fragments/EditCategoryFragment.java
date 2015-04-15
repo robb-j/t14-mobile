@@ -116,21 +116,6 @@ public class EditCategoryFragment extends Fragment {
         Button btnSaveChanges = (Button)rootView.findViewById(R.id.btn_save_group);
 
 
-        groupName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    EditText text = (EditText) v;
-                    if (!group.getName().equals(text.getText().toString())) {
-                        group.setName(text.getText().toString());
-                        group.setMode(BudgetGroup.Mode.EDITED);
-                    }
-
-
-                }
-            }
-        });
-
 
         btnSaveChanges.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +123,7 @@ public class EditCategoryFragment extends Fragment {
                 switch (v.getId()) {
                     case R.id.btn_save_group:
 
+                        adapter.addDeletedToGroup();
                         EditBudgetActivity activity = (EditBudgetActivity)getActivity();
                         activity.saveGroup();
 
