@@ -205,7 +205,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
                 for(int i=0;i<atmlist.size();i++)
                 {
                     //add all the markers given by the server
-                    MarkerOptions mO = new MarkerOptions().position(new LatLng(atmlist.get(i).getLatitude(), atmlist.get(i).getLongitude())).title(atmlist.get(i).getName());
+                    MarkerOptions mO = new MarkerOptions().position(new LatLng(atmlist.get(i).getLatitude(), atmlist.get(i).getLongitude())).title(atmlist.get(i).getName()+ " " + Double.toString(atmlist.get(i).getCost()));
                     map.addMarker(mO);
                 }
             }
