@@ -14,7 +14,7 @@ public class BudgetGroup extends ModelObject {
 
     public static final int TYPE_NEW = -1;
     public static final int TYPE_REMOVED = -2;
-    private enum Mode { UNCHANGED, REMOVED, EDITED, NEW }
+    public enum Mode { UNCHANGED, REMOVED, EDITED, NEW }
 
     Mode mode = Mode.UNCHANGED;
 

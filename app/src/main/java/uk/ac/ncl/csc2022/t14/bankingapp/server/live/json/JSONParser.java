@@ -1,4 +1,4 @@
-package uk.ac.ncl.csc2022.t14.bankingapp.server.live;
+package uk.ac.ncl.csc2022.t14.bankingapp.server.live.json;
 
 import org.json.JSONArray;
 import org.json.JSONException;

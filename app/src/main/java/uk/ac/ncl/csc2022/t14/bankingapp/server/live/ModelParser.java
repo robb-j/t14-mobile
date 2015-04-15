@@ -1,6 +1,5 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.live;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
@@ -18,6 +17,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.RewardTaken;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONParser;
 
 /**
  * An object to convert JSON objects to useful Models
