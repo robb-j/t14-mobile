@@ -133,6 +133,7 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
                                 current.setMode(BudgetCategory.Mode.EDITED);
                             } else {
                                 Toast.makeText(context, "Please enter some text", Toast.LENGTH_SHORT).show();
+                                current.setName("New Category");
                             }
 
 
@@ -159,6 +160,7 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
                                 current.setMode(BudgetCategory.Mode.EDITED);
                             } else {
                                 Toast.makeText(context, "Please enter an amount", Toast.LENGTH_SHORT).show();
+                                current.setBudgeted(Utility.currencyToDouble("0.00"));
                             }
 
                             if (group.getMode() == BudgetGroup.Mode.UNCHANGED) {
