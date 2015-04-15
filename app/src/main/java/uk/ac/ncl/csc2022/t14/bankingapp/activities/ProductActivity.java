@@ -32,6 +32,8 @@ public class ProductActivity extends LloydsActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        // Receive the correct product object from the previous activity
         product = getIntent().getExtras().getParcelable("product");
 
     }
@@ -60,7 +62,7 @@ public class ProductActivity extends LloydsActionBarActivity {
             TextView title = (TextView) rootView.findViewById(R.id.productTitle);
             TextView content = (TextView) rootView.findViewById(R.id.productContent);
 
-            //Set the title and content of this product to appear on the fragment
+            // Set the title and content of this product to appear on the fragment
             title.setText(product.getTitle());
             content.setText(android.text.Html.fromHtml("<p>"+product.getContent() + "</p>"));
 

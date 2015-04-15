@@ -73,6 +73,7 @@ public class RewardsActivity extends LloydsActionBarActivity implements ChooseRe
         TextView passMsg = (TextView) findViewById(R.id.textView_selectionResponse);
         passMsg.setTextColor(Color.parseColor("#22B14C")); // Default green was pretty obnoxious, this is green but not blinding
         passMsg.setText("Reward successfully acquired");
+
         //Update user's current points
         TextView currentPoints = (TextView) findViewById(R.id.textView_currentPoints);
         currentPoints.setText("Current Points: " + DataStore.sharedInstance().getCurrentUser().getPoints());

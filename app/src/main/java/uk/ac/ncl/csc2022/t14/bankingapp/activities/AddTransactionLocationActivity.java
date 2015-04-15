@@ -118,16 +118,19 @@ public class AddTransactionLocationActivity extends LloydsActionBarActivity {
             map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(final LatLng latLng) {
+                    //Clear any other markers
                     map.clear();
-
+                    //add a marker to where the user clicked
                     mO.position(latLng);
                     map.addMarker(mO);
+                    //show the button
                     Button confirm = (Button)getActivity().findViewById(R.id.confirm_location_button);
                     confirm.setVisibility(View.VISIBLE);
                     confirm.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent();
+                            //add the latlng the user selected
                             i.putExtra("Lng", latLng.longitude);
                             i.putExtra("Lat", latLng.latitude);
                             getActivity().setResult(Activity.RESULT_OK, i);
