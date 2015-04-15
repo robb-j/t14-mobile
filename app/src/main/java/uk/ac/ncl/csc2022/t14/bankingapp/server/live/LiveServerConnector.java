@@ -345,7 +345,7 @@ public class LiveServerConnector implements ServerInterface {
         List<NameValuePair> params = baseParams();
         for (Categorisation ctgr : categorizations) {
 
-            int catID = ctgr.getBudgetCategory().getId();
+            int catID = ctgr.getBudgetCategory() == null? -1 : ctgr.getBudgetCategory().getId();
             int tranID = ctgr.getTransaction().getId();
             params.add(new BasicNameValuePair("categories[" + tranID + "]", "" + catID));
         }
