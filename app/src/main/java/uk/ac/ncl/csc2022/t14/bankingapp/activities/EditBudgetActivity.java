@@ -67,11 +67,13 @@ public class EditBudgetActivity extends LloydsActionBarActivity implements Budge
     @Override
     public void updateBudgetPassed() {
         Toast.makeText(this, "Updated Budget", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
     public void updateBudgetFailed(String errMessage) {
         Toast.makeText(this, "Error: " + errMessage, Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override
@@ -98,7 +100,7 @@ public class EditBudgetActivity extends LloydsActionBarActivity implements Budge
         for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
             BudgetGroup tempGroup = new BudgetGroup(group.getId(), group.getName());
             for (BudgetCategory category : group.getCategories()) {
-                tempGroup.getCategories().add(category);
+                tempGroup.getCategories().add(new BudgetCategory(category.getId(), category.getName(), category.getBudgeted(), category.getSpent()));
             }
             groups.add(tempGroup);
         }

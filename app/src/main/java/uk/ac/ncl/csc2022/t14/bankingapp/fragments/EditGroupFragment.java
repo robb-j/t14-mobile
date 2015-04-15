@@ -104,7 +104,6 @@ public class EditGroupFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 saveBudget();
-                getActivity().finish();
             }
         });
 
