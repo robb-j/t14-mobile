@@ -128,8 +128,13 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
                         EditText text = (EditText) v;
                         BudgetCategory current = group.getCategories().get(getPosition());
                         if (!current.getName().equals(text.getText().toString())) {
-                            current.setName(text.getText().toString());
-                            current.setMode(BudgetCategory.Mode.EDITED);
+                            if (text.getText().toString().length() > 0) {
+                                current.setName(text.getText().toString());
+                                current.setMode(BudgetCategory.Mode.EDITED);
+                            } else {
+                                Toast.makeText(context, "Please enter some text", Toast.LENGTH_SHORT).show();
+                            }
+
 
                             if (group.getMode() == BudgetGroup.Mode.UNCHANGED) {
                                 group.setMode(BudgetGroup.Mode.EDITED);
@@ -149,8 +154,12 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
                         EditText text = (EditText)v;
                         BudgetCategory current = group.getCategories().get(getPosition());
                         if (current.getBudgeted() != Utility.currencyToDouble(text.getText().toString())) {
-                            current.setBudgeted(Utility.currencyToDouble(text.getText().toString()));
-                            current.setMode(BudgetCategory.Mode.EDITED);
+                            if (text.getText().toString().length() > 0) {
+                                current.setBudgeted(Utility.currencyToDouble(text.getText().toString()));
+                                current.setMode(BudgetCategory.Mode.EDITED);
+                            } else {
+                                Toast.makeText(context, "Please enter an amount", Toast.LENGTH_SHORT).show();
+                            }
 
                             if (group.getMode() == BudgetGroup.Mode.UNCHANGED) {
                                 group.setMode(BudgetGroup.Mode.EDITED);
