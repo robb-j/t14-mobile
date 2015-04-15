@@ -1,17 +1,11 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,21 +16,21 @@ import java.util.ArrayList;
 import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
-import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BudgetEditAdapter;
+import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BudgetEditAdapterOld;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
-public class BudgetEditActivity extends LloydsActionBarActivity implements BudgetUpdateDelegate {
+public class BudgetEditActivityOld extends LloydsActionBarActivity implements BudgetUpdateDelegate {
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_budget_edit);
+        setContentView(R.layout.activity_budget_edit_old);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -68,7 +62,7 @@ public class BudgetEditActivity extends LloydsActionBarActivity implements Budge
      */
     public static class PlaceholderFragment extends Fragment {
 
-        private BudgetEditAdapter adapter = null;
+        private BudgetEditAdapterOld adapter = null;
         RecyclerView recyclerView;
         ArrayList<BudgetGroup> tempGroups = new ArrayList<>();
         ArrayList<BudgetGroup> originalGroups = new ArrayList<>();
@@ -95,7 +89,7 @@ public class BudgetEditActivity extends LloydsActionBarActivity implements Budge
                 tempGroups.add(tempGroup);
             }
 
-            adapter = new BudgetEditAdapter(getActivity(), tempGroups, originalGroups);
+            adapter = new BudgetEditAdapterOld(getActivity(), tempGroups, originalGroups);
 
             recyclerView.setAdapter(adapter);
 
@@ -107,7 +101,7 @@ public class BudgetEditActivity extends LloydsActionBarActivity implements Budge
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_budget_edit, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_budget_edit_old, container, false);
 
             recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_edit_budget);
 

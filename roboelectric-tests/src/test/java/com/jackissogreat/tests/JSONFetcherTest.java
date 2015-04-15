@@ -11,9 +11,8 @@ import android.util.Log;
 
 import com.jackissogreat.RobolectricGradleTestRunner;
 
-import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.live.JSONFetcher;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.live.JSONTaskDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONFetcher;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONTaskDelegate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,12 +25,9 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.Arrays;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(manifest=Config.NONE)

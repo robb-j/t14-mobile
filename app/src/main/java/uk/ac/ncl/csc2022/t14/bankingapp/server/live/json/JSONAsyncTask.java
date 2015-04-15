@@ -1,4 +1,4 @@
-package uk.ac.ncl.csc2022.t14.bankingapp.server.live;
+package uk.ac.ncl.csc2022.t14.bankingapp.server.live.json;
 
 import android.os.AsyncTask;
 
@@ -46,10 +46,6 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
-
-        // Allow breakpoints in background thread (for doInBackground) Debug only
-        //android.os.Debug.waitForDebugger();
     }
 
     @Override

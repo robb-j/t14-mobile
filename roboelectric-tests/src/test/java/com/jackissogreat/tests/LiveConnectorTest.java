@@ -28,7 +28,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.live.JSONFetcher;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONFetcher;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.LiveServerConnector;
 
 import org.junit.After;
@@ -42,9 +42,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
@@ -360,6 +358,8 @@ public class LiveConnectorTest {
             public void categorisationPassed(boolean hasNewSpin) {
 
                 assertEquals(110.03, cat.getSpent(), 0.1);
+                assertTrue(hasNewSpin);
+                assertEquals(15, DataStore.sharedInstance().getCurrentUser().getNumberOfSpins());
             }
 
             @Override

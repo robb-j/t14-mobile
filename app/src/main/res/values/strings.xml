@@ -27,6 +27,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_budget_edit">BudgetEditActivity</string>
     <string name="title_activity_add_transaction_location">AddTransactionLocationActivity</string>
+    <string name="title_activity_edit_budget">EditBudgetActivity</string>
 
 
 
