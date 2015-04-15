@@ -24,11 +24,22 @@
             />
 
         <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            />
+
+        <Button
             android:id="@+id/btn_save_groups"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="btnSaveGroups"
             android:text="Save"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             />
 

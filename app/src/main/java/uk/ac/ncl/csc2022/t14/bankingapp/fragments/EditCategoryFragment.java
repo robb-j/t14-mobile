@@ -115,6 +115,7 @@ public class EditCategoryFragment extends Fragment {
 
         Button btnSaveChanges = (Button)rootView.findViewById(R.id.btn_save_group);
 
+
         groupName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -129,6 +130,7 @@ public class EditCategoryFragment extends Fragment {
                 }
             }
         });
+
 
         btnSaveChanges.setOnClickListener(new View.OnClickListener() {
             @Override
