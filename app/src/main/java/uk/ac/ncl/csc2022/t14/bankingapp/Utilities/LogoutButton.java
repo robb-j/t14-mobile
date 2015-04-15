@@ -17,6 +17,8 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LogoutDelegate;
  * Created by Sam on 08/04/2015.
  */
 public class LogoutButton extends Button implements LogoutDelegate {
+
+
     public LogoutButton(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -25,7 +27,6 @@ public class LogoutButton extends Button implements LogoutDelegate {
             public void onClick(View v) {
 
                 DataStore.sharedInstance().getConnector().logout(LogoutButton.this);
-                Log.d("TEST", "logout button: ON CLICK");
             }
         });
     }
@@ -39,17 +40,28 @@ public class LogoutButton extends Button implements LogoutDelegate {
     public void logoutPassed() {
         if (!(getContext() instanceof LoginActivity)) {
             Toast.makeText(getContext(), "Successfully logged out.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            ComponentName cn = intent.getComponent();
-            Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-            getContext().startActivity(mainIntent);
+
+            returnToLogin();
         }
 
     }
 
     @Override
     public void logoutFailed(String message) {
-        Toast.makeText(getContext(), "Logout failed with error: " + message, Toast.LENGTH_SHORT).show();
-        Log.d("TEST", "LOGOUT FAILED");
+
+        if (!(getContext() instanceof LoginActivity)) {
+            Toast.makeText(getContext(), "Logged Out", Toast.LENGTH_SHORT).show();
+
+            returnToLogin();
+        }
+    }
+
+
+    public void returnToLogin() {
+
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        ComponentName cn = intent.getComponent();
+        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+        getContext().startActivity(mainIntent);
     }
 }

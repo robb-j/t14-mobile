@@ -110,7 +110,10 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
                         if (!current.getName().equals(text.getText().toString())) {
                             current.setName(text.getText().toString());
                             current.setMode(BudgetCategory.Mode.EDITED);
-                            group.setMode(BudgetGroup.Mode.EDITED);
+
+                            if (group.getMode() == BudgetGroup.Mode.UNCHANGED) {
+                                group.setMode(BudgetGroup.Mode.EDITED);
+                            }
                         }
 
                     }
@@ -128,7 +131,10 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
                         if (current.getBudgeted() != Utility.currencyToDouble(text.getText().toString())) {
                             current.setBudgeted(Utility.currencyToDouble(text.getText().toString()));
                             current.setMode(BudgetCategory.Mode.EDITED);
-                            group.setMode(BudgetGroup.Mode.EDITED);
+
+                            if (group.getMode() == BudgetGroup.Mode.UNCHANGED) {
+                                group.setMode(BudgetGroup.Mode.EDITED);
+                            }
                         }
 
                     }
