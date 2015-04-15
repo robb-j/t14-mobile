@@ -79,7 +79,7 @@ public class EditCategoryFragment extends Fragment {
         if (getArguments() != null) {
             groupPosition = getArguments().getInt(ARG_POSITION);
         }
-        group = EditBudgetActivity.groups.get(groupPosition);
+        group = activity.groups.get(groupPosition);
     }
 
     @Override

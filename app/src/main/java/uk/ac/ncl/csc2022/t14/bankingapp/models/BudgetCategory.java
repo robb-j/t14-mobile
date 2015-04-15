@@ -12,6 +12,10 @@ public class BudgetCategory extends ModelObject {
     public static final int TYPE_NEW = -1;
     public static final int TYPE_REMOVED = -2;
 
+    public enum Mode { UNCHANGED, REMOVED, EDITED, NEW }
+
+    Mode mode = Mode.UNCHANGED;
+
     private String name;
     private double budgeted;
     private double spent;
@@ -48,6 +52,17 @@ public class BudgetCategory extends ModelObject {
     }
     public void setSpent(double spent) {
         this.spent = spent;
+    }
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public void setMode(Mode mode) {
+        if (this.mode != Mode.NEW) {
+            this.mode = mode;
+        }
+
     }
 
     public void setDeleted() {

@@ -73,10 +73,12 @@ public class BudgetingFragment extends Fragment{
         }
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
         refreshBudgets(getView());
+        checkForNewTransactions(getView());
     }
 
     @Override
