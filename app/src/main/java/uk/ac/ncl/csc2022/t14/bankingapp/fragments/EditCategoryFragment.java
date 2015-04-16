@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +116,21 @@ public class EditCategoryFragment extends Fragment {
 
         Button btnSaveChanges = (Button)rootView.findViewById(R.id.btn_save_group);
 
+        groupName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                EditText text = (EditText)v;
+                String orig = "" + text.getText().toString();
+                if (text.getText().length() > 0) {
+                    group.setName(text.getText().toString());
+                    groupName.setText(text.getText().toString());
+                } else {
+                    Toast.makeText(getActivity(), "Please enter some text", Toast.LENGTH_SHORT).show();
+                    groupName.setText(group.getName());
+                }
+            }
+        });
 
 
         btnSaveChanges.setOnClickListener(new View.OnClickListener() {
