@@ -128,10 +128,10 @@ public class MainActivity extends LloydsActionBarActivity implements BudgetingFr
                     return "Budgeting";
 
                 case 2:
-                    return "Awards";
+                    return "Rewards";
 
                 case 3:
-                    return "ATM Finder";
+                    return "Tools";
 
                 // ...
             }

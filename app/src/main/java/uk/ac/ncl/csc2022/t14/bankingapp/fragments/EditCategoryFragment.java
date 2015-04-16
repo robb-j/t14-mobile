@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +25,8 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EditCategoryFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EditCategoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EditCategoryFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_POSITION = "position";
 
     public List<BudgetCategory> tempCategories;
@@ -53,18 +45,10 @@ public class EditCategoryFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment EditCategoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditCategoryFragment newInstance(int param1) {
+    public static EditCategoryFragment newInstance(int position) {
         EditCategoryFragment fragment = new EditCategoryFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_POSITION, param1);
+        args.putInt(ARG_POSITION, position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,7 +63,8 @@ public class EditCategoryFragment extends Fragment {
         if (getArguments() != null) {
             groupPosition = getArguments().getInt(ARG_POSITION);
         }
-        group = activity.groups.get(groupPosition);
+        activity = (EditBudgetActivity)getActivity();
+        group = activity.getGroups().get(groupPosition);
     }
 
     @Override
@@ -119,17 +104,18 @@ public class EditCategoryFragment extends Fragment {
 
         groupName = (EditText) rootView.findViewById(R.id.edittext_group_name);
 
-        Button btnSaveChanges = (Button)rootView.findViewById(R.id.btn_save_group);
+        TextView newCategory = (TextView) rootView.findViewById(R.id.text_new_category);
 
-        groupName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        newCategory.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    EditText text = (EditText) v;
-                    group.setName(text.getText().toString());
-                }
+            public void onClick(View v) {
+                adapter.addCategory();
             }
         });
+
+        Button btnSaveChanges = (Button)rootView.findViewById(R.id.btn_save_group);
+
+
 
         btnSaveChanges.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +123,7 @@ public class EditCategoryFragment extends Fragment {
                 switch (v.getId()) {
                     case R.id.btn_save_group:
 
+                        adapter.addDeletedToGroup();
                         EditBudgetActivity activity = (EditBudgetActivity)getActivity();
                         activity.saveGroup();
 

@@ -89,7 +89,7 @@ public class LiveServerConnector implements ServerInterface {
     private void addLoadingSpinner(String title, String message) {
 
         // Only show if not testing
-        if (jsonFetcher.isTesting() == false) {
+        if ( ! jsonFetcher.isTesting()) {
 
             // Create and add a progress dialog
             loadingSpinner = new ProgressDialog(BankingApp.getContext());
@@ -104,7 +104,7 @@ public class LiveServerConnector implements ServerInterface {
     private void removeLoadingSpinner() {
 
         // We only need to hide it if we aren't testing and its showing
-        if (jsonFetcher.isTesting() == false) {
+        if ( ! jsonFetcher.isTesting()) {
             if (loadingSpinner != null && loadingSpinner.isShowing()) {
                 loadingSpinner.dismiss();
             }
@@ -345,7 +345,7 @@ public class LiveServerConnector implements ServerInterface {
         List<NameValuePair> params = baseParams();
         for (Categorisation ctgr : categorizations) {
 
-            int catID = ctgr.getBudgetCategory().getId();
+            int catID = ctgr.getBudgetCategory() == null? -1 : ctgr.getBudgetCategory().getId();
             int tranID = ctgr.getTransaction().getId();
             params.add(new BasicNameValuePair("categories[" + tranID + "]", "" + catID));
         }
@@ -362,7 +362,7 @@ public class LiveServerConnector implements ServerInterface {
 
                 // Attempt to parse the response
                 ObjectHolder<Boolean> hasNewSpin = new ObjectHolder<>(false);
-                if (success && responseParser.parseCategorisation(json, hasNewSpin)) {
+                if (success && responseParser.parseCategorisation(json, hasNewSpin) && hasNewSpin.getValue() != null) {
 
                     // If successful tell the delegate
                     delegate.categorisationPassed(hasNewSpin.getValue());
@@ -394,18 +394,19 @@ public class LiveServerConnector implements ServerInterface {
         String paramBase = "groups";
 
         // Loop through groups
-        for (int i = 0; i < newBudget.size(); i++) {
+        int numGroups = 0;
+        for (BudgetGroup group : newBudget) {
 
-            BudgetGroup group = newBudget.get(i);
-            String groupBase = paramBase + "[" + i + "]";
+            String groupBase = paramBase + "[" + numGroups + "]";
 
 
             // If delete
-            if (group.getMode() == BudgetGroup.Mode.EDITED) {
+            if (group.getMode() == BudgetGroup.Mode.REMOVED) {
 
                 // Add the id & tell it to delete
                 params.add(new BasicNameValuePair(groupBase + "[id]", "" + group.getId()));
                 params.add(new BasicNameValuePair(groupBase + "[mode]", PARAM_KEY_DELETE));
+                numGroups++;
             }
 
 
@@ -415,6 +416,8 @@ public class LiveServerConnector implements ServerInterface {
                 // Add the id and tell it to edit
                 params.add(new BasicNameValuePair(groupBase + "[id]", "" + group.getId()));
                 params.add(new BasicNameValuePair(groupBase + "[mode]", PARAM_KEY_EDIT));
+                params.add(new BasicNameValuePair(groupBase + "[title]", group.getName()));
+                numGroups++;
             }
 
 
@@ -423,6 +426,8 @@ public class LiveServerConnector implements ServerInterface {
 
                 // Tell it to create a group
                 params.add(new BasicNameValuePair(groupBase + "[mode]", PARAM_KEY_CREATE));
+                params.add(new BasicNameValuePair(groupBase + "[title]", group.getName()));
+                numGroups++;
             }
 
 
@@ -430,37 +435,40 @@ public class LiveServerConnector implements ServerInterface {
             if (group.getMode() != BudgetGroup.Mode.REMOVED && group.getMode() != BudgetGroup.Mode.UNCHANGED) {
 
                 // Loop through the categories on the group
-                for (int j = 0; j < group.getCategories().size(); j++) {
+                int numCategories = 0;
+                for (BudgetCategory category : group.getCategories()) {
 
                     // Get the category & setup the new param base
-                    BudgetCategory category = group.getCategories().get(j);
-                    String categoryBase = groupBase + "[categories][" + j + "]";
+                    String categoryBase = groupBase + "[categories][" + numCategories + "]";
 
                     // If deleting
-                    if (false) {
+                    if (category.getMode() == BudgetCategory.Mode.REMOVED) {
 
                         // Add the id & tell it to delete
                         params.add(new BasicNameValuePair(categoryBase + "[id]", "" + category.getId()));
                         params.add(new BasicNameValuePair(categoryBase + "[mode]", PARAM_KEY_DELETE));
+                        numCategories++;
                     }
 
                     // If creating
-                    if (false) {
+                    if (category.getMode() == BudgetCategory.Mode.NEW) {
 
                         // Add the title & budget and tell it to create
                         params.add(new BasicNameValuePair(categoryBase + "[mode]", PARAM_KEY_CREATE));
                         params.add(new BasicNameValuePair(categoryBase + "[title]", category.getName()));
                         params.add(new BasicNameValuePair(categoryBase + "[budget]", "" + category.getBudgeted()));
+                        numCategories++;
                     }
 
                     // If editing
-                    if (false) {
+                    if (category.getMode() == BudgetCategory.Mode.EDITED) {
 
                         // Add the id and properties and tell it to update
                         params.add(new BasicNameValuePair(categoryBase + "[id]", "" + category.getId()));
                         params.add(new BasicNameValuePair(categoryBase + "[mode]", PARAM_KEY_EDIT));
                         params.add(new BasicNameValuePair(categoryBase + "[title]", category.getName()));
                         params.add(new BasicNameValuePair(categoryBase + "[budget]", "" + category.getBudgeted()));
+                        numCategories++;
                     }
                 }
             }
@@ -473,7 +481,7 @@ public class LiveServerConnector implements ServerInterface {
             public void taskCompleted(boolean success, String message, JSONObject json) {
 
                 // Remove the loading spinner
-                //removeLoadingSpinner();
+                removeLoadingSpinner();
 
 
                 // Attempt to parse the response
@@ -559,7 +567,7 @@ public class LiveServerConnector implements ServerInterface {
 
                 // Attempt to parse the response
                 ObjectHolder<Integer> numPoints = new ObjectHolder<>();
-                if (success && responseParser.parsePerformSpin(json, numPoints)) {
+                if (success && responseParser.parsePerformSpin(json, numPoints) && numPoints.getValue() != null) {
 
                     // If successful, inform the delegate and pass the number of points
                     delegate.spinPassed(numPoints.getValue());

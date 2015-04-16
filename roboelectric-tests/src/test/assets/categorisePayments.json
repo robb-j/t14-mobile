@@ -9,5 +9,6 @@
         }
     ],
     "numberOfSpins": 15,
+    "numNewPayments": 2,
     "newSpin": true
 }

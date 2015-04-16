@@ -65,7 +65,7 @@ public class EditGroupFragment extends Fragment {
         for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
             BudgetGroup tempGroup = new BudgetGroup(group.getId(), group.getName());
             for (BudgetCategory category : group.getCategories()) {
-                tempGroup.getCategories().add(category);
+                tempGroup.getCategories().add(new BudgetCategory(category.getId(), category.getName(), category.getBudgeted(), category.getSpent()));
             }
             tempGroups.add(tempGroup);
         }
@@ -92,11 +92,18 @@ public class EditGroupFragment extends Fragment {
         Button btnSaveGroups = (Button) rootView.findViewById(R.id.btn_save_groups);
         TextView newGroup = (TextView) rootView.findViewById(R.id.text_new_group);
 
+        Button btnCancel = (Button)rootView.findViewById(R.id.btn_cancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
         btnSaveGroups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveBudget();
-                getActivity().finish();
             }
         });
 
@@ -115,6 +122,7 @@ public class EditGroupFragment extends Fragment {
                     }
                 })
         );
+
 
         return rootView;
     }
@@ -138,8 +146,9 @@ public class EditGroupFragment extends Fragment {
 
     public void saveBudget() {
 
+
         ServerInterface budgetUpdater = DataStore.sharedInstance().getConnector();
-        budgetUpdater.updateBudget(activity.groups, (BudgetUpdateDelegate)getActivity());
+        budgetUpdater.updateBudget(adapter.getGroups(), (BudgetUpdateDelegate)getActivity());
     }
 
     public void loadEditCategories(int position) {

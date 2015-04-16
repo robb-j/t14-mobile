@@ -46,16 +46,11 @@ public class EditBudgetActivity extends LloydsActionBarActivity implements Budge
         manager.beginTransaction().replace(R.id.content_frame_edit_budget, fragment)
                 .commit();
 
-        for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
-            BudgetGroup tempGroup = new BudgetGroup(group.getId(), group.getName());
-            for (BudgetCategory category : group.getCategories()) {
-                tempGroup.getCategories().add(category);
-            }
-            groups.add(tempGroup);
-        }
+
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,11 +67,13 @@ public class EditBudgetActivity extends LloydsActionBarActivity implements Budge
     @Override
     public void updateBudgetPassed() {
         Toast.makeText(this, "Updated Budget", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override
     public void updateBudgetFailed(String errMessage) {
         Toast.makeText(this, "Error: " + errMessage, Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @Override
@@ -92,6 +89,21 @@ public class EditBudgetActivity extends LloydsActionBarActivity implements Budge
         fragment.setArguments(args);
         manager.beginTransaction().replace(R.id.content_frame_edit_budget, fragment)
                 .commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        groups = new ArrayList<>();
+
+        for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
+            BudgetGroup tempGroup = new BudgetGroup(group.getId(), group.getName());
+            for (BudgetCategory category : group.getCategories()) {
+                tempGroup.getCategories().add(new BudgetCategory(category.getId(), category.getName(), category.getBudgeted(), category.getSpent()));
+            }
+            groups.add(tempGroup);
+        }
     }
 
     public void saveGroup() {
