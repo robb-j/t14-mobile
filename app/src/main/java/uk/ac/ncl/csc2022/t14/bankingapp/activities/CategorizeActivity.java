@@ -98,7 +98,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
 
 
             getListData();
-
+            //Communication between the adapter and the fragment through this delegate
             CategorizeLocationDelegate cLD = new CategorizeLocationDelegate() {
                 @Override
                 public void openMap(int groupNumber) {
@@ -189,6 +189,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                         //Is it categorized?
                         if(newTransactionList.get(i).isCategorized)
                         {
+                            //add all the categorized transactions into a list to be sent to the server
                             //if the user has chosen not to categorize
                             if(newTransactionList.get(i).getCategory().getCategory().equals("Don't categorize"))
                             {
