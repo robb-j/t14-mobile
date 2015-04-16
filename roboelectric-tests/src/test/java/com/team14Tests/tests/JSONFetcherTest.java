@@ -10,6 +10,7 @@ import com.team14Tests.RobolectricGradleTestRunner;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONFetcher;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONTaskDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONTaskStatus;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +30,7 @@ public class JSONFetcherTest extends InstrumentationTestCase implements JSONTask
 
     private JSONFetcher testFetcher;
 
-    private boolean fetchSuccess;
+    private JSONTaskStatus fetchStatus;
     private String fetchMessage;
     private JSONObject fetchedObject;
 
@@ -41,9 +42,9 @@ public class JSONFetcherTest extends InstrumentationTestCase implements JSONTask
 
 
     @Override
-    public void taskCompleted(boolean success, String message, JSONObject json) {
+    public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
-        fetchSuccess = success;
+        fetchStatus = status;
         fetchMessage = message;
         fetchedObject = json;
     }
@@ -66,7 +67,7 @@ public class JSONFetcherTest extends InstrumentationTestCase implements JSONTask
 
 
         // Test the callback
-        assertTrue(fetchSuccess);
+        assertTrue(fetchStatus == JSONTaskStatus.PASSED);
         assertNotNull(fetchedObject);
         assertNotNull(fetchMessage);
 

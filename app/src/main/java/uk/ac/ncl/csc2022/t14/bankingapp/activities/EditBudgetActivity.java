@@ -66,21 +66,29 @@ public class EditBudgetActivity extends LloydsActionBarActivity implements Budge
 
     @Override
     public void updateBudgetPassed() {
-        Toast.makeText(this, "Updated Budget", Toast.LENGTH_SHORT).show();
+        // finish the activity once the budget has been updated.
         finish();
     }
 
     @Override
     public void updateBudgetFailed(String errMessage) {
+
+        // produce an error message to the user.
         Toast.makeText(this, "Error: " + errMessage, Toast.LENGTH_LONG).show();
+
+        // finish the activity once the budget has been attempted to update.
         finish();
     }
 
     @Override
     public void onBackPressed() {
-
+        // method here to stop the back button finishing the activity. super is not called.
     }
 
+    /**
+     * Load the EditCategoryFragment for the selected group.
+     * @param position Index of the group in the list of groups.
+     */
     public void loadEditGroup(int position) {
         Fragment fragment = new EditCategoryFragment();
         // insert the fragment replacing the existing fragment
@@ -95,6 +103,7 @@ public class EditBudgetActivity extends LloydsActionBarActivity implements Budge
     protected void onResume() {
         super.onResume();
 
+        /* Create a deep copy of the user's budget groups */
         groups = new ArrayList<>();
 
         for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
@@ -106,9 +115,12 @@ public class EditBudgetActivity extends LloydsActionBarActivity implements Budge
         }
     }
 
+    /**
+     * Return back to the group-select fragment
+     */
     public void saveGroup() {
+
         Fragment fragment = new EditGroupFragment();
-        // insert the fragment replacing the existing fragment
         manager.beginTransaction().replace(R.id.content_frame_edit_budget, fragment)
                 .commit();
 

@@ -102,7 +102,7 @@ public class BudgetAdapter extends BaseAdapter{
             BudgetCategory current = (BudgetCategory)mData.get(position);
             // set text to budget name
             holder.textViewBudgetName.setText(current.getName());
-            if (current.getBudgeted() > 0) {
+            if (current.getSpent() > current.getBudgeted()) {
                 holder.textViewBudgetCost.setTextColor(Color.rgb(0,100,0));
             } else {
                 holder.textViewBudgetCost.setTextColor(Color.rgb(100,0,0));

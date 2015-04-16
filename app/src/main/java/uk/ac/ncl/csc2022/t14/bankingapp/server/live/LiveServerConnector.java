@@ -1,6 +1,10 @@
 package uk.ac.ncl.csc2022.t14.bankingapp.server.live;
 
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.support.v4.content.IntentCompat;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -12,12 +16,14 @@ import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.BankingApp;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.LoginActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
@@ -34,6 +40,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONFetcher;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONTaskDelegate;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONTaskStatus;
 
 /**
  * An implementation of the server interfaces that connects to the live server.
@@ -112,6 +119,26 @@ public class LiveServerConnector implements ServerInterface {
     }
 
 
+    private void forceLogout(String message) {
+
+        // Reset the DataStore
+        DataStore.sharedInstance().setCurrentUser(null);
+        DataStore.sharedInstance().setNewProducts(new ArrayList<Product>());
+        DataStore.sharedInstance().setToken("");
+        DataStore.sharedInstance().setRewards(new ArrayList<Reward>());
+
+
+        // Return the user to the login screen
+        Intent intent = new Intent(BankingApp.getContext(), LoginActivity.class);
+        ComponentName cn = intent.getComponent();
+        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+        BankingApp.getContext().startActivity(mainIntent);
+
+
+        // Inform the user with a Toast
+        Toast.makeText(BankingApp.getContext(), "Logged Out: " + message, Toast.LENGTH_LONG).show();
+    }
+
 
 
     /*
@@ -143,14 +170,21 @@ public class LiveServerConnector implements ServerInterface {
         // Create the delegate to respond to the fetch
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
                 // Remove the loading spinner
                 removeLoadingSpinner();
 
 
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
+
                 // Attempt to parse response
-                if (success && responseParser.parseLogin(json)) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseLogin(json)) {
 
                     // If parsed, inform the delegate
                     delegate.loginPassed(DataStore.sharedInstance().getCurrentUser());
@@ -160,6 +194,7 @@ public class LiveServerConnector implements ServerInterface {
                     message = responseParser.parseErrorOrDefault(message);
                     delegate.loginFailed(message);
                 }
+
 
             }
         };
@@ -186,15 +221,21 @@ public class LiveServerConnector implements ServerInterface {
         // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
                 // Remove the loading spinner
                 removeLoadingSpinner();
 
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
 
                 // Attempt to parse the transactions
                 List<Transaction> transations = new ArrayList<>();
-                if (success && responseParser.parseLoadTransactions(json, account, transations)) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseLoadTransactions(json, account, transations)) {
 
                     // If successful pass them back to the delegate
                     delegate.transactionsLoaded(account, transations);
@@ -230,13 +271,21 @@ public class LiveServerConnector implements ServerInterface {
         // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
                 // Remove the loading spinner
                 removeLoadingSpinner();
 
+
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
+
                 // Attempt to parse the response
-                if (success && responseParser.parseMakeTransfer(json, accountA, accountB)) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseMakeTransfer(json, accountA, accountB)) {
 
                     // If parsed, inform the delegate
                     delegate.transferPassed(accountA, accountB, amount);
@@ -265,10 +314,19 @@ public class LiveServerConnector implements ServerInterface {
         // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
+
+
+
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
 
                 // Attempt to parse the response
-                if (success && responseParser.parseLogout(json)) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseLogout(json)) {
 
                     // If parsed, inform the delegate
                     delegate.logoutPassed();
@@ -307,15 +365,23 @@ public class LiveServerConnector implements ServerInterface {
         // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
                 // Remove the loading spinner
                 removeLoadingSpinner();
 
 
+
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
+
                 // Attempt to parse the transactions
                 List<Transaction> transations = new ArrayList<>();
-                if (success && responseParser.parseNewPayments(json, transations)) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseNewPayments(json, transations)) {
 
                     // If parsed, pass them to the delegate
                     delegate.newPaymentsLoaded(transations);
@@ -354,15 +420,23 @@ public class LiveServerConnector implements ServerInterface {
         // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
                 // Remove the loading spinner
                 removeLoadingSpinner();
 
 
+
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
+
                 // Attempt to parse the response
                 ObjectHolder<Boolean> hasNewSpin = new ObjectHolder<>(false);
-                if (success && responseParser.parseCategorisation(json, hasNewSpin) && hasNewSpin.getValue() != null) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseCategorisation(json, hasNewSpin) && hasNewSpin.getValue() != null) {
 
                     // If successful tell the delegate
                     delegate.categorisationPassed(hasNewSpin.getValue());
@@ -486,14 +560,22 @@ public class LiveServerConnector implements ServerInterface {
         // Delegate
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
                 // Remove the loading spinner
                 removeLoadingSpinner();
 
 
+
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
+
                 // Attempt to parse the response
-                if (success && responseParser.parseUpdateBudget(json)) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseUpdateBudget(json)) {
 
                     // If successful, inform the delegate
                     delegate.updateBudgetPassed();
@@ -527,14 +609,22 @@ public class LiveServerConnector implements ServerInterface {
         // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
                 // Remove the loading spinner
                 removeLoadingSpinner();
 
 
+
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
+
                 // Attempt to parse the response
-                if (success && responseParser.parseChooseReward(json)) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseChooseReward(json)) {
 
                     // If succesful inform the delegate
                     delegate.chooseRewardPassed();
@@ -567,15 +657,23 @@ public class LiveServerConnector implements ServerInterface {
         // Create the delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
                 // Remove the loading spinner
                 removeLoadingSpinner();
 
 
+
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
+
                 // Attempt to parse the response
                 ObjectHolder<Integer> numPoints = new ObjectHolder<>();
-                if (success && responseParser.parsePerformSpin(json, numPoints) && numPoints.getValue() != null) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parsePerformSpin(json, numPoints) && numPoints.getValue() != null) {
 
                     // If successful, inform the delegate and pass the number of points
                     delegate.spinPassed(numPoints.getValue());
@@ -610,11 +708,20 @@ public class LiveServerConnector implements ServerInterface {
         // Create delegate to respond to POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
+
+
+
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
+
 
                 // Attempt to parse the response
                 List<HeatPoint> allPoints = new ArrayList<>();
-                if (success && responseParser.parseLoadHeatPoints(json, allPoints)) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseLoadHeatPoints(json, allPoints)) {
 
                     // If successful, pass them to the delegate
                     delegate.loadHeatMapPassed(allPoints);
@@ -643,12 +750,20 @@ public class LiveServerConnector implements ServerInterface {
         // Create a delegate to respond to the POST
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
             @Override
-            public void taskCompleted(boolean success, String message, JSONObject json) {
+            public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
+
+
+
+                // If logged out, log out
+                if (status == JSONTaskStatus.LOGGED_OUT) {
+                    forceLogout(message);
+                    return;
+                }
 
 
                 // Attempt to parse the ATMs
                 List<ATM> allAtms = new ArrayList<>();
-                if (success && responseParser.parseLoadATMs(json, allAtms)) {
+                if (status == JSONTaskStatus.PASSED && responseParser.parseLoadATMs(json, allAtms)) {
 
                     // If successful, pass them to the delegate
                     delegate.loadATMsPassed(allAtms);

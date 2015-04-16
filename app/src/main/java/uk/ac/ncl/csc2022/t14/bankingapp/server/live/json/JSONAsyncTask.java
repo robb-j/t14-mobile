@@ -80,8 +80,7 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
                 return true;
             }
         }
-        catch (JSONException e) {}
-        catch (IOException e) {}
+        catch (JSONException | IOException e) {}
 
 
         // Anything other than a success was a failure
@@ -96,7 +95,7 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
         if (responseStatus == 200 && result) {
 
             // If it passed pass that onto the delegate
-            delegate.taskCompleted(result, "passed", jsonResponse);
+            delegate.taskCompleted(JSONTaskStatus.PASSED, "passed", jsonResponse);
         }
         else if (responseStatus == 400 && jsonResponse != null) {
 
@@ -110,16 +109,30 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
 
                     error = jsonResponse.getString("Error");
                 }
+
+
+                // Check if they have been logged out by the server
+                if (jsonResponse.has("LoggedIn")) {
+
+                    boolean loggedIn = jsonResponse.getBoolean("LoggedIn");
+
+
+                    // If so, tell the delegate
+                    if ( ! loggedIn) {
+
+                        delegate.taskCompleted(JSONTaskStatus.LOGGED_OUT, "Your session has timed out or you logged in elsewhere", null);
+                    }
+                }
             }
             catch (JSONException e) {}
 
             // Inform the delegate
-            delegate.taskCompleted(false, error, null);
+            delegate.taskCompleted(JSONTaskStatus.FAILED, error, null);
         }
         else {
 
             // Otherwise, something failed
-            delegate.taskCompleted(false, "Server Error", null);
+            delegate.taskCompleted(JSONTaskStatus.FAILED, "Server Error", null);
         }
     }
 }

@@ -26,28 +26,25 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
+/**
+ * Used to edit a budget group by the user
+ */
 public class EditCategoryFragment extends Fragment {
 
-    private static final String ARG_POSITION = "position";
-
-    public List<BudgetCategory> tempCategories;
-
-    private EditCategoriesAdapter adapter;
-
-    private EditBudgetActivity activity;
-
-    RecyclerView recyclerView;
-
-    EditText groupName;
-
+    private static final String ARG_POSITION = "position";  // the group's index in the user's budget groups
+    public List<BudgetCategory> tempCategories;     // copy of the categories in the group
+    private EditCategoriesAdapter adapter;      // adapter for the recycler view
+    private EditBudgetActivity activity;        // the current activity
+    RecyclerView recyclerView;      // used to display the categories
+    EditText groupName;     // name of the group
     private int groupPosition;
-
-    public BudgetGroup group;
+    public BudgetGroup group;       // the group to edit
 
     private OnFragmentInteractionListener mListener;
 
     public static EditCategoryFragment newInstance(int position) {
         EditCategoryFragment fragment = new EditCategoryFragment();
+        // retrieve variables passed through
         Bundle args = new Bundle();
         args.putInt(ARG_POSITION, position);
         fragment.setArguments(args);
@@ -75,21 +72,9 @@ public class EditCategoryFragment extends Fragment {
 
         groupName.setText(group.getName());
 
-        tempCategories = new ArrayList<BudgetCategory>();
-
-        for (BudgetCategory category : group.getCategories()) {
-            BudgetCategory tempCategory = new BudgetCategory(category.getId(), category.getName(), category.getBudgeted(), category.getSpent());
-            tempCategories.add(tempCategory);
-        }
-
-        BudgetGroup tempGroup = new BudgetGroup(group.getId(), group.getName());
-        tempGroup.getCategories().addAll(tempCategories);
-
-
+        // set up the adapter
         adapter = new EditCategoriesAdapter(getActivity(), group);
-
         recyclerView.setAdapter(adapter);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
@@ -100,12 +85,11 @@ public class EditCategoryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_edit_category, container, false);
 
         activity = (EditBudgetActivity)getActivity();
-
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_edit_categories);
 
         groupName = (EditText) rootView.findViewById(R.id.edittext_group_name);
-
         TextView newCategory = (TextView) rootView.findViewById(R.id.text_new_category);
+        Button btnSaveChanges = (Button)rootView.findViewById(R.id.btn_save_group);
 
         newCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,14 +98,12 @@ public class EditCategoryFragment extends Fragment {
             }
         });
 
-        Button btnSaveChanges = (Button)rootView.findViewById(R.id.btn_save_group);
-
         groupName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
 
+                /* error checking what the user types */
                 EditText text = (EditText)v;
-                String orig = "" + text.getText().toString();
                 if (text.getText().length() > 0) {
                     group.setName(text.getText().toString());
                     groupName.setText(text.getText().toString());
@@ -139,7 +121,10 @@ public class EditCategoryFragment extends Fragment {
                 switch (v.getId()) {
                     case R.id.btn_save_group:
 
+                        // add the deleted categories back to the group ready to be returned to the server if saved.
                         adapter.addDeletedToGroup();
+
+                        // return to the view groups fragment
                         EditBudgetActivity activity = (EditBudgetActivity)getActivity();
                         activity.saveGroup();
 
@@ -151,7 +136,6 @@ public class EditCategoryFragment extends Fragment {
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

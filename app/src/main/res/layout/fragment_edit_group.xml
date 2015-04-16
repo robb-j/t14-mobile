@@ -7,12 +7,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/title_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Groups"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
 
         <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recycler_edit_groups"
-            android:layout_alignParentTop="true"
-            android:layout_above="@+id/text_new_group">
+            android:layout_above="@+id/text_new_group"
+            android:layout_below="@+id/title_groups">
         </android.support.v7.widget.RecyclerView>
 
         <TextView
@@ -21,6 +29,9 @@
             android:layout_height="wrap_content"
             android:text="+ New Group"
             android:layout_above="@+id/btn_save_groups"
+            android:gravity="end"
+            android:layout_marginBottom="10dp"
+            android:textSize="24sp"
             />
 
         <Button
