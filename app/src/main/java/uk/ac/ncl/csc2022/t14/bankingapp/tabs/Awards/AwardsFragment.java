@@ -2,16 +2,13 @@ package uk.ac.ncl.csc2022.t14.bankingapp.tabs.Awards;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,17 +17,13 @@ import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
-import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.RewardsActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.SpinActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
-import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.PointsListAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.PointGain;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.RewardTaken;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
-import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,8 +99,8 @@ public class AwardsFragment extends Fragment{
         //get all recent rewards and points from the user
         recentRewards = DataStore.sharedInstance().getRewards();
         recentPoints = currentUser.getRecentPoints();
-        refreshawards(rootView);
-        refreshpoints(rootView);
+        refreshAwards(rootView);
+        refreshPoints(rootView);
 
         //Text and image views which take user to rewards view
         TextView claimRewardsText = (TextView)rootView.findViewById(R.id.textView_goto_rewards);
@@ -161,7 +154,7 @@ public class AwardsFragment extends Fragment{
         startActivity(i);
     }
 
-    public void refreshawards(View v)
+    public void refreshAwards(View v)
     {
         //set up the awards list
         ListView listAwards = (ListView)v.findViewById(R.id.awards_list);
@@ -171,7 +164,7 @@ public class AwardsFragment extends Fragment{
 
 
     }
-    public void refreshpoints(View v)
+    public void refreshPoints(View v)
     {
         //set up the recent points list
         ListView listPoints = (ListView)v.findViewById(R.id.points_list);

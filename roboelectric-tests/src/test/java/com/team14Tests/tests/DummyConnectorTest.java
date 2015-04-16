@@ -1,4 +1,4 @@
-package com.jackissogreat.tests;
+package com.team14Tests.tests;
 
 /**
  * Tests the responses of the dummy server connector
@@ -16,35 +16,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.crypto.Data;
-
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.Categorisation;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.PointGain;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.RewardTaken;
-import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ATMDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.BudgetUpdateDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.CategoriseDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ChooseRewardDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.HeatMapDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LoginDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.LogoutDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.NewPaymentsDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransactionDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.TransferDelegate;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.live.LiveServerConnector;
-import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONFetcher;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

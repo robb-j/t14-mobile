@@ -1,4 +1,4 @@
-package com.jackissogreat.tests;
+package com.team14Tests.tests;
 
 /**
  * Tests the response of LiveConnector when giving it local JSON

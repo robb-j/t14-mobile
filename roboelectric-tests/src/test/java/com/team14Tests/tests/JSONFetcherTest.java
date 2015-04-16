@@ -1,15 +1,12 @@
-package com.jackissogreat.tests;
+package com.team14Tests.tests;
 
 /**
  * A Class to test JSONFetcher 's testing capabilities
  * Created by Rob A on 05/04/15.
  */
-import android.content.Context;
-import android.content.res.AssetManager;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 
-import com.jackissogreat.RobolectricGradleTestRunner;
+import com.team14Tests.RobolectricGradleTestRunner;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONFetcher;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONTaskDelegate;
@@ -19,10 +16,7 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
 
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.FileInputStream;

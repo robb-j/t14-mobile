@@ -1,4 +1,4 @@
-package com.jackissogreat.tests;
+package com.team14Tests.tests;
 
 /**
  * Created by Jack on 16/02/2015.
