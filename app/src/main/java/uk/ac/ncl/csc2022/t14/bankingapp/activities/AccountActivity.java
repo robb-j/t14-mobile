@@ -234,7 +234,7 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
 
             Intent i = new Intent(getActivity(), TransferActivity.class);
 
-            // pass through the relevant product and account
+            // pass through the relevant account
             Account account = DataStore.sharedInstance().getCurrentUser().getAccountForId(accountId);
             i.putExtra("accountId", account.getId());
             startActivity(i);

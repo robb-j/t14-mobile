@@ -83,7 +83,7 @@
             android:label="@string/title_activity_categorize" >
         </activity>
         <activity
-            android:name=".activities.RewardsActivity"
+            android:name=".activities.RewardsListActivity"
             android:label="@string/title_activity_rewards" >
         </activity>
         <activity
@@ -102,6 +102,10 @@
         <activity
             android:name=".activities.EditBudgetActivity"
             android:label="@string/title_activity_edit_budget" >
+        </activity>
+        <activity
+            android:name=".activities.RewardActivity"
+            android:label="@string/title_activity_reward" >
         </activity>
     </application>
 

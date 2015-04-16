@@ -17,7 +17,7 @@ import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
-import uk.ac.ncl.csc2022.t14.bankingapp.activities.RewardsActivity;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.RewardsListActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.SpinActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.PointsListAdapter;
@@ -144,7 +144,7 @@ public class AwardsFragment extends Fragment{
 
     public void goToReward(View v) {
         //Start a reward activity
-        Intent i = new Intent(getActivity(), RewardsActivity.class);
+        Intent i = new Intent(getActivity(), RewardsListActivity.class);
         startActivity(i);
     }
 
