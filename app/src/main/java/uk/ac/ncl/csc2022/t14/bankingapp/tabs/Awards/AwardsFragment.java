@@ -23,6 +23,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.PointsListAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.PointGain;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.RewardTaken;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 
 /**
@@ -40,6 +41,8 @@ public class AwardsFragment extends Fragment{
     private static final String ARG_PARAM2 = "param2";
 
     AwardsAdapter adapter;
+
+    User user;
 
 
 
@@ -78,8 +81,8 @@ public class AwardsFragment extends Fragment{
         }
 
     }
-    User currentUser = DataStore.sharedInstance().getCurrentUser();
-    List<Reward> recentRewards;
+
+    List<RewardTaken> recentRewards;
     List<PointGain> recentPoints;
 
     @Override
@@ -88,23 +91,20 @@ public class AwardsFragment extends Fragment{
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_awards, container, false);
         //inform the user of how many points they have
-        TextView tV = (TextView)getActivity().findViewById(R.id.text_current_points);
-        try {
-            tV.setText(Integer.toString(currentUser.getPoints()) + " points");
-        }
-        catch(java.lang.NullPointerException e)
-        {
+        TextView tV = (TextView)rootView.findViewById(R.id.text_current_points);
 
-        }
+        user = DataStore.sharedInstance().getCurrentUser();
+
+        tV.setText(Integer.toString(user.getPoints()) + " points");
+
         //get all recent rewards and points from the user
-        recentRewards = DataStore.sharedInstance().getRewards();
-        recentPoints = currentUser.getRecentPoints();
+        recentRewards = DataStore.sharedInstance().getCurrentUser().getRecentRewards();
+        recentPoints = user.getRecentPoints();
         refreshAwards(rootView);
         refreshPoints(rootView);
 
-        //Text and image views which take user to rewards view
+        // Text which takes user to rewards view
         TextView claimRewardsText = (TextView)rootView.findViewById(R.id.textView_goto_rewards);
-        ImageView claimRewardsImg = (ImageView)rootView.findViewById(R.id.imageView_goto_rewards);
         claimRewardsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -112,25 +112,10 @@ public class AwardsFragment extends Fragment{
                 goToReward(v);
             }
         });
-        claimRewardsImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                goToReward(v);
-            }
-        });
 
-        // Text and image views which take user to spin view
+        // Text view which takes user to spin view
         TextView spinText = (TextView)rootView.findViewById(R.id.textView_goto_spin);
-        ImageView spinImg = (ImageView)rootView.findViewById(R.id.imageView_goto_spin);
         spinText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                goToSpin(v);
-            }
-        });
-        spinImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {

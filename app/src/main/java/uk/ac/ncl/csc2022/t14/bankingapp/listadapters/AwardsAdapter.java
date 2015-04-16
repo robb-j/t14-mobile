@@ -28,9 +28,9 @@ public class AwardsAdapter extends BaseAdapter
     public Context mContext;
     protected LayoutInflater mInflater;
 
-    private List<Reward> mDataChild;
+    private List<RewardTaken> mDataChild;
 
-    public AwardsAdapter(Context aContext, List<Reward> DataChild)
+    public AwardsAdapter(Context aContext, List<RewardTaken> DataChild)
     {
         mContext = aContext;
 
@@ -45,7 +45,7 @@ public class AwardsAdapter extends BaseAdapter
     }
 
     @Override
-    public Reward getItem(int position)
+    public RewardTaken getItem(int position)
     {
         return mDataChild.get(position);
     }
@@ -66,7 +66,7 @@ public class AwardsAdapter extends BaseAdapter
         TextView awardDate = (TextView)convertView.findViewById(R.id.textview_award_date);
         TextView awardDetails = (TextView)convertView.findViewById(R.id.textview_award_details);
         //awardDate.setText(mDataChild.get(position).getDateTaken().toString());
-        awardDetails.setText(mDataChild.get(position).getDescription());
+        awardDetails.setText(mDataChild.get(position).getReward().getName());
         return convertView;
     }
 

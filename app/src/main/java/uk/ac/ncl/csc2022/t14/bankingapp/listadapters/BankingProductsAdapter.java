@@ -106,7 +106,7 @@ public class BankingProductsAdapter extends RecyclerView.Adapter<BankingProducts
         } else if (current.getId() == freezeID) {
             holder.image.setImageResource(R.drawable.snowflake);
         } else {
-            holder.image.setImageResource(R.drawable.account_image);
+            holder.image.setImageResource(R.drawable.horse);
         }
 
     }
