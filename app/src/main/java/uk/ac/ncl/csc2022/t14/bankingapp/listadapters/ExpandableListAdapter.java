@@ -117,7 +117,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         globe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("The group selected is: ", Integer.toString(groupPosition));
+                //Tell the activity to open the map, giving it the groupnumber as the relevant transaction
                 cLD.openMap(groupPosition);
 
 
@@ -125,11 +125,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         });
         if(listTransactionLocated.get(groupPosition))
         {
+            //If the transaction has been given a location, set the globe icon to white
             Log.d("The list is: ", listTransactionLocated.toString());
             globe.setImageResource(R.drawable.tglobe_icon_white);
         }
         else
         {
+            //if it hasn't, make sure the icon is still black
             globe.setImageResource(R.drawable.tglobe_icon);
         }
 

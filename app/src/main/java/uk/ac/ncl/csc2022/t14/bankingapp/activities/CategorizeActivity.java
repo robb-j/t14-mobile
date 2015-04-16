@@ -299,6 +299,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
             {
                 return transaction;
             }
+
             public category getCategory()
             {
                 return category;
@@ -307,12 +308,16 @@ public class CategorizeActivity extends LloydsActionBarActivity {
             {
                 category = cat;
             }
+
             public Boolean getiscategorized(){return isCategorized;}
             public void categorize(){isCategorized=true;}
+
             public void uncategorize(){isCategorized=false;}
             public void setLatitude(double lat){latitude=lat;}
+
             public double getLatitude(){return latitude;}
             public void setLongitude(double lng){longitude=lng;}
+
             public double getLongitude(){return longitude;}
 
 
@@ -324,6 +329,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
             private int groupCoordinate;
             private int categoryCoordinate;
             private String category;
+            //Ensure that the "don't categorize" option is treated properly
             private boolean dontCat=false;
 
 
@@ -375,6 +381,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                             categoryNameList.add(currentUser.getAllGroups().get(i).getCategories().get(j).getName());
                         }
                     }
+                    //add a category for transactions which the user does not want to categorise
                     category c = new category();
                     c.setCategory("Don't categorize");
                     c.setDontCat();
