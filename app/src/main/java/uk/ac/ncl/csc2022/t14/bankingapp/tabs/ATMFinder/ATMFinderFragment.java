@@ -142,6 +142,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
         map = mapFragment.getMap();
         focusMapOnUser();
         getATMs();
+        //Displays ATMs as default
         ATMorHEATMAP=true;
 
 
@@ -162,11 +163,8 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
         //Zooming camera to user-position
         if(mapFragment==null)
         {
-
             mapFragment = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
         }
-
-
         map = mapFragment.getMap();
 
 
@@ -184,6 +182,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
 
         if(mlocation != null)
         {
+            //move the camera to the users location with a suitable zoom level
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mlocation.getLatitude(), mlocation.getLongitude()),13));
             CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(mlocation.getLatitude(), mlocation.getLongitude())).zoom(15).bearing(0).tilt(0).build();
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -225,7 +224,8 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
         //clear all atms
         map.clear();
         List<HeatPoint> transactionLocations;
-        int[] accounts = new int[]{1};
+
+        int[] accounts = new int[]{};
         //show all transactions from the past month
         Calendar cal = Calendar.getInstance();
         Date today = cal.getTime();
@@ -235,6 +235,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
         HeatMapDelegate hMD = new HeatMapDelegate() {
             @Override
             public void loadHeatMapPassed(List<HeatPoint> allHeatPoints) {
+
                 List<WeightedLatLng> wLatLngs = new ArrayList<WeightedLatLng>();
                 for(int i = 0; i<allHeatPoints.size();i++)
                 {
@@ -250,6 +251,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
 
             @Override
             public void loadHeatMapFailed(String errMessage) {
+
 
             }
         };
