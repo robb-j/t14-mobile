@@ -1,5 +1,23 @@
 {
     "newPoints": 20,
     "totalPoints": "170",
-    "currentSpins": "18"
+    "currentSpins": "18",
+    "RecentPoints": [
+        {
+            "ID": 12,
+            "Title": "Spin",
+            "Date": "2015-04-16",
+            "Description": "Gain of 20 points",
+            "Points": "20",
+            "User": 2
+        },
+        {
+            "ID": 11,
+            "Title": "Spin",
+            "Date": "2015-04-14",
+            "Description": "Gain of 40 points",
+            "Points": "40",
+            "User": 2
+        }
+    ]
 }

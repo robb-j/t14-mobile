@@ -493,6 +493,18 @@ public class LiveConnectorTest {
         User user = DataStore.sharedInstance().getCurrentUser();
         assertEquals(170, user.getPoints());
         assertEquals(18, user.getNumberOfSpins());
+
+
+        // Test the RecentPoints
+        List<PointGain> recentPoints = user.getRecentPoints();
+        assertNotNull(recentPoints);
+        assertEquals(2, recentPoints.size());
+
+        PointGain gain = recentPoints.get(0);
+        assertEquals(12, gain.getId());
+        assertEquals("Spin", gain.getName());
+        assertEquals(20, gain.getPoints());
+        assertNotNull(gain.getDescription());
     }
 
 

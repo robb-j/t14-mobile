@@ -317,14 +317,6 @@ public class LiveServerConnector implements ServerInterface {
             public void taskCompleted(JSONTaskStatus status, String message, JSONObject json) {
 
 
-
-                // If logged out, log out
-                if (status == JSONTaskStatus.LOGGED_OUT) {
-                    forceLogout(message);
-                    return;
-                }
-
-
                 // Attempt to parse the response
                 if (status == JSONTaskStatus.PASSED && responseParser.parseLogout(json)) {
 
