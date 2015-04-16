@@ -13,8 +13,10 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetCategory;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.PointGain;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
+import uk.ac.ncl.csc2022.t14.bankingapp.models.RewardTaken;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Transaction;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.json.JSONParser;
@@ -294,6 +296,13 @@ public class ResponseParser {
         User user = DataStore.sharedInstance().getCurrentUser();
         user.getRecentRewards().add(mp.parseRewardTaken(takenJson, rewards));
 
+
+        // Update the number of points the user has
+        int numPoints = responseParser.getInt("CurrentPoints", -1);
+        if (numPoints > -1) {
+            DataStore.sharedInstance().getCurrentUser().setPoints(numPoints);
+        }
+
         return true;
     }
 
@@ -310,6 +319,20 @@ public class ResponseParser {
         User user = DataStore.sharedInstance().getCurrentUser();
         user.setPoints(totalPoints);
         user.setNumberOfSpins(totSpins);
+
+
+        List<JSONObject>allGainJson = responseParser.getJSONObjectList("RecentPoints");
+        List<PointGain> allRewardsTaken = new ArrayList<>();
+        for (JSONObject gainJson : allGainJson) {
+
+            allRewardsTaken.add(mp.parsePointGain(gainJson));
+        }
+
+        if (allRewardsTaken.size() > 0) {
+
+            DataStore.sharedInstance().getCurrentUser().getRecentPoints().clear();
+            DataStore.sharedInstance().getCurrentUser().getRecentPoints().addAll(allRewardsTaken);
+        }
 
         if (totalPoints > 0) {
 

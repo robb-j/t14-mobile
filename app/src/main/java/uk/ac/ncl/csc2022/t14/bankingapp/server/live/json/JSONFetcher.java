@@ -64,7 +64,7 @@ public class JSONFetcher {
 
         // Work out the url
         String dir = System.getProperty("user.dir");
-        String path = dir + "/roboelectric-tests/src/test/assets/" + file + ".json";
+        String path = dir + "/robolectric-tests/src/test/assets/" + file + ".json";
 
         try {
 

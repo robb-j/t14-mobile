@@ -1,0 +1,8 @@
+{
+  "TestString": "My String",
+  "TestInt": 7,
+  "TestDouble": 3.14,
+  "TestObject": {
+    "Property": "Name"
+  }
+}

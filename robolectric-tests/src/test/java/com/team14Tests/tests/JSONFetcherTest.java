@@ -89,7 +89,7 @@ public class JSONFetcherTest extends InstrumentationTestCase implements JSONTask
 
         // Work out the url
         String dir = System.getProperty("user.dir");
-        String path = dir + "/roboelectric-tests/src/test/assets/test.json";
+        String path = dir + "/robolectric-tests/src/test/assets/test.json";
         String json = null;
 
         try {

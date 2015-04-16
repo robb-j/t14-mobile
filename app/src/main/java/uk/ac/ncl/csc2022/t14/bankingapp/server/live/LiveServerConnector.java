@@ -540,8 +540,8 @@ public class LiveServerConnector implements ServerInterface {
             }
         }
 
-        // If there aren't any extra params, theres no need to submit th data
-        if (params.size() < 3) {
+        // If there aren't any extra params, theres no need to submit the data (& we aren't testing)
+        if (params.size() < 3 && ! jsonFetcher.isTesting()) {
 
             removeLoadingSpinner();
             delegate.updateBudgetPassed();

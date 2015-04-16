@@ -464,10 +464,17 @@ public class LiveConnectorTest {
         RewardTaken taken = DataStore.sharedInstance().getCurrentUser().getRecentRewards().get(0);
         assertEquals(3, taken.getId());
         assertEquals(2, taken.getReward().getId());
+
+
+        // Test the user's points were updated
+        assertEquals(700, DataStore.sharedInstance().getCurrentUser().getPoints());
     }
 
     @Test
     public void testPerformSpinResponse() {
+
+
+        DataStore.sharedInstance().getCurrentUser().getRecentPoints().add(new PointGain(7, "Name", "desc", 10));
 
         // Create a delegate to test response
         PointSpinDelegate delegate = new PointSpinDelegate() {
