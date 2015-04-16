@@ -18,13 +18,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Reward;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ChooseRewardDelegate;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.ServerInterface;
 
-public class RewardActivity extends ActionBarActivity implements ChooseRewardDelegate {
+public class RewardActivity extends LloydsActionBarActivity implements ChooseRewardDelegate {
 
     private static int rewardID;
     private static Reward reward;
