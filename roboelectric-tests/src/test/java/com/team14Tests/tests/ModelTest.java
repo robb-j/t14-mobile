@@ -3,7 +3,6 @@ package com.team14Tests.tests;
 /**
  * Created by Jack on 17/02/2015.
  */
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +15,9 @@ import static org.junit.Assert.*;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.models.*;
 
+/**
+ * Outdated test class used to test the models whilst working on v1. Refer to separate model tests for most recent tests.
+ */
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)
 public class ModelTest {
