@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/text_group_name"
@@ -8,6 +9,7 @@
         android:layout_height="wrap_content"
         android:text="Group Name"
         android:background="@null"
+        android:textSize="18sp"
         />
 
     <TextView
@@ -18,5 +20,15 @@
         android:background="@null"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:textSize="18sp"
         />
+
+    <ImageView
+        android:contentDescription="@string/separator_description"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#666"
+        android:id="@+id/divider"
+        android:layout_below="@id/text_group_name"
+        android:layout_marginTop="5dp"/>
 </RelativeLayout>

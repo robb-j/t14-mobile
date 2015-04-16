@@ -71,7 +71,7 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
     }
 
     public void removeCategory(int position) {
-        if (position > 0) {
+        if (getItemCount() > 1) {
             BudgetCategory current = categories.get(position);
             BudgetCategory deletedCategory = new BudgetCategory(current.getId(), current.getName(), current.getBudgeted(), current.getSpent());
             deletedCategory.setMode(BudgetCategory.Mode.REMOVED);

@@ -105,12 +105,8 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
 
             try {
 
-                // Try to find keys 'Reason' & 'Error'
-                if (jsonResponse.has("Reason")) {
-
-                    error = jsonResponse.getString("Reason");
-                }
-                else if (jsonResponse.has("Error")) {
+                // Try to find a better erro message
+                if (jsonResponse.has("Error")) {
 
                     error = jsonResponse.getString("Error");
                 }
