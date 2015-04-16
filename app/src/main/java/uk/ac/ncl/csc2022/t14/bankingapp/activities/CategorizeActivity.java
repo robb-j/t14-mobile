@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.security.acl.Group;
 import java.util.ArrayList;
@@ -251,6 +252,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                         public void categorisationFailed(String errMessage)
                         {
                             Log.d("Failing", errMessage);
+                            Toast.makeText(getActivity(), errMessage, Toast.LENGTH_SHORT).show();
                         }
                     };
                     //send the payments to the server
