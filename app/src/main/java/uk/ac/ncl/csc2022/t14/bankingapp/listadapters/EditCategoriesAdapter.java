@@ -47,11 +47,13 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
 
         MyViewHolder holder = new MyViewHolder(view);
 
+        removeDeleted();
         return holder;
     }
 
     @Override
     public void onBindViewHolder(EditCategoriesAdapter.MyViewHolder holder, int position) {
+
 
         holder.name.setText(categories.get(position).getName());
         holder.budget.setText(String.format("%.2f", categories.get(position).getBudgeted()));
@@ -60,13 +62,13 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
 
     @Override
     public int getItemCount() {
-        return group.getCategories().size();
+        return categories.size();
     }
 
     public void addCategory() {
         BudgetCategory category = new BudgetCategory(BudgetCategory.TYPE_NEW, "New Category", 0, 0);
         category.setMode(BudgetCategory.Mode.NEW);
-        group.getCategories().add(category);
+        categories.add(category);
         notifyItemInserted(categories.size() - 1);
     }
 
@@ -77,7 +79,7 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
             deletedCategory.setMode(BudgetCategory.Mode.REMOVED);
             deletedCategories.add(deletedCategory);
             categories.remove(position);
-            notifyItemRemoved(position);
+            notifyDataSetChanged();
         } else {
             Toast.makeText(context, "Cannot delete last category", Toast.LENGTH_SHORT).show();
         }
@@ -89,11 +91,11 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
         return group;
     }
 
-    public BudgetGroup addDeletedToGroup() {
+    public void addDeletedToGroup() {
         for (BudgetCategory category : deletedCategories) {
-            group.getCategories().add(category);
+            categories.add(category);
+            notifyItemInserted(categories.size()-1);
         }
-        return group;
     }
 
     public void removeDeleted() {
@@ -126,7 +128,7 @@ public class EditCategoriesAdapter extends RecyclerView.Adapter<EditCategoriesAd
 
                     if (!hasFocus) {                                   // run when focus is lost
                         EditText text = (EditText) v;
-                        BudgetCategory current = group.getCategories().get(getPosition());
+                        BudgetCategory current = categories.get(getPosition());
                         if (!current.getName().equals(text.getText().toString())) {
                             if (text.getText().toString().length() > 0) {
                                 current.setName(text.getText().toString());

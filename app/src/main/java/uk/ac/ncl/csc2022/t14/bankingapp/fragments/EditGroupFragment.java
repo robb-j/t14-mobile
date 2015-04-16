@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -39,9 +40,8 @@ public class EditGroupFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     RecyclerView recyclerView;
-    EditGroupsAdapter adapter;
-
-    EditBudgetActivity activity;
+    EditGroupsAdapter adapter;      // adapter to display the recycler view
+    EditBudgetActivity activity;    // current activity
 
     ArrayList<BudgetGroup> tempGroups = new ArrayList<>();
 
@@ -62,6 +62,7 @@ public class EditGroupFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        // create a deep copy of the groups
         for (BudgetGroup group : DataStore.sharedInstance().getCurrentUser().getAllGroups()) {
             BudgetGroup tempGroup = new BudgetGroup(group.getId(), group.getName());
             for (BudgetCategory category : group.getCategories()) {
@@ -71,10 +72,9 @@ public class EditGroupFragment extends Fragment {
         }
 
 
+        // set up the adapter
         adapter = new EditGroupsAdapter(getActivity(), activity.getGroups());
-
         recyclerView.setAdapter(adapter);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
@@ -83,6 +83,8 @@ public class EditGroupFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_edit_group, container, false);
+
+        Toast.makeText(getActivity(), "Hold down a group to delete it", Toast.LENGTH_SHORT).show();
 
         activity = (EditBudgetActivity)getActivity();
 
@@ -118,6 +120,7 @@ public class EditGroupFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        // load the edit categories fragment and pass through the position of the group to edit
                         loadEditCategories(position);
                     }
                 })
@@ -144,9 +147,10 @@ public class EditGroupFragment extends Fragment {
         mListener = null;
     }
 
+    /**
+     * Pass the updated list of groups to the server
+     */
     public void saveBudget() {
-
-
         ServerInterface budgetUpdater = DataStore.sharedInstance().getConnector();
         budgetUpdater.updateBudget(adapter.getGroups(), (BudgetUpdateDelegate)getActivity());
     }

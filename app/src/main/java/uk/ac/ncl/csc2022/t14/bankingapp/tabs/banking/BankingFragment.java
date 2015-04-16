@@ -22,11 +22,9 @@ import uk.ac.ncl.csc2022.t14.bankingapp.server.live.LiveServerConnector;
  */
 public class BankingFragment extends Fragment {
 
-    private BankingAccountsAdapter accountsAdapter = null;
-    private BankingProductsAdapter productsAdapter = null;
+    private BankingAccountsAdapter accountsAdapter;
+    private BankingProductsAdapter productsAdapter;
     RecyclerView accountRecyclerView, productRecyclerView;
-
-
 
     public static BankingFragment newInstance() {
 
@@ -45,6 +43,7 @@ public class BankingFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        // setting up the adapters
         accountsAdapter = new BankingAccountsAdapter(getActivity(), DataStore.sharedInstance().getCurrentUser().getAccounts());
         if (DataStore.sharedInstance().getConnector() instanceof LiveServerConnector) {
             productsAdapter = new BankingProductsAdapter(getActivity(), DataStore.sharedInstance().getNewProducts());
@@ -82,12 +81,6 @@ public class BankingFragment extends Fragment {
         productRecyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_banking_products);
 
 
-
-        TextView textAccounts = (TextView)rootView.findViewById(R.id.text_banking_accounts);
-        textAccounts.setPaintFlags(textAccounts.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-        TextView textProducts = (TextView)rootView.findViewById(R.id.text_banking_products);
-        textProducts.setPaintFlags(textProducts.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
 
         return rootView;

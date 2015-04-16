@@ -36,8 +36,6 @@ public class BankingAccountsAdapter extends RecyclerView.Adapter<BankingAccounts
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.accounts = accounts;
-
-
     }
 
     @Override
@@ -63,8 +61,10 @@ public class BankingAccountsAdapter extends RecyclerView.Adapter<BankingAccounts
             holder.balance.setTextColor(Color.rgb(0,120,0));
         }
 
+        // instantiate the ids
         int studentID = 0, savingsID = 0, isaID = 0;
 
+        // set the ids correctly
         for (Product product : DataStore.sharedInstance().getProducts()) {
             switch (product.getTitle()) {
                 case "Savings Account":
@@ -80,6 +80,7 @@ public class BankingAccountsAdapter extends RecyclerView.Adapter<BankingAccounts
         }
 
 
+        // set the relevant image
         if (current.getProduct() != null) {
             if (current.getProduct().getId() == studentID) {
                 holder.image.setImageResource(R.drawable.student);

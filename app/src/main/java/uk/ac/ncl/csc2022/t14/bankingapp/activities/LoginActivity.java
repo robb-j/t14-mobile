@@ -64,6 +64,8 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
 
     @Override
     public void loginPassed(User user) {
+
+        // open the main activity
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
     }
@@ -119,12 +121,15 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
 
             final EditText[] passwordChars = new EditText[3];
 
+            // reference the password fields
             passwordChars[0] = (EditText) rootView.findViewById(R.id.password_char_1);
             passwordChars[1] = (EditText) rootView.findViewById(R.id.password_char_2);
             passwordChars[2] = (EditText) rootView.findViewById(R.id.password_char_3);
 
             final Button btnLogin = (Button) rootView.findViewById(R.id.btn_login);
             btnLogin.setOnClickListener(this);
+
+            // after a character is typed, automatically move to the next field.
             passwordChars[0].addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -178,18 +183,19 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
             passwordChars[2].setHint(addSuffixToNumber(indices[2]));
 
             TextView username = (TextView)rootView.findViewById(R.id.edit_username);
-            textViewFocus(username);
 
-
-
-
-
+            // set default focus to the username field
+            username.requestFocus();
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
             return rootView;
         }
 
+        /**
+         * Set up the initial random characters indices.
+         */
         public void generateRandomIndices() {
-            // set up the initial random characters, displayed as hints
+
             // first index
             int min = 0, max = 4;
             indices[0] = rand.nextInt(max - min + 1) + min;
@@ -201,9 +207,6 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
             // third index
             min = 6; max = 7;
             indices[2] = rand.nextInt(max - min + 1) + min;
-
-
-
         }
 
         /**
@@ -222,20 +225,13 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
             }
         }
 
-
-            public void textViewFocus(TextView textView)
-            {
-                textView.requestFocus();
-
-                this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-            }
-
-
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+
                 // login button
                 case R.id.btn_login:
+
                     // calling the text views for analysis
                     final TextView usernameField = (TextView)getView().findViewById(R.id.edit_username);
                     final TextView password1 = (TextView)getView().findViewById(R.id.password_char_1);
@@ -254,15 +250,12 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
                         return;
                     }
 
-
-
-
-
                     // refer to the server connector
-                    ServerInterface dummy = DataStore.sharedInstance().getConnector();
+                    ServerInterface connector = DataStore.sharedInstance().getConnector();
 
                     // call the login method
-                    dummy.login(username, password, indices, (LoginActivity)getActivity());
+                    connector.login(username, password, indices, (LoginActivity) getActivity());
+
                     break;
             }
         }

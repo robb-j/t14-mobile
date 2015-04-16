@@ -35,6 +35,7 @@ import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
  */
 public class MainActivity extends LloydsActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener, AwardsFragment.OnFragmentInteractionListener, ATMFinderFragment.OnFragmentInteractionListener{
 
+    // number of tabs
     private static int tabs = 4;
 
     // Method from fragment interfaces.
@@ -60,19 +61,12 @@ public class MainActivity extends LloydsActionBarActivity implements BudgetingFr
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
 
-
-        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        View customNav = LayoutInflater.from(this).inflate(R.layout.fragment_action_bar, null);
-        getSupportActionBar().setCustomView(customNav, lp);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-
-
         fragmentManager = getSupportFragmentManager();
     }
 
     @Override
     public void onBackPressed() {
+        // logs the user out
         findViewById(R.id.btn_logout).callOnClick();
     }
 
@@ -99,14 +93,13 @@ public class MainActivity extends LloydsActionBarActivity implements BudgetingFr
                     // Awards fragment activity
                     return AwardsFragment.newInstance();
                 case 3:
-                    //ATMFinder fragment activity
+                    // ATMFinder fragment activity
                     return ATMFinderFragment.newInstance();
 
                 /* add new tabs here. Change the amount of tabs with the tabs variable. */
             }
 
             return null;
-            // return BankingFragment.newInstance(new User(10, "Joe", "Bloggs", "10/03/2015"));
         }
 
         @Override

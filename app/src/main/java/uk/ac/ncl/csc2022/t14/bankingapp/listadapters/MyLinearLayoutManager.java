@@ -6,6 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Allows multiple recycler views to efficiently be in the same activity
+ */
 public class MyLinearLayoutManager extends LinearLayoutManager {
 
     public MyLinearLayoutManager(Context context, int orientation, boolean reverseLayout)    {
