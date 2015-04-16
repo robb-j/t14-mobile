@@ -360,6 +360,7 @@ public class LiveConnectorTest {
                 assertEquals(110.03, cat.getSpent(), 0.1);
                 assertTrue(hasNewSpin);
                 assertEquals(15, DataStore.sharedInstance().getCurrentUser().getNumberOfSpins());
+                assertEquals(2, DataStore.sharedInstance().getCurrentUser().getNumNewPayments());
             }
 
             @Override

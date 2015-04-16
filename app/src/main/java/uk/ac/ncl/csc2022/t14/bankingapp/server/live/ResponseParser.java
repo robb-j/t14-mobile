@@ -261,6 +261,12 @@ public class ResponseParser {
         }
 
 
+        int numNewPayments = responseParser.getInt("numNewPayments", -1);
+        if (numNewPayments > -1) {
+            DataStore.sharedInstance().getCurrentUser().setNumNewPayments(numNewPayments);
+        }
+
+
         // Parse spin properties
         hasNewSpin.setValue(responseParser.getBoolean("newSpin"));
         int numSpins = responseParser.getInt("numberOfSpins", -2);
