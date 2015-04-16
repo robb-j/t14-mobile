@@ -75,8 +75,10 @@ public class BankingProductsAdapter extends RecyclerView.Adapter<BankingProducts
             }
         }
 
+        // instantiate the ids
         int studentID = 0, savingsID = 0, isaID = 0, freezeID = 0;
 
+        // set the correct ids
         for (Product product : DataStore.sharedInstance().getProducts()) {
             switch (product.getTitle()) {
                 case "Savings Account":
@@ -94,6 +96,7 @@ public class BankingProductsAdapter extends RecyclerView.Adapter<BankingProducts
             }
         }
 
+        // set the products images to the correct ones
         if (current.getId() == studentID) {
             holder.image.setImageResource(R.drawable.student);
         } else if (current.getId() == savingsID) {
@@ -113,6 +116,10 @@ public class BankingProductsAdapter extends RecyclerView.Adapter<BankingProducts
         return products.size();
     }
 
+    /**
+     * Removes an item at the given position
+     * @param position index to be removed.
+     */
     private void removeItem(int position) {
         products.remove(position);
         notifyItemRemoved(position);

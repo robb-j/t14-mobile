@@ -17,7 +17,6 @@ import android.widget.TextView;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
-import uk.ac.ncl.csc2022.t14.bankingapp.activities.BudgetEditActivityOld;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.CategorizeActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.EditBudgetActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.BudgetAdapter;
@@ -33,16 +32,8 @@ import uk.ac.ncl.csc2022.t14.bankingapp.models.BudgetGroup;
  * create an instance of this fragment.
  */
 public class BudgetingFragment extends Fragment{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     BudgetAdapter adapter;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -52,7 +43,6 @@ public class BudgetingFragment extends Fragment{
      *
      * @return A new instance of fragment BudgetingFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static BudgetingFragment newInstance() {
         BudgetingFragment fragment = new BudgetingFragment();
         Bundle args = new Bundle();
@@ -68,8 +58,7 @@ public class BudgetingFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // get arguments
         }
     }
 
@@ -140,6 +129,10 @@ public class BudgetingFragment extends Fragment{
         mListener = null;
     }
 
+    /**
+     * Refresh the budget.
+     * @param v
+     */
     public void refreshBudgets(View v) {
 
         /* Budget unspent */
@@ -161,6 +154,10 @@ public class BudgetingFragment extends Fragment{
         listBudgets.setAdapter(adapter);
     }
 
+    /**
+     * Display the amount of new transactions to be categorised.
+     * @param v
+     */
     public void checkForNewTransactions(View v) {
 
         LinearLayout layout = (LinearLayout) v.findViewById(R.id.layout_new_transactions);

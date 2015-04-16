@@ -230,6 +230,9 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
             refreshMonth();
         }
 
+        /**
+         * Opens the transfer page and passes through the relevant account.
+         */
         public void btnMakeTransfer(View v) {
 
             Intent i = new Intent(getActivity(), TransferActivity.class);
@@ -240,6 +243,9 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
             startActivity(i);
         }
 
+        /**
+         * Allows the user to view the selected month of transactions.
+         */
         public void btnSelectMonth(View v) {
 
             String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -260,6 +266,9 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
 
         }
 
+        /**
+         * Allows the user to view the selected year of transactions.
+         */
         public void btnSelectYear(View v) {
 
             final Dialog d = new Dialog(getActivity());
@@ -268,7 +277,7 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
             Button btnOK = (Button) d.findViewById(R.id.btn_year_number_picker);
             final NumberPicker np = (NumberPicker) d.findViewById(R.id.number_picker_year);
             np.setMaxValue(Calendar.getInstance().get(Calendar.YEAR)); // max value current year
-            np.setMinValue(Calendar.getInstance().get(Calendar.YEAR) - 50);
+            np.setMinValue(Calendar.getInstance().get(Calendar.YEAR) - 50); // 50 years before the current year
             np.setValue(year);  // set the default value to the year selected
             np.setWrapSelectorWheel(false);
             btnOK.setOnClickListener(new View.OnClickListener()
@@ -286,6 +295,9 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
 
         }
 
+        /**
+         * Reload the transactions for the selected month.
+         */
         public void refreshMonth() {
 
             ServerInterface transactionLoader = DataStore.sharedInstance().getConnector();
@@ -296,6 +308,11 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
 
     }
 
+    /**
+     * Return an integer between 0-11 as its related month.
+     * @param month Integer to be converted
+     * @return
+     */
     public String getMonth(int month) {
         return new DateFormatSymbols().getMonths()[month];
     }

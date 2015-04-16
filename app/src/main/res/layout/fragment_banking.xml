@@ -29,11 +29,12 @@
 
     <TextView
         android:id="@+id/text_banking_accounts"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ACCOUNTS"
+        android:text="Accounts"
         android:textStyle="bold"
         android:textSize="20sp"
+        style="?android:listSeparatorTextViewStyle"
         android:layout_margin="10dp"/>
 
     <android.support.v7.widget.RecyclerView
@@ -44,11 +45,12 @@
 
     <TextView
         android:id="@+id/text_banking_products"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PRODUCTS"
+        android:text="Products"
         android:textStyle="bold"
         android:textSize="20sp"
+        style="?android:listSeparatorTextViewStyle"
         android:layout_margin="10dp"/>
 
     <android.support.v7.widget.RecyclerView
