@@ -474,7 +474,9 @@ public class LiveConnectorTest {
     public void testPerformSpinResponse() {
 
 
+        // Add a gain already to test they get reset too
         DataStore.sharedInstance().getCurrentUser().getRecentPoints().add(new PointGain(7, "Name", "desc", 10));
+
 
         // Create a delegate to test response
         PointSpinDelegate delegate = new PointSpinDelegate() {
