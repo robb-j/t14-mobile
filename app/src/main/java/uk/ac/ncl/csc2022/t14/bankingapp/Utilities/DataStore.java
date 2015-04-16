@@ -34,8 +34,7 @@ public class DataStore {
 
     /** Make the constructor private to enforce the singleton */
     private DataStore() {
-        serverConnector = new DummyServerConnector();
-        //serverConnector = new LiveServerConnector();
+        serverConnector = new LiveServerConnector();
     }
 
 

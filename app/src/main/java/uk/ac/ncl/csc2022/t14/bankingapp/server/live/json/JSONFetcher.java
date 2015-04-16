@@ -46,7 +46,7 @@ public class JSONFetcher {
         if (isTesting) {
 
             // Return with the delegate
-            delegate.taskCompleted(true, "passed", getLocalJSON(path));
+            delegate.taskCompleted(JSONTaskStatus.PASSED, "passed", getLocalJSON(path));
         }
         else {
 

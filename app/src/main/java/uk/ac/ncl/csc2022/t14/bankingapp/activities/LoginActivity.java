@@ -51,9 +51,6 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
                     .commit();
         }
 
-        // set the default server connector
-        DataStore.sharedInstance().setServerConnector(new DummyServerConnector());
-
         // make switch connector button visible
         findViewById(R.id.btn_switch_connector).setVisibility(View.VISIBLE);
 
