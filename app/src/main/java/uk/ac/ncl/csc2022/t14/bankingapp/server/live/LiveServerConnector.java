@@ -474,6 +474,14 @@ public class LiveServerConnector implements ServerInterface {
             }
         }
 
+        // If there aren't any extra params, theres no need to submit th data
+        if (params.size() < 3) {
+
+            removeLoadingSpinner();
+            delegate.updateBudgetPassed();
+            return;
+        }
+
 
         // Delegate
         JSONTaskDelegate taskDelegate = new JSONTaskDelegate() {
