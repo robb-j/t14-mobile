@@ -240,7 +240,7 @@ public class CategorizeActivity extends LloydsActionBarActivity {
                         {
                             if(hasNewSpin)
                             {
-
+                                Toast.makeText(getActivity(), "You've been awarded a spin!", Toast.LENGTH_SHORT).show();
                             }
 
                             //All the transactions are categorized, go back to main activity
