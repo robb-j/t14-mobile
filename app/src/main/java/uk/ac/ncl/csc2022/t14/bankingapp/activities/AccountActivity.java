@@ -101,7 +101,7 @@ public class AccountActivity extends LloydsActionBarActivity implements Transact
 
         int lastDayAdded = 32;
 
-        if (transactions != null) {
+        if (transactions != null && transactions.size() > 0) {
 
             runOnUiThread(new Runnable() {
                 @Override

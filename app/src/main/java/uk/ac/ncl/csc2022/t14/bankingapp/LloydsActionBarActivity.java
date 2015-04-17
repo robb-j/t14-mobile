@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.BankingApp;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
+import uk.ac.ncl.csc2022.t14.bankingapp.server.live.LiveServerConnector;
 
 /**
  * Created by Sam on 13/04/2015.
@@ -23,5 +25,11 @@ public class LloydsActionBarActivity extends ActionBarActivity {
         getSupportActionBar().setCustomView(customNav, lp);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         BankingApp.setContext(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        ((LiveServerConnector)DataStore.sharedInstance().getConnector()).removeLoadingSpinner();
+        super.onDestroy();
     }
 }

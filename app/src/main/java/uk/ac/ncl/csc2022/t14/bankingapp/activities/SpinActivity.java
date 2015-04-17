@@ -122,6 +122,7 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
+
         }
 
         @Override

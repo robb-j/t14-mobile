@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -72,9 +73,12 @@ public class RewardActivity extends LloydsActionBarActivity implements ChooseRew
     @Override
     public void chooseRewardFailed(String errMessage) {
         // Display the error message at the top of the screen so a user knows what went wrong
+        /*
         TextView failMsg = (TextView) findViewById(R.id.textView_selectionResponse);
-        failMsg.setTextColor(Color.parseColor("#ED1C24")); // Again, red but not too red
         failMsg.setText("Error: " + errMessage);
+        failMsg.setTextColor(Color.parseColor("#ED1C24")); // Again, red but not too red
+        */
+        Toast.makeText(this, errMessage, Toast.LENGTH_SHORT).show();
     }
     /**
      * A placeholder fragment containing a simple view.

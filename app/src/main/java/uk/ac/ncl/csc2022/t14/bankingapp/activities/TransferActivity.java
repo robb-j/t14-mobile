@@ -171,8 +171,12 @@ public class TransferActivity extends LloydsActionBarActivity implements Transfe
                         }
                     }
 
-                    //Set amount to be the current value in the amount field
-                    amount = Double.parseDouble(transferAmount.getText().toString());
+                    if (transferAmount.getText().length() > 0) {
+
+                        //Set amount to be the current value in the amount field
+                        amount = Double.parseDouble(transferAmount.getText().toString());
+                    }
+
 
                     btnMakeTransfer(v, accountTo, amount);
                 }

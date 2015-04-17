@@ -28,12 +28,13 @@ import uk.ac.ncl.csc2022.t14.bankingapp.tabs.Awards.AwardsFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking.BankingFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
+import uk.ac.ncl.csc2022.t14.bankingapp.tabs.rewards.RewardsFragment;
 
 
 /**
  *
  */
-public class MainActivity extends LloydsActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener, AwardsFragment.OnFragmentInteractionListener, ATMFinderFragment.OnFragmentInteractionListener{
+public class MainActivity extends LloydsActionBarActivity implements BudgetingFragment.OnFragmentInteractionListener, RewardsFragment.OnFragmentInteractionListener, ATMFinderFragment.OnFragmentInteractionListener{
 
     // number of tabs
     private static int tabs = 4;
@@ -90,8 +91,8 @@ public class MainActivity extends LloydsActionBarActivity implements BudgetingFr
                     // Budgeting fragment activity
                     return BudgetingFragment.newInstance();
                 case 2:
-                    // Awards fragment activity
-                    return AwardsFragment.newInstance();
+                    // Rewards fragment activity
+                    return RewardsFragment.newInstance();
                 case 3:
                     // ATMFinder fragment activity
                     return ATMFinderFragment.newInstance();

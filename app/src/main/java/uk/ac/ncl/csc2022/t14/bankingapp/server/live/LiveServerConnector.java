@@ -95,6 +95,8 @@ public class LiveServerConnector implements ServerInterface {
     /** A common method to add a loading popup when performing a server task */
     private void addLoadingSpinner(String title, String message) {
 
+        removeLoadingSpinner();
+
         // Only show if not testing
         if ( ! jsonFetcher.isTesting()) {
 
@@ -108,7 +110,7 @@ public class LiveServerConnector implements ServerInterface {
     }
 
     /** A common method to remove the loading spinner after each server task */
-    private void removeLoadingSpinner() {
+    public void removeLoadingSpinner() {
 
         // We only need to hide it if we aren't testing and its showing
         if ( ! jsonFetcher.isTesting()) {
@@ -246,6 +248,7 @@ public class LiveServerConnector implements ServerInterface {
                     message = responseParser.parseErrorOrDefault(message);
                     delegate.transactionsLoadFailed(message);
                 }
+
             }
         };
 
