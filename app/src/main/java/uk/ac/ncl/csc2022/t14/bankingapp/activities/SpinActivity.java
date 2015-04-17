@@ -2,6 +2,7 @@ package uk.ac.ncl.csc2022.t14.bankingapp.activities;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -17,9 +18,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.LloydsActionBarActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.BankingApp;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.DummyServerConnector;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.interfaces.PointSpinDelegate;
@@ -49,7 +55,7 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
 
 
     @Override
-    public void spinPassed(int numPoints) {
+    public void spinPassed(final int numPoints) {
 
 
         // Update amount of spins remaining on the spin button
@@ -104,7 +110,25 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
         }
 
         animation.setFillAfter(true); // This stops the image reverting back to its original state once the animation completes
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Toast.makeText(BankingApp.getContext(), "Congratulations, you've won " + numPoints + " points", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         animTarget.startAnimation(animation); // Begin the spin animation
+
+
     }
 
     @Override
@@ -155,4 +179,6 @@ public class SpinActivity extends LloydsActionBarActivity implements PointSpinDe
             return rootView;
         }
     }
+
+
 }
