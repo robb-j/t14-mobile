@@ -52,7 +52,7 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
         }
 
         // make switch connector button visible
-        findViewById(R.id.btn_switch_connector).setVisibility(View.VISIBLE);
+        // findViewById(R.id.btn_switch_connector).setVisibility(View.VISIBLE);
 
         // make logout invisible
         findViewById(R.id.btn_logout).setVisibility(View.INVISIBLE);

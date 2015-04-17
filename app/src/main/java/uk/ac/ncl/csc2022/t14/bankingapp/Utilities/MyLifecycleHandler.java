@@ -32,10 +32,11 @@ public class MyLifecycleHandler implements Application.ActivityLifecycleCallback
     }
 
     public void onActivityStopped(Activity activity) {
+        /**
         ++stopped;
         android.util.Log.w("test", "application is being backgrounded: " + (resumed == stopped));
         if(resumed==stopped) {
             System.exit(0);
-        }
+        }*/
     }
 }

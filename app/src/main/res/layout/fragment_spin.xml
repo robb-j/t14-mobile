@@ -48,7 +48,7 @@
         android:id="@+id/imageView"
         android:src="@drawable/wheel_overlay"
         android:layout_marginTop="12dp"
-        android:layout_alignTop="@+id/imageView_spinWheel"
+        android:layout_above="@+id/imageView_spinWheel"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

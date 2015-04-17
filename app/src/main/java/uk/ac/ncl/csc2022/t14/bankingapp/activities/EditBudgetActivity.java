@@ -46,6 +46,7 @@ public class EditBudgetActivity extends LloydsActionBarActivity implements Budge
         manager.beginTransaction().replace(R.id.content_frame_edit_budget, fragment)
                 .commit();
 
+        Toast.makeText(this, "Hold down a group/ category to delete it", Toast.LENGTH_SHORT).show();
 
 
 

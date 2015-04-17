@@ -84,8 +84,6 @@ public class EditGroupFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_edit_group, container, false);
 
-        Toast.makeText(getActivity(), "Hold down a group to delete it", Toast.LENGTH_SHORT).show();
-
         activity = (EditBudgetActivity)getActivity();
 
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_edit_groups);

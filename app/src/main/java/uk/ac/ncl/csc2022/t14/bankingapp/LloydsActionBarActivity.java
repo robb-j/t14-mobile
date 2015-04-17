@@ -1,6 +1,9 @@
 package uk.ac.ncl.csc2022.t14.bankingapp;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -9,6 +12,7 @@ import android.view.View;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.BankingApp;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
+import uk.ac.ncl.csc2022.t14.bankingapp.activities.LoginActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.server.live.LiveServerConnector;
 
 /**
@@ -25,6 +29,18 @@ public class LloydsActionBarActivity extends ActionBarActivity {
         getSupportActionBar().setCustomView(customNav, lp);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         BankingApp.setContext(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /* Error checking - if the user does not exist anymore, restart the app */
+        if (!(this instanceof LoginActivity) && DataStore.sharedInstance().getCurrentUser() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            ComponentName cn = intent.getComponent();
+            Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+            startActivity(mainIntent);
+        }
     }
 
     @Override
