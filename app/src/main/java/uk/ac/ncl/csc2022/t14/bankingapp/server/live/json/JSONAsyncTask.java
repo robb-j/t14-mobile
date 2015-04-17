@@ -101,6 +101,7 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
 
             // Try to get an error from the json response
             String error = "Server Error";
+            boolean loggedIn = true;
 
             try {
 
@@ -114,20 +115,23 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
                 // Check if they have been logged out by the server
                 if (jsonResponse.has("LoggedIn")) {
 
-                    boolean loggedIn = jsonResponse.getBoolean("LoggedIn");
-
-
-                    // If so, tell the delegate
-                    if ( ! loggedIn) {
-
-                        delegate.taskCompleted(JSONTaskStatus.LOGGED_OUT, "Your session has timed out or you logged in elsewhere", null);
-                    }
+                    loggedIn = jsonResponse.getBoolean("LoggedIn");
                 }
             }
             catch (JSONException e) {}
 
-            // Inform the delegate
-            delegate.taskCompleted(JSONTaskStatus.FAILED, error, null);
+
+            if ( ! loggedIn) {
+
+                // If logged out, tell the delegate that
+                delegate.taskCompleted(JSONTaskStatus.LOGGED_OUT, "Your session has timed out or you logged in elsewhere", null);
+            }
+
+            else {
+
+                // Otherwise, just pass the error message
+                delegate.taskCompleted(JSONTaskStatus.FAILED, error, null);
+            }
         }
         else {
 

@@ -178,13 +178,6 @@ public class LiveServerConnector implements ServerInterface {
                 removeLoadingSpinner();
 
 
-                // If logged out, log out
-                if (status == JSONTaskStatus.LOGGED_OUT) {
-                    forceLogout(message);
-                    return;
-                }
-
-
                 // Attempt to parse response
                 if (status == JSONTaskStatus.PASSED && responseParser.parseLogin(json)) {
 
