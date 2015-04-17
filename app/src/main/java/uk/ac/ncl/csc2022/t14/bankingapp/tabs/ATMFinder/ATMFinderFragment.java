@@ -48,6 +48,7 @@ import java.util.List;
 
 import uk.ac.ncl.csc2022.t14.bankingapp.R;
 import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.DataStore;
+import uk.ac.ncl.csc2022.t14.bankingapp.Utilities.Utility;
 import uk.ac.ncl.csc2022.t14.bankingapp.activities.MainActivity;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.ATM;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.HeatPoint;
@@ -204,7 +205,7 @@ public class ATMFinderFragment extends android.support.v4.app.Fragment {
                 for(int i=0;i<atmlist.size();i++)
                 {
                     //add all the markers given by the server
-                    MarkerOptions mO = new MarkerOptions().position(new LatLng(atmlist.get(i).getLatitude(), atmlist.get(i).getLongitude())).title(atmlist.get(i).getName()+ " " + Double.toString(atmlist.get(i).getCost()));
+                    MarkerOptions mO = new MarkerOptions().position(new LatLng(atmlist.get(i).getLatitude(), atmlist.get(i).getLongitude())).title(atmlist.get(i).getName()+ " " + Utility.doubleToCurrency(atmlist.get(i).getCost()));
                     map.addMarker(mO);
                 }
             }

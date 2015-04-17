@@ -112,6 +112,14 @@ public class LoginActivity extends LloydsActionBarActivity implements LoginDeleg
         }
 
         @Override
+        public void onResume() {
+            super.onResume();
+            ((EditText)getView().findViewById(R.id.password_char_1)).setText("");
+            ((EditText)getView().findViewById(R.id.password_char_2)).setText("");
+            ((EditText)getView().findViewById(R.id.password_char_3)).setText("");
+        }
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_login, container, false);

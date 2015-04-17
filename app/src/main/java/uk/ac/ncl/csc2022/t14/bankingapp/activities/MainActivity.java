@@ -24,7 +24,6 @@ import uk.ac.ncl.csc2022.t14.bankingapp.listadapters.AwardsAdapter;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Account;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.Product;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.ATMFinder.ATMFinderFragment;
-import uk.ac.ncl.csc2022.t14.bankingapp.tabs.Awards.AwardsFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.banking.BankingFragment;
 import uk.ac.ncl.csc2022.t14.bankingapp.models.User;
 import uk.ac.ncl.csc2022.t14.bankingapp.tabs.budgeting.BudgetingFragment;
