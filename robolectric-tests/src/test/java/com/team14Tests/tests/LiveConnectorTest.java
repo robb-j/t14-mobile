@@ -435,6 +435,13 @@ public class LiveConnectorTest {
         // Create test params
         Reward reward = new Reward(2, "Title", "Content", 200);
 
+
+        // Create another reward taken, to test that the new one is first
+        RewardTaken rt = new RewardTaken(1, null);
+        DataStore.sharedInstance().getCurrentUser().getRecentRewards().add(rt);
+
+
+        // Set the rewards onto the user
         List<Reward> allRewards = new ArrayList<>();
         allRewards.add(reward);
         DataStore.sharedInstance().setRewards(allRewards);
@@ -445,7 +452,7 @@ public class LiveConnectorTest {
             @Override
             public void chooseRewardPassed() {
 
-                assertEquals(1, DataStore.sharedInstance().getCurrentUser().getRecentRewards().size());
+                assertEquals(2, DataStore.sharedInstance().getCurrentUser().getRecentRewards().size());
             }
 
             @Override

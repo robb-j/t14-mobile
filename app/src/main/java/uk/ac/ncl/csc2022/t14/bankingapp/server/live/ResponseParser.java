@@ -294,7 +294,7 @@ public class ResponseParser {
         // Parse it
         List<Reward> rewards = DataStore.sharedInstance().getRewards();
         User user = DataStore.sharedInstance().getCurrentUser();
-        user.getRecentRewards().add(mp.parseRewardTaken(takenJson, rewards));
+        user.getRecentRewards().add(0, mp.parseRewardTaken(takenJson, rewards));
 
 
         // Update the number of points the user has
